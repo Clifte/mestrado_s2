@@ -1,0 +1,28 @@
+
+function showDecision(x,y,call,nCls)
+    %cmap1 = [1 0.8 0.8; 0.95 1 0.95; 0.9 0.9 1];
+    %cmap2 = cmap1 - 0.2;
+    
+    cmap1 = jet() - 0.2;
+    cmap2 = jet(nCls);
+    
+    
+    mx = max(x,[],1);
+    mn = min(x,[],1);
+    res = 100;
+    
+    rangex = linspace(mn(1),mx(1),res);
+    rangey = linspace(mn(2),mx(2),res);
+
+    
+    xy = generatePairs(rangex, rangey);
+    
+    eval(call);
+    %decisionmap = reshape(cls, [res res]);
+    
+   % imagesc([mn(1) mx(1)],[mn(2) mx(2)],decisionmap);    
+   
+    scatter(x(:,1),x(:,2),15,cmap2(y,:),'filled');
+    hold on;
+    scatter(xy(:,1),xy(:,2),15,cmap1(cls,:))
+end
