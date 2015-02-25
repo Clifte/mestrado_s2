@@ -1,19 +1,19 @@
 addpath(genpath('../util/'))
-clear all; clear;clc
+clear all; clear;clc;close all;
 warning('off','all')
 
 %%
-%Configurações
+%Configuraï¿½ï¿½es
 base = 'iris';
 pTeste = 0.25;
-nIt = 1000;
+nIt = 100;
 k=3;
 %atributos utilizados
 %p = 1:4;
 p = [1 3];
 
 %%
-%Inicialização
+%Inicializaï¿½ï¿½o
 [ x , y ,labels ] = carregaDatabase(base);
 x = x(:,p);
 [m n] = size(x);
@@ -26,20 +26,17 @@ for i=1:nIt
     acc=0;
     C = DMC_centroids(xd,yd);
     
-    for j=1:size(xt,1)
-        clsC = DMC(C,xt(j,:));
-    
-        [tmp clsT] = max(yt(j,:));
-        if(clsC == clsT)
-            acc = acc + 1;
-        end
-    end
-
+    %Aplica o DMC em todas amostras retornando apenas a classe
+    %sem codificaÃ§Ã£o
+    clsC = DMC(C,xt);
+    [tmp, clsT] = max(yt');
+    acc = sum(clsT==clsC');
+ 
     acuracia = [acuracia (acc/size(xt,1))];
 end
 
 if(length(p)==2)
-    [tmp clsT] = max(y,[],2);
+    [tmp, clsT] = max(y,[],2);
     showDecision(x,clsT,'global C;cls=DMC(C,xy);',nClasses)
 end
 

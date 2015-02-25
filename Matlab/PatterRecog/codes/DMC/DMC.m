@@ -1,6 +1,5 @@
 function clsC = DMC(C,amostra)
-    [m n] = size(amostra);
-    
+    [m, n] = size(amostra);
     
     if(m==1)
         %calculando distancia euclidiana
@@ -8,7 +7,7 @@ function clsC = DMC(C,amostra)
         dist = sum(diff.*diff,2);
 
         %verificando vizinhos
-        [value index] = min(dist);
+        [value, index] = min(dist);
 
         %identificando classe
         %[tmp clsC] = max(labels(index,:),1);

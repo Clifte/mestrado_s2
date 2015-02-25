@@ -1,0 +1,29 @@
+function clsC = knn(dados, labels,amostra,k)
+    if(length(dados(:,1)) < k)
+        fprintf('K %d is bigger than memory data. Setting k to length of data %d.\n',k,length(dados(:,1)))
+        k = length(dados(:,1));
+    end
+
+    []
+    
+    if( length(amostra(:,1))==1 )
+    
+        %calculando distancia euclidiana
+        diff = bsxfun(@minus,amostra,dados);
+        dist = sum(diff.*diff,2);
+
+        %verificando vizinhos
+        [value index] = sort(dist);
+        nei = index(1:k);
+
+        %identificando classe
+        [tmp clsC] = max(sum(labels(nei,:),1));
+    else
+        clsC = zeros();
+        for i=1:length(amostra(:,1))
+        end
+        
+        
+    end
+        
+end

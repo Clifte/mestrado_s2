@@ -1,16 +1,21 @@
-function [x y labels] = carregaDatabase(name)
+function [x y labels features] = carregaDatabase(name)
 
+    features = [];
     switch name
         case 'iris'
             [ x , y ] = carregaDados( 4 , '../database/iris/bezdekIris.data',3);
             labels = [ 'setosa    '
-                            'versicolor'
-                            'virginica '];
+                       'versicolor'
+                       'virginica '];
+            features = ['sepal length'
+                        'sepal width '
+                        'petal length'
+                        'petal width '];
         case 'vertebra'
             [ x , y ] = carregaDados( 4 , '../database/verte/column_3C.dat',3);
             labels = ['Hernia discal'
-                           'Espondilólise'
-                           'Normal       '];
+                      'Espondilï¿½lise'
+                      'Normal       '];
         case 'derme'
             [ x , y ] = carregaDados( 7 , '../database/dermat/dermatology.data',6);
             labels =      [ 'psoriasis               '
@@ -23,6 +28,16 @@ function [x y labels] = carregaDatabase(name)
         case 'ocr'
             [ x , y ] = carregaDados( 11 , '../database/OCR/ocr.data',10);
         otherwise
+    end
+    
+    if(length(features)==0)
+        features = ones(length(y),10)*32;
+        for i=1:length(y)
+            txt = sprintf('feat %d',i);
+            sz = length(txt);
+            txt = char(padarray(double(txt),[0 10-sz],32,'pos'));
+            features(i,:) = txt;
+        end
     end
 
 end
