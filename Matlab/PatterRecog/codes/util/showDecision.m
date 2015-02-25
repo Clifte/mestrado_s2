@@ -4,7 +4,7 @@ function showDecision(x,y,call,nCls)
     %cmap2 = cmap1 - 0.2;
     
     cmap2 = lines(nCls);
-    cmap1 = (cmap2 + 0.6) * 1.5;
+    cmap1 = (cmap2 + 0.6) * 1.2;
     cmap1(cmap1 > 1) = 1;
     
     

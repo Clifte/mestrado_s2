@@ -12,7 +12,7 @@ nIt = 100;
 kSearch = [1:20  25:5:60  70:10:150];
 %kSearch = 10;
 %parametro para a região de decisão
-p = [1 3];
+p = [1 2];
 %%
 %Inicialização
 [ x , y ,labels ] = carregaDatabase(base);
