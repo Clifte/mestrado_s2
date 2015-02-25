@@ -1,4 +1,5 @@
 function clsC = knn(dados, labels,amostra,k)
+
     if(length(dados(:,1)) < k)
         fprintf('K %d is bigger than memory data. Setting k to length of data %d.\n',k,length(dados(:,1)))
         k = length(dados(:,1));

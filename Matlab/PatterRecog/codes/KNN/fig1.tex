@@ -1,0 +1,103 @@
+% Autor: Peter Scholz
+% Email: contact@peter-scholz.net
+% Date:  25-Feb-2015 13:39:05
+
+% This file was created by fig2texPS.
+% 
+\documentclass{article}
+\usepackage{pstricks, pst-node, pst-plot, pst-circ}
+\usepackage{moredefs}
+\usepackage[%
+    paperwidth = 8.9477419cm, % add 0.5%
+    paperheight= 8.7254378cm, % add 0.5%
+    lmargin    = -5.25mm, % do not know why this offset is needed.
+    rmargin    = 0mm, %
+    tmargin    = 0mm, %
+    bmargin    = 0mm, %
+    ]{geometry}
+\begin{document}
+
+% Global Parameters that can be changed:
+\providelength{\AxesLineWidth}       \setlength{\AxesLineWidth}{0.5pt}%
+\providelength{\plotwidth}           \setlength{\plotwidth}{8cm}% width of the axes only
+\providelength{\LineWidth}           \setlength{\LineWidth}{0.7pt}%
+\providelength{\MarkerSize}          \setlength{\MarkerSize}{4pt}%
+\newrgbcolor{GridColor}{0.8 0.8 0.8}%
+%
+% Begin Figure:-------------------------------------------
+\psset{xunit=0.006667\plotwidth,yunit=1.250000\plotwidth}%
+\begin{pspicture}(-10.714286,-0.047926)(156.221198,0.820276)%
+
+% Draw bounding box for test aspects: ----
+% \psframe(-10.714286,-0.047926)(156.221198,0.820276)
+% Total width:  8.903226 cm
+% Total height: 8.682028 cm
+
+% Draw Ticks: ----
+% x-Ticks:
+\psline[linewidth=\AxesLineWidth,linecolor=GridColor](0.000000,0.000000)(0.000000,0.009600)
+\psline[linewidth=\AxesLineWidth,linecolor=GridColor](50.000000,0.000000)(50.000000,0.009600)
+\psline[linewidth=\AxesLineWidth,linecolor=GridColor](100.000000,0.000000)(100.000000,0.009600)
+\psline[linewidth=\AxesLineWidth,linecolor=GridColor](150.000000,0.000000)(150.000000,0.009600)
+% y-Ticks:
+\psline[linewidth=\AxesLineWidth,linecolor=GridColor](0.000000,0.000000)(1.800000,0.000000)
+\psline[linewidth=\AxesLineWidth,linecolor=GridColor](0.000000,0.100000)(1.800000,0.100000)
+\psline[linewidth=\AxesLineWidth,linecolor=GridColor](0.000000,0.200000)(1.800000,0.200000)
+\psline[linewidth=\AxesLineWidth,linecolor=GridColor](0.000000,0.300000)(1.800000,0.300000)
+\psline[linewidth=\AxesLineWidth,linecolor=GridColor](0.000000,0.400000)(1.800000,0.400000)
+\psline[linewidth=\AxesLineWidth,linecolor=GridColor](0.000000,0.500000)(1.800000,0.500000)
+\psline[linewidth=\AxesLineWidth,linecolor=GridColor](0.000000,0.600000)(1.800000,0.600000)
+\psline[linewidth=\AxesLineWidth,linecolor=GridColor](0.000000,0.700000)(1.800000,0.700000)
+\psline[linewidth=\AxesLineWidth,linecolor=GridColor](0.000000,0.800000)(1.800000,0.800000)
+
+{ \footnotesize % FontSizeTickLabels
+% Draw x-Labels: ----
+\rput[t](0.000000,-0.009600){$0$}
+\rput[t](50.000000,-0.009600){$50$}
+\rput[t](100.000000,-0.009600){$100$}
+\rput[t](150.000000,-0.009600){$150$}
+% Draw y-Labels: ----
+\rput[r](-1.800000,0.000000){$0$}
+\rput[r](-1.800000,0.100000){$0.1$}
+\rput[r](-1.800000,0.200000){$0.2$}
+\rput[r](-1.800000,0.300000){$0.3$}
+\rput[r](-1.800000,0.400000){$0.4$}
+\rput[r](-1.800000,0.500000){$0.5$}
+\rput[r](-1.800000,0.600000){$0.6$}
+\rput[r](-1.800000,0.700000){$0.7$}
+\rput[r](-1.800000,0.800000){$0.8$}
+} % End FontSizeTickLabels
+
+% Draw Axes: ----
+\psframe[linewidth=\AxesLineWidth,dimen=middle](0.000000,0.000000)(150.000000,0.800000)
+
+{ \small % FontSizeXYlabel
+} % End FontSizeXYlabel
+
+% New Line DATA: ----
+\newrgbcolor{color353.0024}{0  0  1}
+\psline[plotstyle=line,linejoin=1,linestyle=solid,linewidth=\LineWidth,linecolor=color353.0024]
+(1.000000,0.730000)(2.000000,0.731081)(3.000000,0.754054)(4.000000,0.734595)(5.000000,0.755135)
+(6.000000,0.773243)(7.000000,0.783514)(8.000000,0.768108)(9.000000,0.787838)(10.000000,0.759730)
+(11.000000,0.782973)(12.000000,0.771081)(13.000000,0.782973)(14.000000,0.760270)(15.000000,0.779459)
+(16.000000,0.768649)(17.000000,0.784054)(18.000000,0.765676)(19.000000,0.782973)(20.000000,0.788108)
+(25.000000,0.796757)(30.000000,0.788919)(35.000000,0.791081)(40.000000,0.783243)(45.000000,0.777297)
+(50.000000,0.762162)(55.000000,0.757297)(60.000000,0.733514)(70.000000,0.714865)(80.000000,0.669189)
+(90.000000,0.646757)(100.000000,0.494865)(110.000000,0.308378)(120.000000,0.269189)(130.000000,0.271892)
+(140.000000,0.264324)(150.000000,0.270000)
+
+% New Line DATA: ----
+\newrgbcolor{color354.002}{0         0.5           0}
+\psline[plotstyle=line,linejoin=1,linestyle=solid,linewidth=\LineWidth,linecolor=color354.002]
+(1.000000,0.057171)(2.000000,0.061268)(3.000000,0.059944)(4.000000,0.062343)(5.000000,0.056565)
+(6.000000,0.061690)(7.000000,0.062119)(8.000000,0.059285)(10.000000,0.060968)(11.000000,0.053980)
+(12.000000,0.060672)(13.000000,0.056386)(14.000000,0.062847)(15.000000,0.059353)(16.000000,0.063392)
+(17.000000,0.053848)(18.000000,0.066763)(19.000000,0.062352)(20.000000,0.045892)(25.000000,0.058066)
+(30.000000,0.064015)(35.000000,0.065175)(40.000000,0.060003)(45.000000,0.065881)(50.000000,0.083015)
+(55.000000,0.079005)(60.000000,0.087009)(70.000000,0.076961)(80.000000,0.101789)(90.000000,0.143439)
+(100.000000,0.161236)(110.000000,0.098696)(120.000000,0.035400)(130.000000,0.040439)(140.000000,0.038334)
+(150.000000,0.041104)
+
+\end{pspicture}%
+
+\end{document}

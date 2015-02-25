@@ -20,9 +20,6 @@ function showDecision(x,y,call,nCls)
     
     eval(call);
 
-    
-    
-
     figure1 = figure;
     axes1 = axes('Parent',figure1);
     scatter(xy(:,1),xy(:,2),20,cmap1(cls,:),'filled');

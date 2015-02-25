@@ -12,9 +12,9 @@ nIt = 100;
 kSearch = [1:20  25:5:60  70:10:150];
 %kSearch = 10;
 %parametro para a região de decisão
-p = [1 2];
+p = [1 3];
 %%
-%Inicialização
+%Inicializa��o
 [ x , y ,labels ] = carregaDatabase(base);
 x = x(:,p);
 [m n] = size(x);
@@ -27,18 +27,20 @@ result2 = zeros(length(kSearch),nIt);
 
 for contk=1:length(kSearch)
     k = kSearch(contk);
-    acuracia = [];
+    acuracia = zeros(nIt);
     for i=1:nIt
         [ xd yd xt yt ] = preparaDados( x, y, pTeste);
         acc=0;
         
         clsC = knn(xd,yd,xt,k);
-
+        clsCEnc = encode1ofk(clsC,nClasses);
+        
         [tmp clsT] = max(yt');
         
         acc = sum(clsC == clsT');
-
-        acuracia = [acuracia (acc/size(xt,1))];
+        [c,cm,ind,per] = confusion(yt',clsCEnc');
+        
+        acuracia(i) = (acc/size(xt,1));
     end
 
     result(contk,:) = [ k mean(acuracia) std(acuracia)];
@@ -47,7 +49,8 @@ end
 result
 
 csvwrite([exportDir base '_acuracia.csv'],result);
-boxplot(result2',kSearch);
+%boxplot(result2',kSearch);
+plot(result(:,1),result(:,[2 3]));
 %title('Acurácia em função do valor de K');
 
 if(length(p)==2)
