@@ -4,31 +4,27 @@ warning('off','all')
 
 exportDir = '../../../../Latex/ReconhecimentoDePadroes/trabalho1/matlab/';
 
+%%
 global yl;
-global xd;
-global yd;
+%%
+%Configurações
+base = 'iris';     %Nome da base
+pTeste = 0.25;     %Percentual da base para teste
+nIt = 100;         %Número de repetições para o cálculo da acurácia
 
+kSearch = [1:20  25:5:60  70:10:150]; %valores que serão utilizados na pesquisa de k
+p = [1 2]; %parametro para a região de decisão. O indice indica qual atributo levar em conta
 %%
-%ConfiguraÃ§Ãµes
-base = 'iris';
-pTeste = 0.25;
-nIt = 1;
-%valores que serÃ£o utilizados na pesquisa de k
-kSearch = [1:20  25:5:60  70:10:150];
-kSearch = 10;
-%parametro para a regiÃ£o de decisÃ£o
-p = [1 4];
-%%
-%Inicializaï¿½ï¿½o
+%Inicialização
 [ x , y ,labels ] = carregaDatabase(base);
 
-%Filtra colunas desejadas e introduz problema das linhas duplicadas
+%Filtrar colunas desejadas e resolver problema das linhas duplicadas
 x = x(:,p);
 [x ia] = unique(x,'rows');
 y = y(ia,:);
 
 yl = y;
-     
+
 [m n] = size(x);
 [m nClasses] = size(y);
 
@@ -36,20 +32,24 @@ yl = y;
 result = zeros(length(kSearch),3);
 result2 = zeros(length(kSearch),nIt);
 
+%Avaliando todos os valores de k existentes no vetor kSearch
 for contk=1:length(kSearch)
     k = kSearch(contk);
+    
+    %Inicialização de variáveis
     acuracia = zeros(1,nIt);
     meanCM = zeros(nClasses,nClasses);
     meanPer = zeros(nClasses,4);
+    
+    
     for i=1:nIt
         [ xd yd xt yt ] = preparaDados( x, y, pTeste);
         
-        acc=0;
-        
+        %Aplicando o KNN em batch para toda a base de teste
         clsC = knn(xd,yd,xt,k);
         clsCEnc = encode1ofk(clsC,nClasses);
         
-        [tmp clsT] = max(yt');
+        [tmp clsT] = max(yt,[],2);
         
         %acc = sum(clsC == clsT');
         [acc,cm,ind,per] = confusion(yt',clsCEnc');
@@ -57,35 +57,52 @@ for contk=1:length(kSearch)
         %acuracia(i) = (acc/size(xt,1));
         acuracia(i) = 1 - acc;
         meanCM = meanCM + cm;
-        meanPer = meanPer + per;
+        %meanPer = meanPer + per;
     end
 
-     meanPer = meanPer./nIt;
+    meanPer = meanPer./nIt;
         
     result(contk,:) = [ k mean(acuracia) std(acuracia)];
     result2(contk,:) = acuracia;
 end
 result
 % 
+CM = bsxfun(@rdivide,meanCM,sum(meanCM,2)');
 
+csvwrite([exportDir base '_KNN_acuracia.csv'],result);
+csvwrite([exportDir base '_KNN_cmNorm.csv'],CM);
+csvwrite([exportDir base '_KNN_cmAnalise.csv'],meanPer);
 
-%csvwrite([exportDir base '_acuracia.csv'],result);
-boxplot(result2',kSearch);
+%boxplot(result2',kSearch);
 plot(result(:,1),result(:,[2 3]));
-title('AcurÃ¡cia em funÃ§Ã£o do valor de K');
+title('Acurácia em função do valor de K');
 
+%Plotando regiões de decisão variando o valor de K
 if(length(p)==2)
     [tmp, clsT] = max(y,[],2); 
     showDecision(x,clsT,'global yl;cls=knn(x,yl,xy,1);',nClasses)
     title('K=1');
+    path = sprintf('%sfigura/%s_%s_%d_%d.eps',exportDir,base,'KNN_RegDec_K1',p(1),p(2));
+    saveas(gca, path,'epsc');
+    
     showDecision(x,clsT,'global yl;cls=knn(x,yl,xy,10);',nClasses)
-    title('K=5');
+    title('K=10');
+    path = sprintf('%sfigura/%s_%s_%d_%d.eps',exportDir,base,'KNN_RegDec_K10',p(1),p(2));
+    saveas(gca, path,'epsc');
+    
     showDecision(x,clsT,'global yl;cls=knn(x,yl,xy,50);',nClasses)
     title('K=50');
+    path = sprintf('%sfigura/%s_%s_%d_%d.eps',exportDir,base,'KNN_RegDec_K50',p(1),p(2));
+    saveas(gca, path,'epsc');
+    
     showDecision(x,clsT,'global yl;cls=knn(x,yl,xy,75);',nClasses)
-    title('K=100');
+    title('K=75');
+    path = sprintf('%sfigura/%s_%s_%d_%d.eps',exportDir,base,'KNN_RegDec_K75',p(1),p(2));
+    saveas(gca, path,'epsc');    
 end
-CM = bsxfun(@rdivide,meanCM,sum(meanCM')');
-%csvwrite([exportDir base '_cmNorm.csv'],CM);
-% 
+
+
+
+
+
  
