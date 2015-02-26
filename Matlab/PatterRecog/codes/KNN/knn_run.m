@@ -15,7 +15,7 @@ pTeste = 0.25;
 nIt = 1;
 %valores que serão utilizados na pesquisa de k
 kSearch = [1:20  25:5:60  70:10:150];
-kSearch = 1;
+kSearch = 10;
 %parametro para a região de decisão
 p = [1 4];
 %%
@@ -43,11 +43,6 @@ for contk=1:length(kSearch)
     meanPer = zeros(nClasses,4);
     for i=1:nIt
         [ xd yd xt yt ] = preparaDados( x, y, pTeste);
-        xd = x;
-        yd = y;
-        xt = x;
-        yt = y;
-        
         
         acc=0;
         

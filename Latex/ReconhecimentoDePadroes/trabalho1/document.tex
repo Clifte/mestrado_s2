@@ -16,7 +16,7 @@
 	]{abntex2}
 
 
-% ---
+% --- 
 % PACOTES
 % ---
 
@@ -32,6 +32,7 @@
 \usepackage{color}				% Controle das cores
 \usepackage{graphicx}			% Inclusão de gráficos
 \usepackage{csvsimple}
+\usepackage{epstopdf}
 % ---
 		
 % ---
@@ -267,6 +268,8 @@ amostra é suficientemente pequena frente ao valor de K este pode ser contornado
 \subsection{Resultados obtidos}
 
 \subsubsection{Metodologia}
+\label{sss:metAplKnn}
+
 Para a avaliação do KNN foi realizado a normalização e a codificação das classe
 no modelo 1-of-k, como dito na subsessão \ref{ss:normCodf}, além foi necessário
 alguns outros passos para obtermos os resultados apresentados na sessão
@@ -295,7 +298,9 @@ a 1. Para valores de K superiores a 30 podemos notar uma redução da acurácia 
 partir de 70 a média começa a dimunuir. Na faixa [60 a 110] a acurácia variou
 entre 20\% e 90\% o que indica baixíssima confiabilidade no classificador. A
 partir de 120 o classificar indica apenas a classe majoritária presente na base
-de dados, indistintamente da amostra apresentada.
+de dados, indistintamente da amostra apresentada. No algoritmo implementado,
+para valores de k acima da quantidade de dados na base o valor de k será
+ajustado para esta quantidade.
 
 \begin{table}
 	\centering
@@ -382,14 +387,19 @@ foram consideradas apenas as larguras e comprimentos da sépala.
 \subsubsection{Matriz Confusão}
 
 \section{DMC}
-\section{Consulte o manual da classe \textsf{abntex2}}
+\subsection{Introdução}
+O DMC é uma técnica que realiza a classificação de uma amotra de acordo com a
+amostra mais semelhantes existentes em sua base. Sua implementação é semelhante
+ao KNN porém seus dados de treinamento são reduzidos ao centro de massa de cada
+classe(também conhecido como centróide).
+Um objeto pertence a essa classe quando a distância entre ele e o centróide for menor
+que todas as distâncias entre os outros centróides restantes do espaço de características.
+O primeiro passo do processo de classificação por distancia mínima é o calculo
+dos  vetores médios (centróides) que representam cada classe por padrões \cite{UND:DMC13}.
 
-Consulte o manual da classe \textsf{abntex2} \cite{abntex2classe} para uma
-referência completa das macros e ambientes disponíveis.
- 
-% ---
-% Finaliza a parte no bookmark do PDF, para que se inicie o bookmark na raiz
-% ---
+\subsection{Metodologia}
+\ref{sss:metAplKnn}
+
 \bookmarksetup{startatroot}% 
 % ---
 
@@ -409,8 +419,7 @@ referência completa das macros e ambientes disponíveis.
 % ----------------------------------------------------------
 % Referências bibliográficas
 % ----------------------------------------------------------
-\bibliography{abntex2-modelo-references}
-\bibliography{iris}
+\bibliography{abntex2-modelo-references,iris}
 
 % ----------------------------------------------------------
 % Glossário
@@ -454,7 +463,7 @@ ac pretium ante justo a nulla curabitur tristique arcu eu metus}
 parturient montes nascetur ridiculus mus}
 % ---
 
-\lipsum[31]
+
 
 \end{anexosenv}
 
