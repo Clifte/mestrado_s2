@@ -263,7 +263,10 @@ mais informação será levada em consideração para a identificação da label
 amostra e considerando também que a quantidade de ruído presente próximo a
 amostra é suficientemente pequena frente ao valor de K este pode ser contornado.
 
-\subsection{Metodologia}
+
+\subsection{Resultados obtidos}
+
+\subsubsection{Metodologia}
 Para a avaliação do KNN foi realizado a normalização e a codificação das classe
 no modelo 1-of-k, como dito na subsessão \ref{ss:normCodf}, além foi necessário
 alguns outros passos para obtermos os resultados apresentados na sessão
@@ -278,14 +281,11 @@ base de treinamento ou teste possuem uma quantidade equivalente das 3 classes,
 porém espera-se que existam aproximadamente 40 instancias de cada classe na base
 de treinamento e 10 instancias de cada classe na base de teste.
 
-
-
-\subsection{Resultados obtidos}
 Foram feitos uma série de teste variando o valor de K bem como testes de
 generalização onde foi realizado a minimização da quantidade de dados
 necessários na base para uma correta classificação.
 
-\subsection{Variação do valor de K}
+\subsubsection{Variação do valor de K}
 Nesse teste foram realizadas 100 repetições para cada valor de K. A acurácia e o
 desvio padrão são exibidos na tabela \ref{tab:acuracia}. A figura
 \ref{fig:acuracia} apresenta um . 
@@ -319,10 +319,30 @@ de dados, indistintamente da amostra apresentada.
 \end{figure}
 
 
-\section{DMC}
+\subsubsection{Região de decisão}
 
+Nas figuras \ref{fig:decisionRegionSepL_PetL} e
+\ref{fig:decisionRegionSepL_SepW} são exibidas as regiões de decisões ao aplicar
+o KNN considerando apenas duas características. Para a figura
+\ref{fig:decisionRegionSepL_PetL} são consideradas apenas os atributos largura
+da sépala e pétala. Um importante ponto a ser levado em consideração é que ao
+descartar determinados atributos podem surgir informações duplicadas. É
+importante filtrar estas informações, podem surgir linhas com informações iguais
+porém rótulos diferentes o que pode causar um erro na geração região
+de decisão..
 
-\subsection{Região de decisão}
+Diferentes regiões de decisões foram calculadas para
+diferentes valores de K. Para K=1 é notável que a existencia de ruídos podem
+gerar regiões que prejudicam a generalização. Para k=5 é possível perceber que
+pontos isolados não mais definem a classe de determinada região do espaço,veja
+na figura \ref{fig:decisionRegionSepL_PetL} a existência de 2 pontos da classe
+virgínica(em vermelho) na região em que foi classificada como da classe
+versícolor(em verde). A medida que o K aumenta podemos perceber a queda no valor
+da acurácia. Vários pontos são classificados de forma errada.
+
+O mesmo se aplica para a figura \ref{fig:decisionRegionSepL_SepW}, porém nesta
+foram consideradas apenas as larguras e comprimentos da sépala.
+
 
 \begin{figure}
 	\centering
@@ -336,8 +356,9 @@ de dados, indistintamente da amostra apresentada.
 	(c) k=50 & (d) k=100 \\[6pt] 
 
 	\end{tabular}
-	\label{fig:decisionRegionSepL_PetL}
+
 	\caption{Região de decisão utilizando Largura da sépala e da pétala.}
+	\label{fig:decisionRegionSepL_PetL}
 \end{figure}
 
 \begin{figure}
@@ -352,16 +373,20 @@ de dados, indistintamente da amostra apresentada.
 	(c) k=50 & (d) k=100 \\[6pt] 
 
 	\end{tabular}
-	\label{fig:decisionRegionSepL_SepW}
 	\caption{Região de decisão utilizando comprimento e largura da sépala.}
+	\label{fig:decisionRegionSepL_SepW}
 \end{figure}
 
 
+
+\subsubsection{Matriz Confusão}
+
+\section{DMC}
 \section{Consulte o manual da classe \textsf{abntex2}}
 
 Consulte o manual da classe \textsf{abntex2} \cite{abntex2classe} para uma
 referência completa das macros e ambientes disponíveis.
-
+ 
 % ---
 % Finaliza a parte no bookmark do PDF, para que se inicie o bookmark na raiz
 % ---

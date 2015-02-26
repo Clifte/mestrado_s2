@@ -1,4 +1,4 @@
-function [x y labels features] = carregaDatabase(name)
+function [x y labels features] = carregaDatabase(name,qtd)
 
     features = [];
     switch name
@@ -40,4 +40,12 @@ function [x y labels features] = carregaDatabase(name)
         end
     end
 
+    if(exist('qtd'))
+        [m n ] = size(x);
+        I = randperm(m);
+        I = I(1:qtd);
+        x = x(I,:);
+        y = y(I,:);
+    end
+    
 end

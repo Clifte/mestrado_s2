@@ -9,6 +9,7 @@ base = 'iris';
 
 %Inicialização
 [ x , y ,labels, features ] = carregaDatabase(base);
+%Normalizando
 x = bsxfun(@minus,x,min(x));
 x = bsxfun(@rdivide,x,max(x));
 
@@ -19,6 +20,7 @@ x = bsxfun(@rdivide,x,max(x));
 cmap2 = lines(nCls);
 [h ax bigax] = gplotmatrix(x,x,yl,cmap2)
 
+%Plotando histograma na diagonal principal
 for i=1:n
     cla(ax(i,i));
     xlabel(ax(n,i),features(i,:))
@@ -38,6 +40,9 @@ for i=1:n
         
     end
 end
- h = findobj(gcf,'Type','axes','Tag','legend');
+h = findobj(gcf,'Type','axes','Tag','legend');
 legend(h,labels)
+
+[autoVer scor autoVal] = princomp(x);
+autoVal = autoVal/sum(autoVal);
 
