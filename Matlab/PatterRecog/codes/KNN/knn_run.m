@@ -7,21 +7,27 @@ exportDir = '../../../../Latex/ReconhecimentoDePadroes/trabalho1/matlab/';
 %%
 global yl;
 %%
-%Configurações
+%Configuraï¿½ï¿½es
 base = 'iris';     %Nome da base
 pTeste = 0.25;     %Percentual da base para teste
-nIt = 100;         %Número de repetições para o cálculo da acurácia
+nIt = 100;         %Nï¿½mero de repetiï¿½ï¿½es para o cï¿½lculo da acurï¿½cia
 
-kSearch = [1:20  25:5:60  70:10:150]; %valores que serão utilizados na pesquisa de k
-p = [1 2]; %parametro para a região de decisão. O indice indica qual atributo levar em conta
+kSearch = [1:20  25:5:60  70:10:150]; %valores que serï¿½o utilizados na pesquisa de k
+kSearch = 10
+p = [1 2 3 4]; %parametro para a regiï¿½o de decisï¿½o. O indice indica qual atributo levar em conta
 %%
-%Inicialização
+%Inicializaï¿½ï¿½o
 [ x , y ,labels ] = carregaDatabase(base);
 
 %Filtrar colunas desejadas e resolver problema das linhas duplicadas
 x = x(:,p);
 [x ia] = unique(x,'rows');
 y = y(ia,:);
+
+%Normalizando
+x = bsxfun(@minus,x,min(x));
+x = bsxfun(@rdivide,x,max(x));
+
 
 yl = y;
 
@@ -36,7 +42,7 @@ result2 = zeros(length(kSearch),nIt);
 for contk=1:length(kSearch)
     k = kSearch(contk);
     
-    %Inicialização de variáveis
+    %Inicializaï¿½ï¿½o de variï¿½veis
     acuracia = zeros(1,nIt);
     meanCM = zeros(nClasses,nClasses);
     meanPer = zeros(nClasses,4);
@@ -57,7 +63,7 @@ for contk=1:length(kSearch)
         %acuracia(i) = (acc/size(xt,1));
         acuracia(i) = 1 - acc;
         meanCM = meanCM + cm;
-        %meanPer = meanPer + per;
+        meanPer = meanPer + per;
     end
 
     meanPer = meanPer./nIt;
@@ -75,9 +81,9 @@ csvwrite([exportDir base '_KNN_cmAnalise.csv'],meanPer);
 
 %boxplot(result2',kSearch);
 plot(result(:,1),result(:,[2 3]));
-title('Acurácia em função do valor de K');
+title('Acurï¿½cia em funï¿½ï¿½o do valor de K');
 
-%Plotando regiões de decisão variando o valor de K
+%Plotando regiï¿½es de decisï¿½o variando o valor de K
 if(length(p)==2)
     [tmp, clsT] = max(y,[],2); 
     showDecision(x,clsT,'global yl;cls=knn(x,yl,xy,1);',nClasses)

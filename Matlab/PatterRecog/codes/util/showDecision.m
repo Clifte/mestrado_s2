@@ -28,11 +28,11 @@ function showDecision(x,y,call,nCls)
 
     figure1 = figure;
     axes1 = axes('Parent',figure1);
-    scatter(xy(:,1),xy(:,2),20,cmap1(cls,:),'filled');
+    scatter(xy(:,1),xy(:,2),40,cmap1(cls,:),'filled');
     hold on;
     
     
-    scatter(x(:,1),x(:,2),40,cmap2(y,:),'filled');
+    scatter(x(:,1),x(:,2),80,cmap2(y,:),'filled');
      
     xlim(axes1,[mn(1)-0.1 mx(1)+0.1]);
     ylim(axes1,[mn(2)-0.1 mx(2)+0.1]);

@@ -1,0 +1,62 @@
+\begin{figure}[!htb] \centering
+\includegraphics[width=\textwidth]{figuras/analiseIris_hist_scatterMatrix.eps}
+\caption{Matriz de características.}
+\label{fig:charMatrix}
+\end{figure}
+\efloatseparator
+ 
+\begin{figure}[!htb] \centering
+\includegraphics[width=\textwidth]{figuras/boxPlot_acuraciaVSK.eps}
+\caption{Acurácia em função do valor de k.}
+\label{fig:acuracia}
+\end{figure}
+\efloatseparator
+ 
+\begin{figure}
+\centering
+\begin{tabular}{cc}
+  \includegraphics[width=70mm]{matlab/figura/iris_KNN_RegDec_K1_1_3.eps} &
+  \includegraphics[width=70mm]{matlab/figura/iris_KNN_RegDec_K10_1_3.eps}
+  \\
+(a) k=1 & (b) k=10 \\[6pt]
+ \includegraphics[width=70mm]{matlab/figura/iris_KNN_RegDec_K50_1_3.eps} &
+ \includegraphics[width=70mm]{matlab/figura/iris_KNN_RegDec_K75_1_3.eps} \\
+(c) k=50 & (d) k=75 \\[6pt]
+
+\end{tabular}
+
+\caption{Região de decisão utilizando Largura da sépala e da pétala.}
+\label{fig:decisionRegionSepL_PetL}
+\end{figure}
+\efloatseparator
+ 
+\begin{figure}
+\centering
+\begin{tabular}{cc}
+  \includegraphics[width=70mm]{matlab/figura/iris_KNN_RegDec_K1_1_2.eps} &
+  \includegraphics[width=70mm]{matlab/figura/iris_KNN_RegDec_K10_1_2.eps}
+  \\
+(a) k=1 & (b) k=10 \\[6pt]
+ \includegraphics[width=70mm]{matlab/figura/iris_KNN_RegDec_K50_1_2.eps} &
+ \includegraphics[width=70mm]{matlab/figura/iris_KNN_RegDec_K75_1_2.eps} \\
+(c) k=50 & (d) k=75 \\[6pt]
+
+\end{tabular}
+\caption{Região de decisão utilizando comprimento e largura da sépala.}
+\label{fig:decisionRegionSepL_SepW}
+\end{figure}
+\efloatseparator
+ 
+\begin{figure}
+\centering
+\begin{tabular}{cc}
+  \includegraphics[width=70mm]{matlab/figura/iris_DMC_RegDec_1_2.eps} &
+  \includegraphics[width=70mm]{matlab/figura/iris_DMC_RegDec_1_3.eps}
+\\
+(a) & (b)
+\end{tabular}
+\caption{Região de decisão utilizando o DMC.}
+\label{fig:dmc_decisionRegion}
+\end{figure}
+\efloatseparator
+ 

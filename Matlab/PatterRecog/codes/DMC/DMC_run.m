@@ -6,21 +6,26 @@ exportDir = '../../../../Latex/ReconhecimentoDePadroes/trabalho1/matlab/';
 %%
 global C;
 %%
-%Configurações
+%Configuraï¿½ï¿½es
 base = 'iris';     %Nome da base
 pTeste = 0.25;     %Percentual da base para teste
-nIt = 100;         %Número de repetições para o cálculo da acurácia
+nIt = 100;         %Nï¿½mero de repetiï¿½ï¿½es para o cï¿½lculo da acurï¿½cia
 
-p = [1 3]; %parametro para a região de decisão. O indice indica qual atributo levar em conta
-
+%p = [1 3]; %parametro para a regiï¿½o de decisï¿½o. O indice indica qual atributo levar em conta
+p = [1 2 3 4];
 %%
-%Inicialização
+%Inicializaï¿½ï¿½o
 [ x , y ,labels ] = carregaDatabase(base);
 
 %Filtrar colunas desejadas e resolver problema das linhas duplicadas
 x = x(:,p);
 [x ia] = unique(x,'rows');
 y = y(ia,:);
+
+%Normalizando
+x = bsxfun(@minus,x,min(x));
+x = bsxfun(@rdivide,x,max(x));
+
 
 [m n] = size(x);
 [m nClasses] = size(y);
@@ -37,7 +42,7 @@ for i=1:nIt
     C = DMC_centroids(xd,yd);
     centroids(:,:,i) = C;
     %Aplica o DMC em todas amostras retornando apenas a classe
-    %sem codificação
+    %sem codificaï¿½ï¿½o
     clsC = DMC(C,xt);
     clsCEnc = encode1ofk(clsC,nClasses);
     
@@ -49,14 +54,14 @@ for i=1:nIt
 end
 CM = bsxfun(@rdivide,meanCM,sum(meanCM,2)');
 
-%Centroid médio
+%Centroid mï¿½dio
 csvwrite([exportDir base '_DMC_meanCentroid.csv'],mean(centroids,3));
 csvwrite([exportDir base '_DMC_STDCentroid.csv'],std(centroids,0,3));
 csvwrite([exportDir base '_DMC_cmNorm.csv'],CM);
 csvwrite([exportDir base '_DMC_cmAnalise.csv'],meanPer);
 
-fprintf('Acurácia obtida após %d repetições: %.4f\n',nIt,mean(acuracia));
-fprintf('Desvio padrão da acurácia obtida após %d repetições: %.4f\n',nIt,std(acuracia));
+fprintf('Acurï¿½cia obtida apï¿½s %d repetiï¿½ï¿½es: %.4f\n',nIt,mean(acuracia));
+fprintf('Desvio padrï¿½o da acurï¿½cia obtida apï¿½s %d repetiï¿½ï¿½es: %.4f\n',nIt,std(acuracia));
 
 if(length(p)==2)
     [tmp, clsT] = max(y,[],2);

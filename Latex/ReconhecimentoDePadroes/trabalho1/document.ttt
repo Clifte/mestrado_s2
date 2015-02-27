@@ -1,0 +1,178 @@
+\begin{table}
+\centering
+    \begin{tabular}{c|c|c}%
+    \bfseries K & \bfseries Acurácia & \bfseries Desvio Padrão% specify table
+    % head
+    \csvreader[no head]{matlab/iris_KNN_acuracia.csv}{}% use head of
+    % csv as column names
+    {\\\hline\csvcoli&\csvcolii&\csvcoliii}% specify your coloumns here
+    \\\hline
+
+    \end{tabular}
+    \caption{Acurácia média e desvio padrão em função do valor de k.}
+    \label{tab:acuracia}
+\end{table}
+\efloatseparator
+ 
+\begin{table}
+\centering
+
+\begin{tabular}{c|c}
+
+    \begin{tabular}{c}%
+    \bfseries Classe \\\hline
+    Setosa \\\hline
+    Versicolor \\\hline
+    Virgínica \\\hline
+
+    \end{tabular}
+
+&
+   \begin{tabular}{c|c|c|c}%
+    \bfseries Setosa & \bfseries Versicolor & \bfseries Virgínica
+    % specify table head
+    \csvreader[no head]{matlab/iris_KNN_cmNorm.csv}{}% use head of
+    % csv as column names
+    {\\\hline\csvcoli&\csvcolii&\csvcoliii}% specify your coloumns
+    % here
+    \\\hline
+
+     \end{tabular}
+
+
+\end{tabular}
+    \caption{Matriz confusão obtida após execução do KNN.}
+    \label{tab:confMatKNN}
+\end{table}
+\efloatseparator
+ 
+\begin{table}
+\centering
+
+\begin{tabular}{c|c}
+
+    \begin{tabular}{c}%
+    \bfseries Classe \\\hline
+    Setosa \\\hline
+    Versicolor \\\hline
+    Virgínica \\\hline
+
+    \end{tabular}
+
+&
+   \begin{tabular}{c|c|c|c}%
+    \bfseries falso-positivo & \bfseries falso-negativo
+    & \bfseries verdadeiro-positivo & \bfseries verdadeiro-negativo
+    % specify table head
+    \csvreader[no head]{matlab/iris_KNN_cmAnalise.csv}{}% use head of
+    % csv as column names
+    {\\\hline\csvcoli&\csvcolii&\csvcoliii&\csvcoliv}% specify your coloumns
+    % here
+    \\\hline
+
+     \end{tabular}
+
+
+\end{tabular}
+    \caption{Resultado da análise do KNN.}
+    \label{tab:knnAnalis}
+\end{table}
+\efloatseparator
+ 
+\begin{table}
+\centering
+
+\begin{tabular}{c|c}
+
+    \begin{tabular}{c}%
+    \bfseries Classe \\\hline
+    Setosa \\\hline
+    Versicolor \\\hline
+    Virgínica \\\hline
+
+    \end{tabular}
+
+&
+
+    \begin{tabular}{c|c|c|c}%
+    \bfseries Comprimento S & \bfseries Largura S & \bfseries Comprimento P &
+    \bfseries Largura P
+    % specify table head
+    \csvreader[no head]{matlab/iris_DMC_meanCentroid.csv}{}% use head of
+    % csv as column names
+    {\\\hline\csvcoli&\csvcolii&\csvcoliii&\csvcoliv}% specify your coloumns
+    % here
+    \\\hline
+
+    \end{tabular}
+\end{tabular}
+    \caption{Centroides médios utilizados no DMC.}
+    \label{tab:centroidesM}
+\end{table}
+\efloatseparator
+ 
+\begin{table}
+\centering
+
+\begin{tabular}{c|c}
+
+    \begin{tabular}{c}%
+    \bfseries Classe \\\hline
+    Setosa \\\hline
+    Versicolor \\\hline
+    Virgínica \\\hline
+
+    \end{tabular}
+
+&
+   \begin{tabular}{c|c|c|c}%
+    \bfseries Setosa & \bfseries Versicolor & \bfseries Virgínica
+    % specify table head
+    \csvreader[no head]{matlab/iris_DMC_cmNorm.csv}{}% use head of
+    % csv as column names
+    {\\\hline\csvcoli&\csvcolii&\csvcoliii}% specify your coloumns
+    % here
+    \\\hline
+
+     \end{tabular}
+
+
+\end{tabular}
+    \caption{Matriz confusão obtida após execução do DMC.}
+    \label{tab:confMatDMC}
+\end{table}
+\efloatseparator
+ 
+\begin{table}
+\centering
+
+\begin{tabular}{c|c}
+
+    \begin{tabular}{c}%
+    \bfseries Classe \\\hline
+    Setosa \\\hline
+    Versicolor \\\hline
+    Virgínica \\\hline
+
+    \end{tabular}
+
+&
+   \begin{tabular}{c|c|c|c}%
+    \bfseries falso-positivo & \bfseries falso-negativo
+    & \bfseries verdadeiro-positivo & \bfseries verdadeiro-negativo
+    % specify table head
+    \csvreader[no head]{matlab/iris_KNN_cmAnalise.csv}{}% use head of
+    % csv as column names
+    {\\\hline\csvcoli&\csvcolii&\csvcoliii&\csvcoliv}% specify your coloumns
+    % here
+    \\\hline
+
+     \end{tabular}
+
+
+\end{tabular}
+    \caption{Resultado da análise do KNN.}
+    \label{tab:DMCAnalisis}
+\end{table}
+\efloatseparator
+ 

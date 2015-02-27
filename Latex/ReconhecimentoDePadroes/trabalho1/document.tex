@@ -33,6 +33,7 @@
 \usepackage{graphicx}			% Inclusão de gráficos
 \usepackage{csvsimple}
 \usepackage{epstopdf}
+\usepackage[nolists,tablesfirst]{endfloat}
 % ---
 		
 % ---
@@ -234,7 +235,7 @@ min são os valores máximos e mínimos do atributo $p$.
  perceba a sobreposição dos histogramas em todos os atributos bem como a mistura
  das classes nos gráficos de dispersão.
  
- \subsubsection{Análise PCA}
+%\subsubsection{Análise PCA}
 %  
 % \subsubsection{Análise PCA}
 % PCA is a standard technique for visualizing high dimensional data and for data
@@ -384,13 +385,95 @@ foram consideradas apenas as larguras e comprimentos da sépala.
 	\caption{Região de decisão utilizando comprimento e largura da sépala.}
 	\label{fig:decisionRegionSepL_SepW}
 \end{figure}
-
+ 
 
 
 \subsubsection{Matriz Confusão}
+Na tabela \ref{tab:confMatKNN} é exibida a matriz confusão obtida para K igual a
+10. Esse valor de k foi escolhido devido aos testes de acurácia em
+função de k mostrarem que com este valor é obtida a melhor acurácia. Além da
+matriz confusão  a tabela \ref{tab:knnAnalis} traz os
+resultados, falso-positivo, falso-negativo, verdadeiro-positivo e
+verdadeiro-negativo.
+
+
+\begin{table}
+	\centering
+	
+	\begin{tabular}{c|c}
+	 
+	    \begin{tabular}{c}%
+	    \bfseries Classe \\\hline 
+	    Setosa \\\hline
+	    Versicolor \\\hline
+	    Virgínica \\\hline
+
+	    \end{tabular}   
+	 
+		&
+	   \begin{tabular}{c|c|c|c}%
+	    \bfseries Setosa & \bfseries Versicolor & \bfseries Virgínica
+	    % specify table head 
+	    \csvreader[no head]{matlab/iris_KNN_cmNorm.csv}{}% use head of
+	    % csv as column names
+	    {\\\hline\csvcoli&\csvcolii&\csvcoliii}% specify your coloumns
+	    % here
+	    \\\hline
+     
+    	\end{tabular}
+    
+    
+	\end{tabular}
+    \caption{Matriz confusão obtida após execução do KNN.}
+    \label{tab:confMatKNN}
+\end{table}
+
+ 
+
+\begin{table}
+	\centering
+	
+	\begin{tabular}{c|c}
+	 
+	    \begin{tabular}{c}%
+	    \bfseries Classe \\\hline 
+	    Setosa \\\hline
+	    Versicolor \\\hline
+	    Virgínica \\\hline
+
+	    \end{tabular}   
+	 
+		&
+	   \begin{tabular}{c|c|c|c}%
+	    \bfseries falso-positivo & \bfseries falso-negativo 
+	    & \bfseries verdadeiro-positivo & \bfseries verdadeiro-negativo
+	    % specify table head 
+	    \csvreader[no head]{matlab/iris_KNN_cmAnalise.csv}{}% use head of
+	    % csv as column names
+	    {\\\hline\csvcoli&\csvcolii&\csvcoliii&\csvcoliv}% specify your coloumns
+	    % here
+	    \\\hline
+     
+    	\end{tabular}
+    
+    
+	\end{tabular}
+    \caption{Resultado da análise do KNN.}
+    \label{tab:knnAnalis}
+\end{table}
+
+
+
+
+
+
+
+
+
+
 
 \section{DMC}
-\subsection{Introdução}
+\subsection{Introdução} 
 O DMC é uma técnica que realiza a classificação de uma amotra de acordo com a
 amostra mais semelhantes existentes em sua base. Sua implementação é semelhante
 ao KNN porém seus dados de treinamento são reduzidos ao centro de massa de cada
@@ -402,7 +485,7 @@ dos  vetores médios (centróides) que representam cada classe por padrões \cit
 
 \subsection{Metodologia}
 A metodologia seguida para o DMC é semelhante à do KNN vista
-na sessão \ref{sss:metAplKnn}, obviamente diferenciado-se pela não realização
+na sessão \ref{ss:metAplKnn}, obviamente diferenciado-se pela não realização
 da análise da variação do valor de K.
 Foram realizadas as normalizações e codificações necessárias bem como a mesma
 análise das características abordada na sessão \ref{ss:analiCara}.
@@ -411,31 +494,159 @@ análise das características abordada na sessão \ref{ss:analiCara}.
 
 \subsubsection{Definição do centroide}
 Devido a metodologia adotada a posição do centróide varia ao longo do cálculo da
-acurácia média. Abaixo temos os 3 centróides médios.
+acurácia média. Na tabelas \ref{tab:centroidesM} são exibidos os
+centróides médios obtidos para o cálculo do DMC.
 
- 
 
 \begin{table}
 	\centering
-    \begin{tabular}{c|c|c}%
-    \bfseries K & \bfseries Acurácia & \bfseries Desvio Padrão% specify table
-    % head 
-    \csvreader[no head]{matlab/iris_KNN_acuracia.csv}{}% use head of
-    % csv as column names
-    {\\\hline\csvcoli&\csvcolii&\csvcoliii}% specify your coloumns here
-    \\\hline
+	
+	\begin{tabular}{c|c}
+	 
+	    \begin{tabular}{c}%
+	    \bfseries Classe \\\hline 
+	    Setosa \\\hline
+	    Versicolor \\\hline
+	    Virgínica \\\hline
+
+	    \end{tabular}
+	
+		&
+	
+	    \begin{tabular}{c|c|c|c}%
+	    \bfseries Comprimento S & \bfseries Largura S & \bfseries Comprimento P &
+	    \bfseries Largura P
+	    % specify table head 
+	    \csvreader[no head]{matlab/iris_DMC_meanCentroid.csv}{}% use head of
+	    % csv as column names
+	    {\\\hline\csvcoli&\csvcolii&\csvcoliii&\csvcoliv}% specify your coloumns
+	    % here
+	    \\\hline
+	    
+	    \end{tabular}
+	\end{tabular}
+    \caption{Centroides médios utilizados no DMC.}
+    \label{tab:centroidesM}
+\end{table}
+
+ 
+% 
+% \begin{table}
+% 	\centering
+%     \begin{tabular}{c|c|c|c}%
+%     \bfseries Comprimento S & \bfseries Largura S & \bfseries Comprimento P &
+%     \bfseries Largura P
+%     % specify table head 
+%     \csvreader[no head]{matlab/iris_DMC_STDCentroid.csv}{}% use head of
+%     % csv as column names
+%     {\\\hline\csvcoli&\csvcolii&\csvcoliii&\csvcoliv}% specify your coloumns
+%     % here
+%     \\\hline
+%     
+%     \end{tabular}
+%     \caption{Desvio Padrão dos centroides médios utilizados no DMC.}
+%     \label{tab:centroidesSTD}
+% \end{table}
+% 
+
+ 
+\subsubsection{Região de decisão}
+Na figura \ref{fig:dmc_decisionRegion} são exibidas as regiões de decisão
+calculadas. Os pontos pretos ao centro de cada classe são os centroides. A
+figura \ref{fig:dmc_decisionRegion}a é apresentada a região de decisão para os
+atributos comprimento e largura da sépala enquanto a figura
+\ref{fig:dmc_decisionRegion}b os atributos considerados são largura da sépala e
+largura da pétala. Diferentemente do KNN o DMC possui uma região de decisão mais
+simples e por isso menos flexível à modelagens de dados mais complexas. 
+
+\begin{figure}
+	\centering
+	\begin{tabular}{cc}
+	  \includegraphics[width=70mm]{matlab/figura/iris_DMC_RegDec_1_2.eps} &
+	  \includegraphics[width=70mm]{matlab/figura/iris_DMC_RegDec_1_3.eps}
+		\\
+		(a) & (b)
+	\end{tabular}
+	\caption{Região de decisão utilizando o DMC.}
+	\label{fig:dmc_decisionRegion}
+\end{figure}
+ 
+\subsubsection{Matriz confusão}
+ Na tabela \ref{tab:confMatDMC} é exibida a matriz confusão após a execução do
+ DMC. A tabela \ref{tab:DMCAnalisis} traz os
+resultados, falso-positivo, falso-negativo, verdadeiro-positivo e
+verdadeiro-negativo.
+ 
+\begin{table}
+	\centering
+	
+	\begin{tabular}{c|c}
+	 
+	    \begin{tabular}{c}%
+	    \bfseries Classe \\\hline 
+	    Setosa \\\hline
+	    Versicolor \\\hline
+	    Virgínica \\\hline
+
+	    \end{tabular}
+	 
+		&
+	   \begin{tabular}{c|c|c|c}%
+	    \bfseries Setosa & \bfseries Versicolor & \bfseries Virgínica
+	    % specify table head 
+	    \csvreader[no head]{matlab/iris_DMC_cmNorm.csv}{}% use head of
+	    % csv as column names
+	    {\\\hline\csvcoli&\csvcolii&\csvcoliii}% specify your coloumns
+	    % here
+	    \\\hline
     
-    \end{tabular}
-    \caption{Acurácia média e desvio padrão em função do valor de k.}
-    \label{tab:acuracia}
+    	\end{tabular}
+    
+    
+	\end{tabular}
+    \caption{Matriz confusão obtida após execução do DMC.}
+    \label{tab:confMatDMC}
+\end{table}
+ 
+ 
+ 
+ 
+\begin{table}
+	\centering
+	
+	\begin{tabular}{c|c}
+	 
+	    \begin{tabular}{c}%
+	    \bfseries Classe \\\hline 
+	    Setosa \\\hline
+	    Versicolor \\\hline
+	    Virgínica \\\hline
+
+	    \end{tabular}   
+	 
+		&
+	   \begin{tabular}{c|c|c|c}%
+	    \bfseries falso-positivo & \bfseries falso-negativo 
+	    & \bfseries verdadeiro-positivo & \bfseries verdadeiro-negativo
+	    % specify table head 
+	    \csvreader[no head]{matlab/iris_KNN_cmAnalise.csv}{}% use head of
+	    % csv as column names
+	    {\\\hline\csvcoli&\csvcolii&\csvcoliii&\csvcoliv}% specify your coloumns
+	    % here
+	    \\\hline
+     
+    	\end{tabular}
+    
+    
+	\end{tabular}
+    \caption{Resultado da análise do KNN.}
+    \label{tab:DMCAnalisis}
 \end{table}
 
 
-
-\subsubsection{Região de decisão}
-
-
-
+ 
+ 
+ 
 \bookmarksetup{startatroot}% 
 % ---
 
@@ -443,6 +654,13 @@ acurácia média. Abaixo temos os 3 centróides médios.
 % Conclusão
 % ---
 \section*{Considerações finais}
+Podemos concluir que o KNN,  indiferentemente da forma como os dados estão
+dispostos no espaço, é possível separar as regiões por mais irregulares que
+sejam. O KNN possui um parâmetro que permite regular a confiabilidade de
+determinado ponto no espaço, reduzindo assim a incidencia de ruídos.
+
+
+
 \addcontentsline{toc}{section}{Considerações finais}
 
 
@@ -470,66 +688,5 @@ acurácia média. Abaixo temos os 3 centróides médios.
 % Apêndices
 % ----------------------------------------------------------
 
-% ---
-% Inicia os apêndices
-% ---
-\begin{apendicesenv}
-
-% ----------------------------------------------------------
-\chapter{Nullam elementum urna vel imperdiet sodales elit ipsum pharetra ligula
-ac pretium ante justo a nulla curabitur tristique arcu eu metus}
-% ----------------------------------------------------------
-\lipsum[55-57]
-
-\end{apendicesenv}
-% ---
-
-% ----------------------------------------------------------
-% Anexos
-% ----------------------------------------------------------
-\cftinserthook{toc}{AAA}
-% ---
-% Inicia os anexos
-% ---
-%\anexos
-\begin{anexosenv}
-
-% ---
-\chapter{Cras non urna sed feugiat cum sociis natoque penatibus et magnis dis
-parturient montes nascetur ridiculus mus}
-% ---
-
-
-
-\end{anexosenv}
-
-
-% ---
-% Título e resumo em língua estrangeira
-% ---
-
-% \twocolumn[    		% INICIO DE ARTIGO EM DUAS COLUNAS
-
-% titulo em inglês
-\titulo{Canonical academic article model with \abnTeX}
-\emptythanks
-\maketitle
-
-% resumo em português
-\renewcommand{\resumoname}{Abstract}
-\begin{resumoumacoluna}
- \begin{otherlanguage*}{english}
-   According to ABNT NBR 6022:2003, an abstract in foreign language is a back
-   matter mandatory element.
-
-   \vspace{\onelineskip}
- 
-   \noindent
-   \textbf{Key-words}: latex. abntex.
- \end{otherlanguage*}  
-\end{resumoumacoluna}
- 
-% ]  				% FIM DE ARTIGO EM DUAS COLUNAS
-% ---
 
 \end{document}
