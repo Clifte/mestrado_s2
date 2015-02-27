@@ -13,7 +13,7 @@ pTeste = 0.25;     %Percentual da base para teste
 nIt = 100;         %N�mero de repeti��es para o c�lculo da acur�cia
 
 kSearch = [1:20  25:5:60  70:10:150]; %valores que ser�o utilizados na pesquisa de k
-kSearch = 10
+%kSearch = 10
 p = [1 2 3 4]; %parametro para a regi�o de decis�o. O indice indica qual atributo levar em conta
 %%
 %Inicializa��o

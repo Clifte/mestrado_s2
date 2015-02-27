@@ -1,5 +1,5 @@
 
-\documentclass[
+\documentclass[ 
 	% -- opções da classe memoir --
 	article,			% indica que é um artigo acadêmico
 	11pt,				% tamanho da fonte
@@ -33,7 +33,7 @@
 \usepackage{graphicx}			% Inclusão de gráficos
 \usepackage{csvsimple}
 \usepackage{epstopdf}
-\usepackage[nolists,tablesfirst]{endfloat}
+%\usepackage[nolists,tablesfirst]{endfloat}
 % ---
 		
 % ---
@@ -313,19 +313,19 @@ ajustado para esta quantidade.
     % head 
     \csvreader[no head]{matlab/iris_KNN_acuracia.csv}{}% use head of
     % csv as column names
-    {\\\hline\csvcoli&\csvcolii&\csvcoliii}% specify your coloumns here
+    {\\\hline\csvcoli&\csvcolii&\csvcoliii}% specify your coloumns here 
     \\\hline
     
     \end{tabular}
     \caption{Acurácia média e desvio padrão em função do valor de k.}
     \label{tab:acuracia}
 \end{table}
-
+ 
 \begin{figure}[!htb] \centering
 	\includegraphics[width=\textwidth]{figuras/boxPlot_acuraciaVSK.eps}
 	\caption{Acurácia em função do valor de k.}
 	\label{fig:acuracia}
-\end{figure}
+\end{figure} 
 
 
 \subsubsection{Região de decisão}
@@ -394,15 +394,15 @@ Na tabela \ref{tab:confMatKNN} é exibida a matriz confusão obtida para K igual
 função de k mostrarem que com este valor é obtida a melhor acurácia. Além da
 matriz confusão  a tabela \ref{tab:knnAnalis} traz os
 resultados, falso-positivo, falso-negativo, verdadeiro-positivo e
-verdadeiro-negativo.
+verdadeiro-negativo. 
 
-
+ 
 \begin{table}
-	\centering
+	\centering 
 	
 	\begin{tabular}{c|c}
-	 
-	    \begin{tabular}{c}%
+ 
+	    \begin{tabular}{c}% 
 	    \bfseries Classe \\\hline 
 	    Setosa \\\hline
 	    Versicolor \\\hline
@@ -432,7 +432,7 @@ verdadeiro-negativo.
 
 \begin{table}
 	\centering
-	
+	 
 	\begin{tabular}{c|c}
 	 
 	    \begin{tabular}{c}%
@@ -658,6 +658,10 @@ Podemos concluir que o KNN,  indiferentemente da forma como os dados estão
 dispostos no espaço, é possível separar as regiões por mais irregulares que
 sejam. O KNN possui um parâmetro que permite regular a confiabilidade de
 determinado ponto no espaço, reduzindo assim a incidencia de ruídos.
+
+Apesar de não ser apresentado nenhuma avaliação de desempenho neste relatório, é
+notável a diferença entre os tempos de execução de ambas as técnicas.
+ 
 
 
 
