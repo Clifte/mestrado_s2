@@ -10,11 +10,11 @@ global yl;
 %Configura��es
 base = 'iris';     %Nome da base
 pTeste = 0.25;     %Percentual da base para teste
-nIt = 100;         %N�mero de repeti��es para o c�lculo da acur�cia
+nIt = 1;         %N�mero de repeti��es para o c�lculo da acur�cia
 
 kSearch = [1:20  25:5:60  70:10:150]; %valores que ser�o utilizados na pesquisa de k
 %kSearch = 10
-p = [1 2 3 4]; %parametro para a regi�o de decis�o. O indice indica qual atributo levar em conta
+p = [1  3 ]; %parametro para a regi�o de decis�o. O indice indica qual atributo levar em conta
 %%
 %Inicializa��o
 [ x , y ,labels ] = carregaDatabase(base);
@@ -63,7 +63,7 @@ for contk=1:length(kSearch)
         %acuracia(i) = (acc/size(xt,1));
         acuracia(i) = 1 - acc;
         meanCM = meanCM + cm;
-        meanPer = meanPer + per;
+%        meanPer = meanPer + per;
     end
 
     meanPer = meanPer./nIt;

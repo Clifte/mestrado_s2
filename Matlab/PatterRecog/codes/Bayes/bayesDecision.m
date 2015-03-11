@@ -1,11 +1,11 @@
 
-function bayesDecision(x,y,fnc)
+function bayesDecision(x,y,lambda,fnc)
     %cmap1 = [1 0.8 0.8; 0.95 1 0.95; 0.9 0.9 1];
     %cmap2 = cmap1 - 0.2;
     
     [m n] = size(x);
     [m nCls] = size(y);
-    labelsL = decode1ofk(y);
+    %labelsL = decode1ofk(y);
      
     cmap2 = lines(nCls);
     cmap1 = (cmap2 + 0.6) * 1.2;
@@ -26,7 +26,7 @@ function bayesDecision(x,y,fnc)
         xy = rangex';
     end
     
-    [cls p] = bayes(xy,x,y,fnc);
+    [cls p] = bayes(xy,x,y,lambda,fnc);
     
     P = max(p);
     error = sum(p) - max(p);
