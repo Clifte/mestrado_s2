@@ -9,19 +9,22 @@ global lbda;
 
 %%
 %Configuraï¿½ï¿½es
-base = 'iris';     %Nome da base
+base = 'vertebra';     %Nome da base
 pTeste = 0.25;     %Percentual da base para teste
 nIt = 100;         %Nï¿½mero de repetiï¿½ï¿½es para o cï¿½lculo da acurï¿½cia
 
 %p = [1 3]; %parametro para a regiï¿½o de decisï¿½o. O indice indica qual atributo levar em conta
-p = [1  3];
+%p = [1  3];
+p = [1 6];
 lambda = [ 0 1 1 
            1 0 1
-           0 0 1
+           1 1 0
            ];
 %%
 %Inicializaï¿½ï¿½o
 [ x , y ,labels ] = carregaDatabase(base);
+
+
 
 %Filtrar colunas desejadas e resolver problema das linhas duplicadas
 x = x(:,p);
@@ -44,7 +47,7 @@ meanCM = zeros(nClasses,nClasses);
 meanPer = zeros(nClasses,4);
     
 for i=1:nIt
-    [ xd yd xt yt ] = preparaDados( x, y, pTeste);
+    [ xd yd xt yt ] = preparaDados( x , y, pTeste);
 
     clsC = bayes(xt,xd,yd,lambda,'gauss');
 
@@ -62,18 +65,19 @@ CM = bsxfun(@rdivide,meanCM,sum(meanCM,2)');
 csvwrite([exportDir base '_BAYES_cmNorm.csv'],CM);
 csvwrite([exportDir base '_BAYES_cmAnalise.csv'],meanPer);
 
-fprintf('Acurï¿½cia obtida apï¿½s %d repetiï¿½ï¿½es: %.4f\n',nIt,mean(acuracia));
-fprintf('Desvio padrï¿½o da acurï¿½cia obtida apï¿½s %d repetiï¿½ï¿½es: %.4f\n',nIt,std(acuracia));
+fprintf('Acurácia obtida após %d repetções: %.4f\n',nIt,mean(acuracia));
+fprintf('Desvio padrão da acurácia obtida após %d repetições: %.4f\n',nIt,std(acuracia));
+
+
 
 if(length(p)==2)
     [tmp, clsT] = max(y,[],2);
 
     lbda = lambda;
-    
-    
+ 
     yl=y;
     showDecision(x,clsT,'global yl;global lbda;cls=bayes(xy,x,yl,lbda,''gauss'');',nClasses);
-    bayesDecision(x,y,lambda,'gauss');
+    bayesDecision(x,y,lambda,'gauss',[2 2; -2 -2]);
     
     path = sprintf('%sfigura/%s_%s_%d_%d.eps',exportDir,base,'BAYES_RegDec',p(1),p(2));
     saveas(gca, path,'epsc');    

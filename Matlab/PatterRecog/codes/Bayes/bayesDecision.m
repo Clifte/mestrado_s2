@@ -1,7 +1,8 @@
-
-function bayesDecision(x,y,lambda,fnc)
+ 
+function bayesDecision(x,y,lambda,fnc,lim)
     %cmap1 = [1 0.8 0.8; 0.95 1 0.95; 0.9 0.9 1];
     %cmap2 = cmap1 - 0.2;
+    %teste
     
     [m n] = size(x);
     [m nCls] = size(y);
@@ -13,9 +14,14 @@ function bayesDecision(x,y,lambda,fnc)
     
     
     mx = max(x,[],1);
-    mn = min(x,[],1);  
+    mn = min(x,[],1);
     
-    res = 100;
+    if( exist('lim') == 1)
+         mx = lim(1,:);
+         mn = lim(2,:);
+    end
+    
+    res = 200;
     
     rangex = linspace(mn(1),mx(1),res);
     
@@ -37,6 +43,7 @@ function bayesDecision(x,y,lambda,fnc)
         error = reshape(error,[res res]);
 
         figure;surf(P,colors);
+        view([-90 90]);
         figure;surf(error,'faceColor','r');
     else 
         plot(p');

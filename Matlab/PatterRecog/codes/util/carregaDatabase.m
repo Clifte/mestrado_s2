@@ -14,7 +14,7 @@ function [x y labels features] = carregaDatabase(name,qtd)
         case 'vertebra'
             [ x , y ] = carregaDados( 4 , '../database/verte/column_3C.dat',3);
             labels = ['Hernia discal'
-                      'Espondilï¿½lise'
+                      'Espondilolise'
                       'Normal       '];
         case 'derme'
             [ x , y ] = carregaDados( 7 , '../database/dermat/dermatology.data',6);
@@ -47,5 +47,12 @@ function [x y labels features] = carregaDatabase(name,qtd)
         x = x(I,:);
         y = y(I,:);
     end
+    
+    fprintf('Carregando base %s\n',name);
+    fprintf('Número de atributos da base %d \n',size(x,2));
+    fprintf('Número de classes: %d \n',size(y,2));
+    fprintf('Classes:\n');
+    disp(labels);
+    
     
 end

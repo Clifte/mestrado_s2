@@ -1,0 +1,15 @@
+mu1 = [2,3];
+sigma1 = [1,1.5;1.5,3];
+
+mu2 = [5,4];
+sigma2 = [1,1.5;1.5,3];
+
+r1 = mvnrnd(mu,sigma,100);
+r2 = mvnrnd(mu,sigma,100);
+
+
+figure;
+
+scatter(r1(:,1),r1(:,2),'r');
+hold on;
+scatter(r2(:,1),r2(:,2),'b');

@@ -20,7 +20,9 @@ function [cls p]= bayes(amostra,data,labels,lambda,fnc)
     
     Risk = P.*L;
     
-    [v cls2] = min(sum(Risk,3));
+    [v cls2] = min(sum(Risk,2));
+    cls2 = permute(cls2,[3 1 2]);
+   
     [v cls] = max(p);
         
 end
