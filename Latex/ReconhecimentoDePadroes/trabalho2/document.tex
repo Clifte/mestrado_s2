@@ -1,0 +1,562 @@
+
+\documentclass[ 
+	% -- opções da classe memoir --
+	article,			% indica que é um artigo acadêmico
+	11pt,				% tamanho da fonte
+	oneside,			% para impressão apenas no verso. Oposto a twoside
+	a4paper,			% tamanho do papel. 
+	% -- opções da classe abntex2 --
+	%chapter=TITLE,		% títulos de capítulos convertidos em letras maiúsculas
+	%section=TITLE,		% títulos de seções convertidos em letras maiúsculas
+	%subsection=TITLE,	% títulos de subseções convertidos em letras maiúsculas
+	%subsubsection=TITLE % títulos de subsubseções convertidos em letras maiúsculas
+	% -- opções do pacote babel --
+	english,			% idioma adicional para hifenização
+	brazil,				% o último idioma é o principal do documento
+	]{abntex2}
+
+
+% --- 
+% PACOTES
+% ---
+
+% ---
+% Pacotes fundamentais 
+% ---
+\usepackage{cmap}				% Mapear caracteres especiais no PDF
+\usepackage{lmodern}			% Usa a fonte Latin Modern
+\usepackage[T1]{fontenc}		% Selecao de codigos de fonte.
+\usepackage[utf8]{inputenc}		% Codificacao do documento (conversão automática dos acentos)
+\usepackage{indentfirst}		% Indenta o primeiro parágrafo de cada seção.
+\usepackage{nomencl} 			% Lista de simbolos
+\usepackage{color}				% Controle das cores
+\usepackage{graphicx}			% Inclusão de gráficos
+\usepackage{csvsimple}
+\usepackage{epstopdf}
+%\usepackage[nolists,tablesfirst]{endfloat}
+% ---
+		
+% ---
+% Pacotes adicionais, usados apenas no âmbito do Modelo Canônico do abnteX2
+% ---
+\usepackage{lipsum}				% para geração de dummy text
+% ---
+		
+% ---
+% Pacotes de citações
+% ---
+\usepackage[brazilian,hyperpageref]{backref}	 % Paginas com as citações na bibl
+\usepackage[alf]{abntex2cite}	% Citações padrão ABNT
+% ---
+
+% ---
+% Configurações do pacote backref
+% Usado sem a opção hyperpageref de backref
+\renewcommand{\backrefpagesname}{Citado na(s) página(s):~}
+% Texto padrão antes do número das páginas
+\renewcommand{\backref}{}
+% Define os textos da citação
+\renewcommand*{\backrefalt}[4]{
+	\ifcase #1 %
+		Nenhuma citação no texto.%
+	\or
+		Citado na página #2.%
+	\else
+		Citado #1 vezes nas páginas #2.%
+	\fi}%
+% ---
+
+% ---
+% Informações de dados para CAPA e FOLHA DE ROSTO
+% ---
+\titulo{Relatório de atividades: Uso do classificador Bayesiano} 
+\autor{David Clifte\thanks{cliftedavid@gmail.com}}
+\local{Brasil}
+\data{2015, v-1.0}
+% ---
+
+% ---
+% Configurações de aparência do PDF final
+
+% alterando o aspecto da cor azul
+\definecolor{blue}{RGB}{41,5,195}
+
+% informações do PDF
+\makeatletter
+\hypersetup{
+     	%pagebackref=true,
+		pdftitle={\@title}, 
+		pdfauthor={\@author},
+    	pdfsubject={Modelo de artigo científico com abnTeX2},
+	    pdfcreator={LaTeX with abnTeX2},
+		pdfkeywords={abnt}{latex}{abntex}{abntex2}{atigo científico}, 
+		colorlinks=true,       		% false: boxed links; true: colored links
+    	linkcolor=blue,          	% color of internal links
+    	citecolor=blue,        		% color of links to bibliography
+    	filecolor=magenta,      		% color of file links
+		urlcolor=blue,
+		bookmarksdepth=4
+}
+\makeatother
+% --- 
+
+% ---
+% compila o indice
+% ---
+\makeindex
+% ---
+
+% ---
+% Altera as margens padrões
+% ---
+\setlrmarginsandblock{4cm}{4cm}{*}
+\setulmarginsandblock{4cm}{4cm}{*}
+\checkandfixthelayout
+% ---
+
+% --- 
+% Espaçamentos entre linhas e parágrafos 
+% --- 
+
+% O tamanho do parágrafo é dado por:
+\setlength{\parindent}{1.3cm}
+
+% Controle do espaçamento entre um parágrafo e outro:
+\setlength{\parskip}{0.2cm}  % tente também \onelineskip
+
+% Espaçamento simples
+\SingleSpacing
+
+% ----
+% Início do documento
+% ----
+\begin{document}
+
+% Retira espaço extra obsoleto entre as frases.
+\frenchspacing 
+
+% ----------------------------------------------------------
+% ELEMENTOS PRÉ-TEXTUAIS
+% ----------------------------------------------------------
+
+%---
+%
+% Se desejar escrever o artigo em duas colunas, descomente a linha abaixo
+% e a linha com o texto ``FIM DE ARTIGO EM DUAS COLUNAS''.
+% \twocolumn[    		% INICIO DE ARTIGO EM DUAS COLUNAS
+%
+%---
+% página de titulo
+\maketitle
+
+% resumo em português
+\begin{resumoumacoluna}
+ Este trabalho apresenta os resultados obtidos ao aplicar o classificador
+ bayessiano. A implementação foi feita no
+ Matlab\texttrademark 
+ 
+ 
+ \vspace{\onelineskip}
+ 
+ \noindent
+ \textbf{Palavras-chaves}: Bayes. Reconhecimento de padrões.
+\end{resumoumacoluna}
+
+% ]  				% FIM DE ARTIGO EM DUAS COLUNAS
+% ---
+
+% ----------------------------------------------------------
+% ELEMENTOS TEXTUAIS
+% ----------------------------------------------------------
+\textual
+
+% ----------------------------------------------------------
+% Introdução
+% ----------------------------------------------------------
+\section*{Introdução}
+
+
+% ----------------------------------------------------------
+% Seção de explicações
+% ----------------------------------------------------------
+\section{Preparação da base}
+\subsection{Base de dados da flor de íris}
+A base de dados da flor de íris criado por Fisher \cite{AHG2137}. Nessa base de
+dados as informações obtidas das flores foram o comprimento e a largura das
+pétalas e sépalas de 3 tipos de flor de íris, virgínica, versicolor e setosa.
+Cada tipo de flor possue 50 instancias.
+
+\subsection{Base de dados da dermatologia}
+A base de dados da dermatologia foi criada por Altay, \cite{gvenir1998learning}.
+Nessa base foram coletadas informações de pacientes que possuiam sintomas de
+doenças de pele. As doenças são psoriasis, seboreic dermatitis, lichen planus,
+pityriasis rosea, cronic dermatitis, and pityriasis rubra pilaris. Foram
+coletadas 34 características de um total de 366 pacientes.
+
+Lista de atributos.
+
+Atributos clínicos: \newline 
+1: erythema \newline
+2: scaling \newline
+3: definite borders \newline
+4: itching \newline
+5: koebner phenomenon \newline
+6: polygonal papules \newline
+7: follicular papules \newline
+8: oral mucosal involvement \newline
+9: knee and elbow involvement \newline
+10: scalp involvement \newline
+11: family history, (0 or 1) \newline
+34: Age (linear) \newline
+
+Atributos do tecido patológico: \newline
+12: melanin incontinence \newline
+13: eosinophils in the infiltrate \newline
+14: PNL infiltrate \newline
+15: fibrosis of the papillary dermis \newline
+16: exocytosis \newline
+17: acanthosis \newline
+18: hyperkeratosis \newline
+19: parakeratosis \newline
+20: clubbing of the rete ridges \newline
+21: elongation of the rete ridges \newline
+22: thinning of the suprapapillary epidermis \newline
+23: spongiform pustule \newline
+24: munro microabcess \newline
+25: focal hypergranulosis \newline
+26: disappearance of the granular layer \newline
+27: vacuolisation and damage of basal layer \newline
+28: spongiosis \newline
+29: saw-tooth appearance of retes \newline
+30: follicular horn plug \newline
+31: perifollicular parakeratosis \newline
+32: inflammatory monoluclear inflitrate \newline
+33: band-like infiltrate\newline
+
+\subsection{Base de dados da coluna vertebral}
+
+Nessa base de dados as informações obtidas das flores foram o comprimento e a largura das
+pétalas e sépalas de 3 tipos de flor de íris, virgínica, versicolor e setosa.
+Cada tipo de flor possue 50 instancias.
+
+
+
+\subsection{Normalização e codificação}
+\label{ss:normCodf} 
+Após o carregamento da base foi realizado apenas a normalização dos dados e a
+codificação dos rótulos. A normalização foi realizada separadamente para cada
+atributo. Foi identificado o máximo e o mínimo do atributo $p$ e todos os
+valores foram normalizados na faixa [0,1].
+
+A codificação do rótulo foi feita no modelo 1-de-k(1-of-K ou one-hot encoding),
+nesse modelo o rótulo é codificado em um vetor onde cada posição do
+vetor representa uma classe. Nesse modelo para uma quantidade $m$ de classes
+temos um vetor com $m$ posições e a classe $k$ é representada por um vetor
+onde todas as outras posições diferentes de $k$ possuem o valor zero e a
+posição $k$ possui o valor 1. Dessa forma as três classes possíveis da íris
+foram codificadas em um vetor de 3 posições, onde a posição 1, 2 e 3
+representam a classe setosa, versicolor e virgínica respectivamente.
+
+
+%Gráfico em barra
+\subsection{Análise das características}
+\label{ss:analiCara}
+
+Na figura \ref{fig:charMatrix} é apresentada a matriz de características. 
+Essa matriz consiste de gráficos formados pelos pares de características
+combinadas.
+
+Na diagonal principal é apresentado o histograma do atributo.
+Devido a natureza continua dos atributos do problema, pois o
+comprimento e largura da sépala e pétala podem assumir qualquer valor real O
+histograma foi obtido após a realização da quantização dos atributos.
+Cada atributo foi quantizado em 15 possíveis valores com faixas de mesma largura. A
+largura da faixa foi obtida da seguinte forma $(max_p - min_p)/15$, onde max e
+min são os valores máximos e mínimos do atributo $p$.
+
+\begin{figure}[!htb] \centering
+\includegraphics[width=\textwidth]{figuras/analiseIris_hist_scatterMatrix.eps}
+\caption{Matriz de características.}
+\label{fig:charMatrix}
+\end{figure}
+
+ Podemos perceber que a classe setosa pode facilmente ser separada das outras
+ utilizando a largura ou o comprimento da pétala como variável. Nos histogramas
+ localizados na parte inferior isso pode ser verificado, pétalas com
+ comprimentos menores que 0,25 ou sépalas com largura menor que 0,3 de
+ comprimento são claramente da classe setosa.
+ Já para as duas outras características essa separação não é tão simples,
+ perceba a sobreposição dos histogramas em todos os atributos bem como a mistura
+ das classes nos gráficos de dispersão.
+ 
+%\subsubsection{Análise PCA}
+%  
+% \subsubsection{Análise PCA}
+% PCA is a standard technique for visualizing high dimensional data and for data
+% pre-processing. PCA reduces the dimensionality (the number of variables) of a
+% data set by maintaining as much variance as possible.
+% 
+% The first component, PC 1, represents the direction of the highest variance
+% of the data. The direction of the second component, PC 2, represents the highest
+% of the remaining variance orthogonal to the first component.
+% 
+%  Low variance can often be assumed to represent undesired background noise. The
+% dimensionality of the data can therefore be reduced, without loss of relevant information
+% 
+
+
+
+\section{Classificador de Bayes}
+
+\subsection{Introdução}
+Dada uma classificação entre M classes, o classificador de Bayes faz a seleção
+de um dado $x$ com base na probabilidade de $w_i$ dado um $x$ , $P(w_i|x)$.
+Assim temos:
+
+
+\begin{equation}
+	x \in w_i \iff P(w_i|x) \geq P(w_j|x) \forall i \neq j
+\end{equation}
+
+\subsection{Função de densidade de probabilidade} 
+\subsection{Metodologia}
+\label{ss:metAplKnn}
+
+Para a avaliação do KNN foi realizado a normalização e a codificação das classe
+no modelo 1-of-k, como dito na subsessão \ref{ss:normCodf}, além foi necessário
+alguns outros passos para obtermos os resultados apresentados na sessão
+seguinte.
+
+Após a normalização e a codificação a base de dados foi dividida por um  de 1:4,
+desta forma das 150 amostras presentes na base 30 delas foram escolhidas
+aleatoriamente para pertencerem à base de testes e o restante, 120, pertencerem
+a base de treinamento. É importante ressaltar também que pelo fato da escolha
+dos dados de testes serem dados de forma aleatória não é possível garantir que a
+base de treinamento ou teste possuem uma quantidade equivalente das 3 classes,
+porém espera-se que existam aproximadamente 40 instancias de cada classe na base
+de treinamento e 10 instancias de cada classe na base de teste.
+
+Foram feitos uma série de teste variando o valor de K bem como testes de
+generalização onde foi realizado a minimização da quantidade de dados
+necessários na base para uma correta classificação.
+
+\subsection{Resultados obtidos}
+
+\subsubsection{Função de densidade de probabilidade: Gaussiana e Janela de
+Parzen}
+
+\begin{table}
+	\centering
+    \begin{tabular}{c|c|c|c|c}%
+
+    DataSet      & Gaussian & & Parzen &  \\ \hline  
+	Íris         & acc & dv & acc & dv \\ \hline 
+	Dermatologia & acc & dv & acc & dv \\ \hline 
+	Vertebra     & acc & dv & acc & dv   \\ \hline 
+
+    \end{tabular}
+    \caption{Acurácia média e desvio padrão em função do valor de k.}
+    \label{tab:acuracia}
+\end{table}
+
+\subsection{Análise da matriz confusão sobre a região de decisão}
+
+\begin{figure}[!htb] \centering
+	\includegraphics[width=\textwidth]{figuras/boxPlot_acuraciaVSK.eps}
+	\caption{Acurácia em função do valor de k.}
+	\label{fig:acuracia}
+\end{figure} 
+
+
+\subsubsection{Região de decisão}
+
+Nas figuras \ref{fig:decisionRegionSepL_PetL} e
+\ref{fig:decisionRegionSepL_SepW} são exibidas as regiões de decisões ao aplicar
+o KNN considerando apenas duas características. Para a figura
+\ref{fig:decisionRegionSepL_PetL} são consideradas apenas os atributos largura
+da sépala e pétala. Um importante ponto a ser levado em consideração é que ao
+descartar determinados atributos podem surgir informações duplicadas. É
+importante filtrar estas informações, podem surgir linhas com informações iguais
+porém rótulos diferentes o que pode causar um erro na geração região
+de decisão..
+
+Diferentes regiões de decisões foram calculadas para
+diferentes valores de K. Para K=1 é notável que a existencia de ruídos podem
+gerar regiões que prejudicam a generalização. Para k=5 é possível perceber que
+pontos isolados não mais definem a classe de determinada região do espaço,veja
+na figura \ref{fig:decisionRegionSepL_PetL} a existência de 2 pontos da classe
+virgínica(em vermelho) na região em que foi classificada como da classe
+versícolor(em verde). A medida que o K aumenta podemos perceber a queda no valor
+da acurácia. Vários pontos são classificados de forma errada.
+
+O mesmo se aplica para a figura \ref{fig:decisionRegionSepL_SepW}, porém nesta
+foram consideradas apenas as larguras e comprimentos da sépala.
+
+
+\begin{figure}
+	\centering
+	\begin{tabular}{cc}
+	  \includegraphics[width=70mm]{matlab/figura/iris_KNN_RegDec_K1_1_3.eps} &
+	  \includegraphics[width=70mm]{matlab/figura/iris_KNN_RegDec_K10_1_3.eps}
+	  \\
+	(a) k=1 & (b) k=10 \\[6pt] 
+	 \includegraphics[width=70mm]{matlab/figura/iris_KNN_RegDec_K50_1_3.eps} &  
+	 \includegraphics[width=70mm]{matlab/figura/iris_KNN_RegDec_K75_1_3.eps} \\
+	(c) k=50 & (d) k=75 \\[6pt] 
+
+	\end{tabular}
+
+	\caption{Região de decisão utilizando Largura da sépala e da pétala.}
+	\label{fig:decisionRegionSepL_PetL}
+\end{figure}
+
+\begin{figure}
+	\centering
+	\begin{tabular}{cc}
+	  \includegraphics[width=70mm]{matlab/figura/iris_KNN_RegDec_K1_1_2.eps} &
+	  \includegraphics[width=70mm]{matlab/figura/iris_KNN_RegDec_K10_1_2.eps}
+	  \\
+	(a) k=1 & (b) k=10 \\[6pt] 
+	 \includegraphics[width=70mm]{matlab/figura/iris_KNN_RegDec_K50_1_2.eps} &  
+	 \includegraphics[width=70mm]{matlab/figura/iris_KNN_RegDec_K75_1_2.eps} \\
+	(c) k=50 & (d) k=75 \\[6pt] 
+
+	\end{tabular}
+	\caption{Região de decisão utilizando comprimento e largura da sépala.}
+	\label{fig:decisionRegionSepL_SepW}
+\end{figure}
+ 
+
+
+\subsubsection{Matriz Confusão}
+Na tabela \ref{tab:confMatKNN} é exibida a matriz confusão obtida para K igual a
+10. Esse valor de k foi escolhido devido aos testes de acurácia em
+função de k mostrarem que com este valor é obtida a melhor acurácia. Além da
+matriz confusão  a tabela \ref{tab:knnAnalis} traz os
+resultados, falso-positivo, falso-negativo, verdadeiro-positivo e
+verdadeiro-negativo. 
+
+%  
+% \begin{table}
+% 	\centering 
+% 	
+% 	\begin{tabular}{c|c}
+%  
+% 	    \begin{tabular}{c}% 
+% 	    \bfseries Classe \\\hline 
+% 	    Setosa \\\hline
+% 	    Versicolor \\\hline
+% 	    Virgínica \\\hline
+% 
+% 	    \end{tabular}   
+% 	 
+% 		&
+% 	   \begin{tabular}{c|c|c|c}%
+% 	    \bfseries Setosa & \bfseries Versicolor & \bfseries Virgínica
+% 	    % specify table head 
+% 	    \csvreader[no head]{matlab/iris_KNN_cmNorm.csv}{}% use head of
+% 	    % csv as column names
+% 	    {\\\hline\csvcoli&\csvcolii&\csvcoliii}% specify your coloumns
+% 	    % here
+% 	    \\\hline
+%      
+%     	\end{tabular}
+%     
+%     
+% 	\end{tabular}
+%     \caption{Matriz confusão obtida após execução do KNN.}
+%     \label{tab:confMatKNN}
+% \end{table}
+% 
+%  
+% 
+% \begin{table}
+% 	\centering
+% 	 
+% 	\begin{tabular}{c|c}
+% 	 
+% 	 \centering
+% 	    \begin{tabular}{c}%
+% 	    \bfseries Classe \\\hline 
+% 	    Setosa \\\hline
+% 	    Versicolor \\\hline
+% 	    Virgínica \\\hline
+% 
+% 	    \end{tabular}   
+% 	 
+% 		&
+% 	   \begin{tabular}{c|c|c|c}%
+% 	    \bfseries falso-positivo & \bfseries falso-negativo 
+% 	    & \bfseries verdadeiro-positivo & \bfseries verdadeiro-negativo
+% 	    % specify table head 
+% 	    \csvreader[no head]{matlab/iris_KNN_cmAnalise.csv}{}% use head of
+% 	    % csv as column names
+% 	    {\\\hline\csvcoli&\csvcolii&\csvcoliii&\csvcoliv}% specify your coloumns
+% 	    % here
+% 	    \\\hline
+%      
+%     	\end{tabular}
+%     
+%     
+% 	\end{tabular}
+%     \caption{Resultado da análise do KNN.}
+%     \label{tab:knnAnalis}
+% \end{table}
+% 
+% 
+% 
+
+
+
+
+
+
+
+
+\bookmarksetup{startatroot}% 
+% ---
+
+% ---
+% Conclusão
+% ---
+\section*{Considerações finais}
+Podemos concluir que o KNN,  indiferentemente da forma como os dados estão
+dispostos no espaço, é possível separar as regiões por mais irregulares que
+sejam. O KNN possui um parâmetro que permite regular a confiabilidade de
+determinado ponto no espaço, reduzindo assim a incidencia de ruídos.
+
+Apesar de não ser apresentado nenhuma avaliação de desempenho neste relatório, é
+notável a diferença entre os tempos de execução de ambas as técnicas.
+ 
+
+
+
+\addcontentsline{toc}{section}{Considerações finais}
+
+
+
+% ----------------------------------------------------------
+% ELEMENTOS PÓS-TEXTUAIS
+% ----------------------------------------------------------
+\postextual
+
+% ----------------------------------------------------------
+% Referências bibliográficas
+% ----------------------------------------------------------
+\bibliography{bib,iris}
+
+% ----------------------------------------------------------
+% Glossário
+% ------------------------------------ ----------------------
+%
+% Há diversas soluções prontas para glossário em LaTeX. 
+% Consulte o manual do abnTeX2 para obter sugestões.
+% 
+%\glossary 
+
+% ----------------------------------------------------------
+% Apêndices
+% ----------------------------------------------------------
+
+
+\end{document}

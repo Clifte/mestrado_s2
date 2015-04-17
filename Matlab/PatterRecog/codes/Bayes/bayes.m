@@ -14,16 +14,20 @@ function [cls p]= bayes(amostra,data,labels,lambda,fnc)
         p(i,:) = conditionalProbability(amostra,data(idx,:),fnc) * prior;
     end
 
-    P = repmat(permute(p,[3 1 2]),[nClasses,1,1]);
     
-    L = repmat(lambda,[1,1,N]);
     
-    Risk = P.*L;
     
-    [v cls2] = min(sum(Risk,2));
-    cls2 = permute(cls2,[3 1 2]);
-   
-    [v cls] = max(p);
+    if(lambda~=0)
+        P = repmat(permute(p,[3 1 2]),[nClasses,1,1]);
+        L = repmat(lambda,[1,1,N]);
+        Risk = P.*L;
+
+        [v cls2] = min(sum(Risk,2));
+        cls2 = permute(cls2,[3 1 2]);
+        cls = cls2;
+    else
+        [v cls] = max(p);
+    end
         
 end
     

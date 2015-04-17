@@ -6,24 +6,26 @@ exportDir = '../../../../Latex/ReconhecimentoDePadroes/trabalho2/matlab/';
 %%
 global yl;
 global lbda;
+global fnc;
 
 %%
 %Configuraï¿½ï¿½es
 base = 'vertebra';     %Nome da base
 pTeste = 0.25;     %Percentual da base para teste
-nIt = 100;         %Nï¿½mero de repetiï¿½ï¿½es para o cï¿½lculo da acurï¿½cia
+nIt = 10;         %Nï¿½mero de repetiï¿½ï¿½es para o cï¿½lculo da acurï¿½cia
 
 %p = [1 3]; %parametro para a regiï¿½o de decisï¿½o. O indice indica qual atributo levar em conta
 %p = [1  3];
-p = [1 6];
+p = 1:4;
 lambda = [ 0 1 1 
            1 0 1
            1 1 0
            ];
+       
+fnc = 'gauss';
 %%
 %Inicializaï¿½ï¿½o
 [ x , y ,labels ] = carregaDatabase(base);
-
 
 
 %Filtrar colunas desejadas e resolver problema das linhas duplicadas
@@ -49,7 +51,7 @@ meanPer = zeros(nClasses,4);
 for i=1:nIt
     [ xd yd xt yt ] = preparaDados( x , y, pTeste);
 
-    clsC = bayes(xt,xd,yd,lambda,'gauss');
+    clsC = bayes(xt,xd,yd,lambda,fnc);
 
     clsCEnc = encode1ofk(clsC',nClasses);
     
@@ -65,8 +67,8 @@ CM = bsxfun(@rdivide,meanCM,sum(meanCM,2)');
 csvwrite([exportDir base '_BAYES_cmNorm.csv'],CM);
 csvwrite([exportDir base '_BAYES_cmAnalise.csv'],meanPer);
 
-fprintf('Acurácia obtida após %d repetções: %.4f\n',nIt,mean(acuracia));
-fprintf('Desvio padrão da acurácia obtida após %d repetições: %.4f\n',nIt,std(acuracia));
+fprintf('AcurÃ¡cia obtida apÃ³s %d repetiÃ§Ãµes: %.4f\n',nIt,mean(acuracia));
+fprintf('Desvio padrÃ£o da acurÃ¡cia obtida apÃ³s %d repetiï¿½ï¿½es: %.4f\n',nIt,std(acuracia));
 
 
 
@@ -76,8 +78,8 @@ if(length(p)==2)
     lbda = lambda;
  
     yl=y;
-    showDecision(x,clsT,'global yl;global lbda;cls=bayes(xy,x,yl,lbda,''gauss'');',nClasses);
-    bayesDecision(x,y,lambda,'gauss',[2 2; -2 -2]);
+    showDecision(x,clsT,'global yl;global lbda;global fnc;cls=bayes(xy,x,yl,lbda,fnc);',nClasses);
+    bayesDecision(x,y,lambda,fnc,[2 2; -2 -2]);
     
     path = sprintf('%sfigura/%s_%s_%d_%d.eps',exportDir,base,'BAYES_RegDec',p(1),p(2));
     saveas(gca, path,'epsc');    
