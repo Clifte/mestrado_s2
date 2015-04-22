@@ -39,12 +39,20 @@ function bayesDecision(x,y,lambda,fnc,lim)
     fprintf('Total error: %f', sum(error(:)));
     if(n==2)
         P = reshape(P, [res res]);
-        colors = reshape(cmap1(cls,:),[res res 3]);       
+        colors = reshape(cmap1(cls,:),[res res 3]);
+       
+        values = (P/(3*max(max(P))) + 0.66);
+        values(values>1) = 1;
+        col2 = colors .* repmat(values,[1 1 3]);  
+        
         error = reshape(error,[res res]);
-
-        figure;surf(P,colors);
-        view([-90 90]);
-        figure;surf(error,'faceColor','r');
+        
+        surf(P,col2,'edgecolor','none');
+        %figure;surf(P,colors,'edgecolor','none');
+        
+        view([0 60]);
+        %figure;surf(error,'faceColor','r','edgecolor','none');
+        %figure;surf(error);
     else 
         plot(p');
     end

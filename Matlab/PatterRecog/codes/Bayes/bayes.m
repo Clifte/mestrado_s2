@@ -10,6 +10,9 @@ function [cls p]= bayes(amostra,data,labels,lambda,fnc)
     p = zeros(nClasses,length(amostra));
     for i=1:nClasses
         idx = find(labelsL==i);
+        if(length(idx)==0) 
+            continue;
+        end
         prior = length(idx)/length(labelsL);
         p(i,:) = conditionalProbability(amostra,data(idx,:),fnc) * prior;
     end
