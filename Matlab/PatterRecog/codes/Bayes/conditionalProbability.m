@@ -30,7 +30,7 @@ function p = conditionalProbability(amostra,data,fnc)
     end
     
     if(strcmp(fnc, 'same'))
-        cv = eye(m,m) * 0.1;
+        cv = eye(n,n) * parzenh;
         mu = mean(data);
         p = mvnpdf(amostra,mu,cv);
 
@@ -43,7 +43,7 @@ function p = conditionalProbability(amostra,data,fnc)
     idx = 1:n+1:n*n;
     
     if(strcmp(fnc, 'ndiag'))  
-         cv(idx) = 0;
+        cv(idx) = 1;
         mu = mean(data);
         p = mvnpdf(amostra,mu,cv);
 
@@ -54,7 +54,7 @@ function p = conditionalProbability(amostra,data,fnc)
     end
     
     if(strcmp(fnc, 'diag'))
-        idx = etdiff(1:n*n,idx);
+        idx = setdiff(1:n*n,idx);
         cv(idx) = 0;
         mu = mean(data);
         p = mvnpdf(amostra,mu,cv);
@@ -70,8 +70,11 @@ function p = conditionalProbability(amostra,data,fnc)
     if(strcmp(fnc, 'parzenGauss'))
         h = parzenh;
         [m n] = size(data);
+        [mm nn] = size(amostra);
         
         cv = eye(n,n) * h;
+        P = zeros(m,mm);
+        
         for i=1:m
             mi = data(i,:);
             P(i,:) = mvnpdf(amostra,mi,cv);

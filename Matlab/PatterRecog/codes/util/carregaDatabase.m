@@ -31,13 +31,14 @@ function [x y labels features] = carregaDatabase(name,qtd)
     end
     
     if(length(features)==0)
-        features = ones(length(y),10)*32;
-        for i=1:length(y)
+        features = ones(length(x(1,:)),10)*32;
+        for i=1:length(x(1,:))
             txt = sprintf('feat %d',i);
             sz = length(txt);
             txt = char(padarray(double(txt),[0 10-sz],32,'pos'));
             features(i,:) = txt;
         end
+        features  = char(features);
     end
 
     if(exist('qtd'))
@@ -49,10 +50,10 @@ function [x y labels features] = carregaDatabase(name,qtd)
     end
     
     fprintf('Carregando base %s\n',name);
-    fprintf('Número de atributos da base %d \n',size(x,2));
-    fprintf('Número de classes: %d \n',size(y,2));
+    fprintf('NÃºmero de atributos da base %d \n',size(x,2));
+    fprintf('NÃºmero de classes: %d \n',size(y,2));
     fprintf('Classes:\n');
     disp(labels);
-    
+    disp(features)
     
 end

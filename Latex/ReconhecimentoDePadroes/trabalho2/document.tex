@@ -193,46 +193,46 @@ Nessa base foram coletadas informações de pacientes que possuiam sintomas de
 doenças de pele. As doenças são psoriasis, seboreic dermatitis, lichen planus,
 pityriasis rosea, cronic dermatitis, and pityriasis rubra pilaris. Foram
 coletadas 34 características de um total de 366 pacientes.
-
-Lista de atributos.
-
-Atributos clínicos: \newline 
-1: erythema \newline
-2: scaling \newline
-3: definite borders \newline
-4: itching \newline
-5: koebner phenomenon \newline
-6: polygonal papules \newline
-7: follicular papules \newline
-8: oral mucosal involvement \newline
-9: knee and elbow involvement \newline
-10: scalp involvement \newline
-11: family history, (0 or 1) \newline
-34: Age (linear) \newline
-
-Atributos do tecido patológico: \newline
-12: melanin incontinence \newline
-13: eosinophils in the infiltrate \newline
-14: PNL infiltrate \newline
-15: fibrosis of the papillary dermis \newline
-16: exocytosis \newline
-17: acanthosis \newline
-18: hyperkeratosis \newline
-19: parakeratosis \newline
-20: clubbing of the rete ridges \newline
-21: elongation of the rete ridges \newline
-22: thinning of the suprapapillary epidermis \newline
-23: spongiform pustule \newline
-24: munro microabcess \newline
-25: focal hypergranulosis \newline
-26: disappearance of the granular layer \newline
-27: vacuolisation and damage of basal layer \newline
-28: spongiosis \newline
-29: saw-tooth appearance of retes \newline
-30: follicular horn plug \newline
-31: perifollicular parakeratosis \newline
-32: inflammatory monoluclear inflitrate \newline
-33: band-like infiltrate\newline
+% 
+% Lista de atributos.
+% 
+% Atributos clínicos: \newline 
+% 1: erythema \newline
+% 2: scaling \newline
+% 3: definite borders \newline
+% 4: itching \newline
+% 5: koebner phenomenon \newline
+% 6: polygonal papules \newline
+% 7: follicular papules \newline
+% 8: oral mucosal involvement \newline
+% 9: knee and elbow involvement \newline
+% 10: scalp involvement \newline
+% 11: family history, (0 or 1) \newline
+% 34: Age (linear) \newline
+% 
+% Atributos do tecido patológico: \newline
+% 12: melanin incontinence \newline
+% 13: eosinophils in the infiltrate \newline
+% 14: PNL infiltrate \newline
+% 15: fibrosis of the papillary dermis \newline
+% 16: exocytosis \newline
+% 17: acanthosis \newline
+% 18: hyperkeratosis \newline
+% 19: parakeratosis \newline
+% 20: clubbing of the rete ridges \newline
+% 21: elongation of the rete ridges \newline
+% 22: thinning of the suprapapillary epidermis \newline
+% 23: spongiform pustule \newline
+% 24: munro microabcess \newline
+% 25: focal hypergranulosis \newline
+% 26: disappearance of the granular layer \newline
+% 27: vacuolisation and damage of basal layer \newline
+% 28: spongiosis \newline
+% 29: saw-tooth appearance of retes \newline
+% 30: follicular horn plug \newline
+% 31: perifollicular parakeratosis \newline
+% 32: inflammatory monoluclear inflitrate \newline
+% 33: band-like infiltrate\newline
 
 \subsection{Base de dados da coluna vertebral}
 
@@ -294,20 +294,6 @@ min são os valores máximos e mínimos do atributo $p$.
  
  \subsubsection{Base da dermatologia}
  \subsubsection{Base da coluna vertebral}
-%\subsubsection{Análise PCA}
-%  
-% \subsubsection{Análise PCA}
-% PCA is a standard technique for visualizing high dimensional data and for data
-% pre-processing. PCA reduces the dimensionality (the number of variables) of a
-% data set by maintaining as much variance as possible.
-% 
-% The first component, PC 1, represents the direction of the highest variance
-% of the data. The direction of the second component, PC 2, represents the highest
-% of the remaining variance orthogonal to the first component.
-% 
-%  Low variance can often be assumed to represent undesired background noise. The
-% dimensionality of the data can therefore be reduced, without loss of relevant information
-% 
 
 
 
@@ -326,7 +312,7 @@ Assim temos:
 \subsection{Função de densidade de probabilidade}
  
 \subsection{Metodologia}
-\label{ss:metAplKnn}
+\label{ss:metAplbayes}
 A avaliação do classificar de Bayes foi feita de várias formas ao longo deste
 trabalho, veja a subssessão \ref{ss:resultadosObtidos}. 
 
@@ -345,24 +331,41 @@ classificação utilizando a regra de Bayes com funções de densidade probabili
 (PDF) diferentes. Para cada base de dados tem-se o resultado utilizando a
 Gaussiana como PDF e a janela de parzen.
 
+
 \begin{table}
 	\centering
-    \begin{tabular}{c|c|c|c|c|c}%
-
-             & \multicolumn{2}{c|}{Gaussian}  & \multicolumn{3}{c}{Parzen} \\
-
-          \hline DataSet & média & desvio Padrão & média & desvio Padrão & largura da janela \\ 
-          
-          \hline Íris         & 0.9568 & 0.0445 & 0.9486 & 0.0237 & 0.0010 \\
-          
-          \hline Dermatologia & 0.9725 & 0.0189 & 0.9659 & 0.0175 & 0.1846 \\
-          \hline Vertebra     & 0.7299 & 0.0489 & 0.7649 & 0.0607 & 0.0010 \\
-          \hline
-
+    \begin{tabular}{|c|c|c|c|c|c}%
+		  \multicolumn{5}{c}{Gaussiana}\\ \hline
+          \hline DataSet & média & desvio Padrão & máximo & mínimo \\ \hline
+          \input{matlab/acuracias/iris_BAYES_gauss_1_2_3_4.tex} \\ \hline
+          \input{matlab/acuracias/vertebra_BAYES_gauss_1_2_3_4_5_6.tex} \\ \hline
+          \input{matlab/acuracias/derme_BAYES_gauss_1_2_3_4_5_6_7_8_9_10_11_12_13_14_15_16_17_18_19_20_21_22_23_24_25_26_27_28_29_30_31_32_33_34.tex} \\ \hline
+		  
+		  \multicolumn{5}{c}{Matriz de covariacia $\Sigma_i=\sigma^2I \forall
+		  i$}\\
+		  \hline \hline DataSet & média & desvio Padrão & máximo & mínimo \\ \hline
+          \input{matlab/acuracias/iris_BAYES_same_1_2_3_4.tex} \\ \hline
+          \input{matlab/acuracias/vertebra_BAYES_same_1_2_3_4_5_6.tex} \\ \hline
+          \input{matlab/acuracias/derme_BAYES_same_1_2_3_4_5_6_7_8_9_10_11_12_13_14_15_16_17_18_19_20_21_22_23_24_25_26_27_28_29_30_31_32_33_34.tex} \\ \hline 
+		  
+		  \multicolumn{5}{c}{Matriz de covariacia diagonal}\\ \hline
+          \hline DataSet & média & desvio Padrão & máximo & mínimo \\ \hline
+          \input{matlab/acuracias/iris_BAYES_diag_1_2_3_4.tex} \\ \hline
+          \input{matlab/acuracias/vertebra_BAYES_diag_1_2_3_4_5_6.tex} \\ \hline
+          \input{matlab/acuracias/derme_BAYES_diag_1_2_3_4_5_6_7_8_9_10_11_12_13_14_15_16_17_18_19_20_21_22_23_24_25_26_27_28_29_30_31_32_33_34.tex} \\ \hline     
+		  
+		  \multicolumn{5}{c}{Janela de Parzen}\\ \hline
+          \hline DataSet & média & desvio Padrão & máximo & mínimo \\ \hline
+          \input{matlab/acuracias/iris_BAYES_parzenGauss_1_2_3_4.tex} \\ \hline
+          \input{matlab/acuracias/vertebra_BAYES_parzenGauss_1_2_3_4_5_6.tex} \\ \hline
+          \input{matlab/acuracias/derme_BAYES_parzenGauss_1_2_3_4_5_6_7_8_9_10_11_12_13_14_15_16_17_18_19_20_21_22_23_24_25_26_27_28_29_30_31_32_33_34.tex}
+          \\ \hline
     \end{tabular}
-    \caption{Acurácia média e desvio padrão em função do valor de k.}
+    \caption{TTTT}
     \label{tab:acuracia}
 \end{table}
+
+
 
 \subsubsection{Busca por tamanho de janela ótima de Parzen}
 \label{sss:OptSizWindSearc}
@@ -412,10 +415,10 @@ janela para as três bases.
 
 
 
-\subsection{Análise da matriz da região de decisão}
+\subsection{Análise da matriz de covariancia na definição da região de decisão}
 Abaixo são apresentadas as regiões de decisões 
 
-\subsubsection{ Matrizes de covariancia distintas. $\Sigma_i \neq \Sigma_i
+\subsubsection{ Matrizes de covariancia distintas. $\Sigma_i \neq \Sigma_j
 \forall i \neq j $ } Com matrizes de covariancias distintas temos uma região de decisão quadrática.
 
 \begin{figure}
@@ -484,15 +487,7 @@ Abaixo são apresentadas as regiões de decisões
 
 
 
-\subsubsection{ Matrizes de covariancia iguais. $ \Sigma _i \eq \Sigma \forall i
-$ }
-
-\subsubsection{ Matrizes de covariancia diagonais distintas. $\Sigma_i \neq
-\Sigma_i \forall i \neq j $ } 
-
-
-\subsubsection{ Matrizes de covariancia não diagonais distintas. $\Sigma_i \neq
-\Sigma_i \forall i \neq j $ }
+\subsubsection{ Matrizes de covariancia iguais. $\Sigma_i \eq \Sigma \forall i$}
 
 \subsubsection{Janela de Parzen}
 
@@ -561,75 +556,7 @@ $ }
 
 \end{figure}
 
-
-
-
-
-
-
-
-
-
-
 \subsubsection{Região de decisão}
-
-Nas a figuras \ref{fig:decisionRegionSepL_PetL} e
-\ref{fig:decisionRegionSepL_SepW} são exibidas as regiões de decisões ao aplicar
-o KNN considerando apenas duas características. Para a figura
-\ref{fig:decisionRegionSepL_PetL} são consideradas apenas os atributos largura
-da sépala e pétala. Um importante ponto a ser levado em consideração é que ao
-descartar determinados atributos podem surgir informações duplicadas. É
-importante filtrar estas informações, podem surgir linhas com informações iguais
-porém rótulos diferentes o que pode causar um erro na geração região
-de decisão..
-
-Diferentes regiões de decisões foram calculadas para
-diferentes valores de K. Para K=1 é notável que a existencia de ruídos podem
-gerar regiões que prejudicam a generalização. Para k=5 é possível perceber que
-pontos isolados não mais definem a classe de determinada região do espaço,veja
-na figura \ref{fig:decisionRegionSepL_PetL} a existência de 2 pontos da classe
-virgínica(em vermelho) na região em que foi classificada como da classe
-versícolor(em verde). A medida que o K aumenta podemos perceber a queda no valor
-da acurácia. Vários pontos são classificados de forma errada.
-
-O mesmo se aplica para a figura \ref{fig:decisionRegionSepL_SepW}, porém nesta
-foram consideradas apenas as larguras e comprimentos da sépala.
-
-
-\begin{figure}
-	\centering
-	\begin{tabular}{cc}
-	  \includegraphics[width=70mm]{matlab/figura/iris_KNN_RegDec_K1_1_3.eps} &
-	  \includegraphics[width=70mm]{matlab/figura/iris_KNN_RegDec_K10_1_3.eps}
-	  \\
-	(a) k=1 & (b) k=10 \\[6pt] 
-	 \includegraphics[width=70mm]{matlab/figura/iris_KNN_RegDec_K50_1_3.eps} &  
-	 \includegraphics[width=70mm]{matlab/figura/iris_KNN_RegDec_K75_1_3.eps} \\
-	(c) k=50 & (d) k=75 \\[6pt] 
-
-	\end{tabular}
-
-	\caption{Região de decisão utilizando Largura da sépala e da pétala.}
-	\label{fig:decisionRegionSepL_PetL}
-\end{figure}
-
-\begin{figure}
-	\centering
-	\begin{tabular}{cc}
-	  \includegraphics[width=70mm]{matlab/figura/iris_KNN_RegDec_K1_1_2.eps} &
-	  \includegraphics[width=70mm]{matlab/figura/iris_KNN_RegDec_K10_1_2.eps}
-	  \\
-	(a) k=1 & (b) k=10 \\[6pt] 
-	 \includegraphics[width=70mm]{matlab/figura/iris_KNN_RegDec_K50_1_2.eps} &  
-	 \includegraphics[width=70mm]{matlab/figura/iris_KNN_RegDec_K75_1_2.eps} \\
-	(c) k=50 & (d) k=75 \\[6pt] 
-
-	\end{tabular}
-	\caption{Região de decisão utilizando comprimento e largura da sépala.}
-	\label{fig:decisionRegionSepL_SepW}
-\end{figure}
- 
-
 
 \subsubsection{Matriz Confusão}
 Na tabela \ref{tab:confMatKNN} é exibida a matriz confusão obtida para K igual a
@@ -639,80 +566,101 @@ matriz confusão  a tabela \ref{tab:knnAnalis} traz os
 resultados, falso-positivo, falso-negativo, verdadeiro-positivo e
 verdadeiro-negativo. 
 
-%  
-% \begin{table}
-% 	\centering 
-% 	
-% 	\begin{tabular}{c|c}
-%  
-% 	    \begin{tabular}{c}% 
-% 	    \bfseries Classe \\\hline 
-% 	    Setosa \\\hline
-% 	    Versicolor \\\hline
-% 	    Virgínica \\\hline
-% 
-% 	    \end{tabular}   
-% 	 
-% 		&
-% 	   \begin{tabular}{c|c|c|c}%
-% 	    \bfseries Setosa & \bfseries Versicolor & \bfseries Virgínica
-% 	    % specify table head 
-% 	    \csvreader[no head]{matlab/iris_KNN_cmNorm.csv}{}% use head of
-% 	    % csv as column names
-% 	    {\\\hline\csvcoli&\csvcolii&\csvcoliii}% specify your coloumns
-% 	    % here
-% 	    \\\hline
-%      
-%     	\end{tabular}
-%     
-%     
-% 	\end{tabular}
-%     \caption{Matriz confusão obtida após execução do KNN.}
-%     \label{tab:confMatKNN}
-% \end{table}
-% 
-%  
-% 
-% \begin{table}
-% 	\centering
-% 	 
-% 	\begin{tabular}{c|c}
-% 	 
-% 	 \centering
-% 	    \begin{tabular}{c}%
-% 	    \bfseries Classe \\\hline 
-% 	    Setosa \\\hline
-% 	    Versicolor \\\hline
-% 	    Virgínica \\\hline
-% 
-% 	    \end{tabular}   
-% 	 
-% 		&
-% 	   \begin{tabular}{c|c|c|c}%
-% 	    \bfseries falso-positivo & \bfseries falso-negativo 
-% 	    & \bfseries verdadeiro-positivo & \bfseries verdadeiro-negativo
-% 	    % specify table head 
-% 	    \csvreader[no head]{matlab/iris_KNN_cmAnalise.csv}{}% use head of
-% 	    % csv as column names
-% 	    {\\\hline\csvcoli&\csvcolii&\csvcoliii&\csvcoliv}% specify your coloumns
-% 	    % here
-% 	    \\\hline
-%      
-%     	\end{tabular}
-%     
-%     
-% 	\end{tabular}
-%     \caption{Resultado da análise do KNN.}
-%     \label{tab:knnAnalis}
-% \end{table}
-% 
-% 
-% 
+
+\section{Segmentação uitlizando Classificador de Bayes}
+ A segmentação de uma imagem é realizada levando em
+consideração a intensidade dos pixels nas três componentes RGB.
+A definição dos dados de de uma classe é feita a partir da seleção de $k$
+regiões da imagem, não necessariamente de mesma área $A_i$. A área é utilizada
+para calcular a probabilidade a priore por isso classes com uma diferença de
+área muito grande podem impactar na classificação.
+Assim temos:
+
+\begin{equation}
+	P(w_i) =  \frac{A_i}{\sum_{i=1}^{k}{A_J}}
+\end{equation}
+
+\subsection{PDF Gaussiana}
+Nas figuras \ref{fig:resultBandSegParadise} e \ref{fig:resultGaussSegParadise}
+são apresentado o resultado da segmentação de duas imagens utilizando o
+classificador Bayessiano. Os parâmetros $\sigma^2$ e $\mu$ são estimados de
+acordo com os dados de cada classe individualmente. Assim temos na figuras
+\ref{fig:resultBandSegParadise} e \ref{fig:resultGaussSegParadise} o resultado
+deste classificador sobre 2 imagens distintas.
+
+\begin{figure}
+	\centering
+	\begin{tabular}{ccc}
+	\multicolumn{3}{c}{
+	  \includegraphics[width=45mm]{matlab/figura/gauss/segmentacao/brasil.jpg} 
+	  \includegraphics[width=45mm]{matlab/figura/gauss/segmentacao/brasilSeg.png}
+	  }\\ 
+	\multicolumn{3}{c}{
+	 \hspace{1cm} (a) Original \hspace{15mm} (b)Resultado da Segmentação
+	  }\\ 	  
+	 \includegraphics[width=30mm]{matlab/figura/gauss/segmentacao/bc1.png}&   
+	 \includegraphics[width=30mm]{matlab/figura/gauss/segmentacao/bc2.png}& 
+	 \includegraphics[width=30mm]{matlab/figura/gauss/segmentacao/bc3.png} \\
+	(c) $A_1$ & (d) $A_2$ & (e) $A_3$\\[6pt] 
+
+	\end{tabular}
+	\caption{Resultado da segmentação utilizando o classificador Bayessiano. Na
+	linha inferior são apresentados as amostras utilizadas para definir as
+	classes. As áreas utilizadas são:(c) céu, (d) areia e (e) coqueiro}
+	\label{fig:resultBandSegParadise}
+\end{figure}
+
+
+\begin{figure}
+	\centering
+	\begin{tabular}{ccc}
+	\multicolumn{3}{c}{
+	  \includegraphics[width=45mm]{matlab/figura/gauss/segmentacao/paradise.jpg} 
+	  \includegraphics[width=45mm]{matlab/figura/gauss/segmentacao/paradiseRes.png}
+	  }\\ 
+	\multicolumn{3}{c}{
+	 \hspace{1cm} (a) Original \hspace{15mm} (b)Resultado da Segmentação
+	  }\\ 	  
+	 \includegraphics[width=30mm]{matlab/figura/gauss/segmentacao/pc1.png}&   
+	 \includegraphics[width=30mm]{matlab/figura/gauss/segmentacao/pc2.png}& 
+	 \includegraphics[width=30mm]{matlab/figura/gauss/segmentacao/pc3.png} \\
+	(c) $A_1$ & (d) $A_2$ & (e) $A_3$\\[6pt] 
+
+	\end{tabular}
+	\caption{Resultado da segmentação utilizando o classificador Bayessiano. Na
+	linha inferior são apresentados as amostras utilizadas para definir as
+	classes. As áreas utilizadas são:(c) céu, (d) areia e (e) coqueiro}
+	\label{fig:resultGaussSegParadise}
+\end{figure}
 
 
 
+\subsection{PDF Janela de Parzen}
+Abaixo é apresentado o resultado da segmentação de uma imagem utilizando o
+classificador Bayessiano, desta vez utilizando janela de parzen como função de
+densidade probabilidade. Foram realizados três testes com três variancias da
+janela, valor de h, distintas. Os valores testados foram, 0.05, 0.5 e 1. Com o
+aumento do valor de h houve uma maior suavização
 
 
+\begin{figure}
+	\centering
+	\begin{tabular}{cc}
+	  \includegraphics[width=45mm]{matlab/figura/gauss/segmentacao/paradise.jpg} & 
+	  \includegraphics[width=45mm]{matlab/figura/parzen/segmentacao/paradiseRes.png}
+	  \\ 
+	  (a) Original & (b) h=0.05\\
+	  \includegraphics[width=45mm]{matlab/figura/parzen/segmentacao/paradiseRes05.png} & 
+	  \includegraphics[width=45mm]{matlab/figura/parzen/segmentacao/paradiseRes1.png}
+	   \\
+	  (c) h=0.5 & (d) h=1\\
+	\end{tabular}
+	\caption{Resultado da segmentação utilizando o classificador Bayessiano com
+	janela de parzen.
+	Com o aumento do valor de h pode-se notar que a segmentação se torna mais
+	suave.}
+	\label{fig:resultGaussSegParadise}
+\end{figure}
 
 
 
@@ -723,14 +671,7 @@ verdadeiro-negativo.
 % Conclusão
 % ---
 \section*{Considerações finais}
-Podemos concluir que o KNN,  indiferentemente da forma como os dados estão
-dispostos no espaço, é possível separar as regiões por mais irregulares que
-sejam. O KNN possui um parâmetro que permite regular a confiabilidade de
-determinado ponto no espaço, reduzindo assim a incidencia de ruídos.
 
-Apesar de não ser apresentado nenhuma avaliação de desempenho neste relatório, é
-notável a diferença entre os tempos de execução de ambas as técnicas.
- 
 
 
 
