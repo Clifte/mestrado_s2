@@ -25,6 +25,14 @@ function [x y labels features] = carregaDatabase(name,qtd)
                             'cronic dermatitis       '
                             'pityriasis rubra pilaris'
                          ];
+                     
+             labels =      [ 'psoriasis'
+                             'seboreic '
+                             'l. planus'
+                             'pit rosea'
+                             'c. dermat'
+                             'pit rubra'
+                         ];
         case 'ocr'
             [ x , y ] = carregaDados( 11 , '../database/OCR/ocr.data',10);
         otherwise

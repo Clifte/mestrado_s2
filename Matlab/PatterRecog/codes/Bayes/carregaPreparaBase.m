@@ -26,8 +26,8 @@ x = x(:,p);
 y = y(ia,:);
 
 %Normalizando
-%x = bsxfun(@minus,x,min(x));
-%x = bsxfun(@rdivide,x,max(x));
+x = bsxfun(@minus,x,min(x));
+x = bsxfun(@rdivide,x,max(x));
 
 
 [m n] = size(x);

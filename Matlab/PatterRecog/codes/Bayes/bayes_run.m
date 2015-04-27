@@ -8,7 +8,7 @@ global yl;
 global lbda;
 global fnc;
 global parzenh;
-parzenh = 0.000005;
+parzenh = 0.05;
 
 nWin = 50;
 rangeParzenSearch = linspace(0.001,3,nWin);
@@ -30,10 +30,6 @@ lambda = [ 0 1 1
            1 1 0
            ];
        
-fnc = 'parzenGauss';
-
-
-    
 fprintf('Número de repetições %d:\n',nIt);
 
 
@@ -43,15 +39,88 @@ bayes_test_repete;
 
 %Teste para as mesmas matrizes
 fnc = 'same';
-executaSigmaIBayes;
+bayes_test_repete;
 
 fnc = 'ndiag';
-%bayes_test_repete;
+bayes_test_repete;
 
 fnc = 'diag';
 bayes_test_repete;
 
-fnc = 'parzenGauss';
-executaParzen
+%fnc = 'parzenGauss';
+%executaParzen
 
-plotaRegioesDeDecisao
+if(strcmp('iris',base))
+
+    close all;
+    p = [1 4];
+    fnc = 'same';
+    plotaRegioesDeDecisao
+
+    close all;
+    p = [3 4];
+    fnc = 'same';
+    plotaRegioesDeDecisao
+
+
+    close all;
+    p = [1 4];
+    fnc = 'diag';
+    plotaRegioesDeDecisao
+
+    close all;
+    p = [3 4];
+    fnc = 'diag';
+    plotaRegioesDeDecisao
+end
+
+if(strcmp('vertebra',base))
+
+    close all;
+    p = [1 2];
+    fnc = 'same';
+    plotaRegioesDeDecisao
+
+    close all;
+    p = [1 5];
+    fnc = 'same';
+    plotaRegioesDeDecisao
+
+
+    close all;
+    p = [1 2];
+    fnc = 'diag';
+    plotaRegioesDeDecisao
+
+    close all;
+    p = [1 5];
+    fnc = 'diag';
+    plotaRegioesDeDecisao
+end
+
+
+if(strcmp('derme',base))
+    close all;
+    p = [1 16];
+    fnc = 'diag';
+    plotaRegioesDeDecisao
+
+    close all;
+    p = [1 17];
+    fnc = 'diag';
+    plotaRegioesDeDecisao
+    
+    
+    
+    close all;
+    p = [1 16];
+    fnc = 'same';
+    plotaRegioesDeDecisao
+
+    close all;
+    p = [1 17];
+    fnc = 'same';
+    plotaRegioesDeDecisao
+end
+
+sprintf('\n\nDONE!!!\n\n')

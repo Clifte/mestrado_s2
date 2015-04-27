@@ -1,0 +1,4 @@
+;setosa    ;versicolor;virginica 
+setosa    ;1.000000;0.000000;0.000000
+versicolor;0.000000;0.922807;0.077193
+virginica ;0.000000;0.000000;1.000000

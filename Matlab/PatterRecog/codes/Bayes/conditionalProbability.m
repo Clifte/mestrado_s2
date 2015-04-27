@@ -9,11 +9,21 @@ function p = conditionalProbability(amostra,data,fnc)
         return;
     end
     
-    if(cond(cv)>1000 || m==1)
-        %fprintf('Condition number to height!!!\n');
-        cv = cv + eye(n,n)*0.0001;
+    incV = linspace(0,1,50);
+    if(cond(cv)>1000)
+        for inc = incV
+            cv = cv + eye(n,n) * inc;
+            if(cond(cv)<1000)
+                break;
+            end
+        end
     end
     
+    if( m==1)
+        %fprintf('Condition number to height!!!\n');
+        cv = cv + eye(n,n) * 0.01;
+    end
+
     if(strcmp(fnc, 'gauss'))        
         if(m==1)
             mu = data;
@@ -31,7 +41,7 @@ function p = conditionalProbability(amostra,data,fnc)
     
     if(strcmp(fnc, 'same'))
         cv = eye(n,n) * parzenh;
-        mu = mean(data);
+        mu = mean(data,1);
         p = mvnpdf(amostra,mu,cv);
 
         %Normalizando
@@ -44,7 +54,7 @@ function p = conditionalProbability(amostra,data,fnc)
     
     if(strcmp(fnc, 'ndiag'))  
         cv(idx) = 1;
-        mu = mean(data);
+        mu = mean(data,1);
         p = mvnpdf(amostra,mu,cv);
 
         %Normalizando
@@ -56,7 +66,7 @@ function p = conditionalProbability(amostra,data,fnc)
     if(strcmp(fnc, 'diag'))
         idx = setdiff(1:n*n,idx);
         cv(idx) = 0;
-        mu = mean(data);
+        mu = mean(data,1);
         p = mvnpdf(amostra,mu,cv);
 
         %Normalizando
@@ -64,7 +74,15 @@ function p = conditionalProbability(amostra,data,fnc)
         p = p / mx;
         return;
     end    
-    
+     if(strcmp(fnc, 'euclid'))
+        mu = mean(data,1);
+        
+        p = bsxfun(@minus,amostra,mu);
+        p = sum(sqrt(p.^2),2);
+        p = 1000 - p;
+        
+        return;
+    end      
 
     
     if(strcmp(fnc, 'parzenGauss'))

@@ -23,20 +23,29 @@ fprintf([base '_BAYES_' fnc sprintf('_%d',p) '\n']);
     
     CM = bsxfun(@rdivide,meanCM,sum(meanCM,2)');
 
+    %%%%%%%%%%%%%%%%%%%%%%%%%
     %Matriz confusão
-    txt= ';';
-    for i=1:length(labels(:,1))
-         txt = [txt  sprintf('%s;',labels(i,:))];
-    end
+    path = sprintf('%sCM/%s/%s_BAYES_cmNorm.csv',exportDir, base,fnc);
     
     
+    delete(path);
+    fileID = fopen(path,'a');
+    
     for i=1:length(labels(:,1))
-        txt = [txt '\n' sprintf('%s; %f;',labels(i,:),CM(i,:))];
+         fprintf(fileID,';%s',labels(i,:));
     end
-
-    fileID = fopen([exportDir base '_BAYES_cmNorm.csv'],'w');
-    fprintf(fileID,'%s',txt);
+    fprintf(fileID,'\n');
+    for i=1:length(labels(:,1))
+         fprintf(fileID,'%s',labels(i,:));
+         fprintf(fileID,';%f',CM(i,:));
+         fprintf(fileID,'\n');
+    end
+    
     fclose(fileID);
+    
+    
+    %%%%%%%%%%%%%%%%%%%%%%%%%
+    
     
     csvwrite([exportDir base '_BAYES_cmNorm.csv'],CM);
     csvwrite([exportDir base '_BAYES_cmAnalise.csv'],meanPer);

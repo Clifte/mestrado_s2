@@ -153,8 +153,7 @@
 % resumo em português
 \begin{resumoumacoluna}
  Este trabalho apresenta os resultados obtidos ao aplicar o classificador
- bayessiano. A implementação foi feita no
- Matlab\texttrademark 
+ bayessiano. A implementação foi feita no Matlab\texttrademark 
  
  
  \vspace{\onelineskip}
@@ -260,41 +259,41 @@ representam a classe setosa, versicolor e virgínica respectivamente. O mesmo fo
 repetido para as bases da dermatologia e da coluna vertebral.
 
 
-%Gráfico em barra
-\subsection{Análise das características}
-\label{ss:analiCara}
-
-\subsubsection{Base da íris}
-Na figura \ref{fig:charMatrix} é apresentada a matriz de características. 
-Essa matriz consiste de gráficos formados pelos pares de características
-combinadas.
-
-Na diagonal principal é apresentado o histograma do atributo.
-Devido a natureza continua dos atributos do problema, pois o
-comprimento e largura da sépala e pétala podem assumir qualquer valor real O
-histograma foi obtido após a realização da quantização dos atributos.
-Cada atributo foi quantizado em 15 possíveis valores com faixas de mesma largura. A
-largura da faixa foi obtida da seguinte forma $(max_p - min_p)/15$, onde max e
-min são os valores máximos e mínimos do atributo $p$.
-
-\begin{figure}[!htb] \centering
-\includegraphics[width=\textwidth]{figuras/analiseIris_hist_scatterMatrix.eps}
-\caption{Matriz de características.}
-\label{fig:charMatrix}
-\end{figure}
-
- Podemos perceber que a classe setosa pode facilmente ser separada das outras
- utilizando a largura ou o comprimento da pétala como variável. Nos histogramas
- localizados na parte inferior isso pode ser verificado, pétalas com
- comprimentos menores que 0,25 ou sépalas com largura menor que 0,3 de
- comprimento são claramente da classe setosa.
- Já para as duas outras características essa separação não é tão simples,
- perceba a sobreposição dos histogramas em todos os atributos bem como a mistura
- das classes nos gráficos de dispersão.
- 
- \subsubsection{Base da dermatologia}
- \subsubsection{Base da coluna vertebral}
-
+% %Gráfico em barra
+% \subsection{Análise das características}
+% \label{ss:analiCara}
+% 
+% \subsubsection{Base da íris}
+% Na figura \ref{fig:charMatrix} é apresentada a matriz de características. 
+% Essa matriz consiste de gráficos formados pelos pares de características
+% combinadas.
+% 
+% Na diagonal principal é apresentado o histograma do atributo.
+% Devido a natureza continua dos atributos do problema, pois o
+% comprimento e largura da sépala e pétala podem assumir qualquer valor real O
+% histograma foi obtido após a realização da quantização dos atributos.
+% Cada atributo foi quantizado em 15 possíveis valores com faixas de mesma largura. A
+% largura da faixa foi obtida da seguinte forma $(max_p - min_p)/15$, onde max e
+% min são os valores máximos e mínimos do atributo $p$.
+% 
+% \begin{figure}[!htb] \centering
+% \includegraphics[width=\textwidth]{figuras/analiseIris_hist_scatterMatrix.eps}
+% \caption{Matriz de características.}
+% \label{fig:charMatrix}
+% \end{figure}
+% 
+%  Podemos perceber que a classe setosa pode facilmente ser separada das outras
+%  utilizando a largura ou o comprimento da pétala como variável. Nos histogramas
+%  localizados na parte inferior isso pode ser verificado, pétalas com
+%  comprimentos menores que 0,25 ou sépalas com largura menor que 0,3 de
+%  comprimento são claramente da classe setosa.
+%  Já para as duas outras características essa separação não é tão simples,
+%  perceba a sobreposição dos histogramas em todos os atributos bem como a mistura
+%  das classes nos gráficos de dispersão.
+%  
+%  \subsubsection{Base da coluna vertebral}
+%  
+%  \subsubsection{Base da dermatologia}
 
 
 \section{Classificador de Bayes}
@@ -309,19 +308,29 @@ Assim temos:
 	x \in w_i \iff P(w_i|x) \geq P(w_j|x) \forall i \neq j
 \end{equation}
 
-\subsection{Função de densidade de probabilidade}
- 
 \subsection{Metodologia}
 \label{ss:metAplbayes}
-A avaliação do classificar de Bayes foi feita de várias formas ao longo deste
-trabalho, veja a subssessão \ref{ss:resultadosObtidos}. 
-
 Na sessão \ref{ss:resultadosObtidos} são apresentados os resultados obtidos ao
-aplicar o classificador de bayes utilizando como função de densidade probabilidade a Gaussiana e a
-janela de parzen. Para a janela de parzen foi exibido o melhor resultado para um
-determinada largura de janela do tipo gaussiana. O tamanho da janela foi
-determinado após uma pesquisa linear entre valores na faixa de 0.001 e 3 para o
-valor da variância.
+aplicar o classificador de bayes utilizando como função de densidade
+probabilidade a Gaussiana. Para todos os conjuntos de dados os testes foram
+realizados sobre uma partição de 25\% do total de dados, escolhida de forma
+aleatória para cada repetição dos algoritmos.
+
+Inicialmente foram realizados os testes utilizando médias e variancias
+diferentes para cada classe com esses valores calculados apenas com dados
+da mesma classe. Assim estimamos um $\mu_i$ e um $\sigma^2_i$ para uma classe
+$i$ utilizando apenas os valores de $x \in W_i$, onde $W_i$ são os padrões da
+classe $i$.
+
+O segundo teste realizado leva em consideração que todas as matrizes de
+covariancia das classes possuem a seguinte forma: $\Sigma_i=\sigma^2I \forall i$
+portanto são matrizes diagonais com o mesmo valor de variancia e covariancias
+nula.
+
+%  e a janela de parzen. Para a janela de parzen foi exibido o melhor resultado para um
+% determinada largura de janela do tipo gaussiana. O tamanho da janela foi
+% determinado após uma pesquisa linear entre valores na faixa de 0.001 e 3 para o
+% valor da variância.
  
 \subsection{Resultados obtidos}
 \label{ss:resultadosObtidos}
@@ -329,13 +338,23 @@ valor da variância.
 Na tabela \ref{tab:acuracia} são exibidos os resultados obtidos ao realizar a
 classificação utilizando a regra de Bayes com funções de densidade probabilidade
 (PDF) diferentes. Para cada base de dados tem-se o resultado utilizando a
-Gaussiana como PDF e a janela de parzen.
+Gaussiana como PDF, além disso são exibidos os resultados obtidos para
+diferentes matrizes de covariancia.
 
+Na primeira tabela temos o classificador utilizando matrizes de covariancias
+diferentes para cada classe. Isso permite que a região de decisão possa modelar
+os dados de uma forma quadrática e portanto espera-se um resultado melhor que a
+tabela seguinte.
+
+Na tabela seguinte, ao fazer a escolha por apenas uma matriz de covariancia para
+todas as classes o classificador se comporta de maneira linear, restringindo
+ainda mais a sua capacidade de discriminação dos dados, resultando portanto em
+uma acurácia média menor.
 
 \begin{table}
 	\centering
     \begin{tabular}{|c|c|c|c|c|c}%
-		  \multicolumn{5}{c}{Gaussiana}\\ \hline
+		  \multicolumn{5}{c}{Covariancias distintas}\\ \hline
           \hline DataSet & média & desvio Padrão & máximo & mínimo \\ \hline
           \input{matlab/acuracias/iris_BAYES_gauss_1_2_3_4.tex} \\ \hline
           \input{matlab/acuracias/vertebra_BAYES_gauss_1_2_3_4_5_6.tex} \\ \hline
@@ -354,12 +373,13 @@ Gaussiana como PDF e a janela de parzen.
           \input{matlab/acuracias/vertebra_BAYES_diag_1_2_3_4_5_6.tex} \\ \hline
           \input{matlab/acuracias/derme_BAYES_diag_1_2_3_4_5_6_7_8_9_10_11_12_13_14_15_16_17_18_19_20_21_22_23_24_25_26_27_28_29_30_31_32_33_34.tex} \\ \hline     
 		  
-		  \multicolumn{5}{c}{Janela de Parzen}\\ \hline
-          \hline DataSet & média & desvio Padrão & máximo & mínimo \\ \hline
-          \input{matlab/acuracias/iris_BAYES_parzenGauss_1_2_3_4.tex} \\ \hline
-          \input{matlab/acuracias/vertebra_BAYES_parzenGauss_1_2_3_4_5_6.tex} \\ \hline
-          \input{matlab/acuracias/derme_BAYES_parzenGauss_1_2_3_4_5_6_7_8_9_10_11_12_13_14_15_16_17_18_19_20_21_22_23_24_25_26_27_28_29_30_31_32_33_34.tex}
-          \\ \hline
+% 		  \multicolumn{5}{c}{Janela de Parzen}\\ \hline
+%           \hline DataSet & média & desvio Padrão & máximo & mínimo \\ \hline
+%           \input{matlab/acuracias/iris_BAYES_parzenGauss_1_2_3_4.tex} \\ \hline
+%           \input{matlab/acuracias/vertebra_BAYES_parzenGauss_1_2_3_4_5_6.tex} \\ \hline
+%           \input{matlab/acuracias/derme_BAYES_parzenGauss_1_2_3_4_5_6_7_8_9_10_11_12_13_14_15_16_17_18_19_20_21_22_23_24_25_26_27_28_29_30_31_32_33_34.tex}
+%           \\ \hline
+          
     \end{tabular}
     \caption{TTTT}
     \label{tab:acuracia}
@@ -367,59 +387,99 @@ Gaussiana como PDF e a janela de parzen.
 
 
 
-\subsubsection{Busca por tamanho de janela ótima de Parzen}
-\label{sss:OptSizWindSearc}
-
-Abaixo, figura \ref{fig:parzenGraphResults} são exibidos os resultados obtidos
-ao realizar a busca pelo tamanho da janela ótima de parzen para cada base de dados.
-Foram considerados todos os atributos disponíveis em cada base, estes
-foram normalizados e codificados apropriadamente assim como dito na
-subsessão \ref{ss:normCodf}.
 
 
-A linha ao centro de cada gráfico é a acurácia as outras duas são os limites.
-Os limites são determinados a uma distância de um $\sigma^2$(desvio padrão)
-acima e abaixo da acurácia média. Pode-se perceber que indiferentemente da base
-de dados o aumento considerável da janela de parzen causa uma redução da
-acurácia do classificador. Isso é causado por uma maior interferência dos vizinhos no
-cálculo da probabilidade condicional o que faz com que seja levado em conta
-apenas as probabilidades a priore para a determinação da classe para um dado
-$x$. Isso pode ser observado quando a variância, largura da janela de parzen, é
-maior que 2 na base da íris ou maior que 0.7 na base da coluna vertebral.
+\begin{table}
 
-Os pontos máximos destas curvas nos indicam o valor ótimo da janela de parzen.
-Desta forma temos na tabela \ref{tab:acuracia} o valor de acurácia e tamanho da
-janela para as três bases.
+\centering
+    \begin{tabular}{ c c}%
+      Matrizes de covariancias diferentes \\  
+      \csvautotabular[separator=semicolon]{matlab/CM/iris/gauss_BAYES_cmNorm.csv} \\  
+      \csvautotabular[separator=semicolon]{matlab/CM/vertebra/gauss_BAYES_cmNorm.csv} \\  
+      {\footnotesize  \csvautotabular[separator=semicolon]{matlab/CM/derme/gauss_BAYES_cmNorm.csv}} \\  
+      \\   
+      
+            Matrizes de covariancias iguais \\  
+      \csvautotabular[separator=semicolon]{matlab/CM/iris/same_BAYES_cmNorm.csv} \\
+      \csvautotabular[separator=semicolon]{matlab/CM/vertebra/same_BAYES_cmNorm.csv} \\  
+      {\footnotesize  \csvautotabular[separator=semicolon]{matlab/CM/derme/same_BAYES_cmNorm.csv}} \\ \ 
+      \\  
+      
+      
+            Matrizes de covariancias diferentes e diagonais\\  
+      \csvautotabular[separator=semicolon]{matlab/CM/iris/diag_BAYES_cmNorm.csv}\\
+      \csvautotabular[separator=semicolon]{matlab/CM/vertebra/diag_BAYES_cmNorm.csv} \\
+      {\footnotesize  \csvautotabular[separator=semicolon]{matlab/CM/derme/diag_BAYES_cmNorm.csv}} \\  
+      
+      
+      
+      \end{tabular}
+\end{table}
 
-
-
-\begin{figure}
-	\centering
-	\begin{tabular}{cc}
-	  \includegraphics[width=65mm]{matlab/figura/iris_BAYES_ParzenSearch.eps} &
-	  \includegraphics[width=65mm]{matlab/figura/derme_BAYES_ParzenSearch.eps}
-	  \\
-	(a) Íris & (b) Dermatologia \\[6pt] 
-	 \includegraphics[width=65mm]{matlab/figura/vertebra_BAYES_ParzenSearch.eps}  &
-	 \\
-	 %\includegraphics[width=70mm]{matlab/figura/iris_KNN_RegDec_K75_1_3.eps} \\
-	(c) Coluna Vertebral &  \\[6pt] 
-
-	\end{tabular}
-
-	\caption{Resultados da busca pela largura ótima da janela de parzen.}
-	\label{fig:parzenGraphResults}
-\end{figure}
-
-
-
+% 
+% \subsubsection{Busca por tamanho de janela ótima de Parzen}
+% \label{sss:OptSizWindSearc}
+% 
+% Abaixo, figura \ref{fig:parzenGraphResults} são exibidos os resultados obtidos
+% ao realizar a busca pelo tamanho da janela ótima de parzen para cada base de dados.
+% Foram considerados todos os atributos disponíveis em cada base, estes
+% foram normalizados e codificados apropriadamente assim como dito na
+% subsessão \ref{ss:normCodf}.
+% 
+% 
+% A linha ao centro de cada gráfico é a acurácia as outras duas são os limites.
+% Os limites são determinados a uma distância de um $\sigma^2$(desvio padrão)
+% acima e abaixo da acurácia média. Pode-se perceber que indiferentemente da base
+% de dados o aumento considerável da janela de parzen causa uma redução da
+% acurácia do classificador. Isso é causado por uma maior interferência dos vizinhos no
+% cálculo da probabilidade condicional o que faz com que seja levado em conta
+% apenas as probabilidades a priore para a determinação da classe para um dado
+% $x$. Isso pode ser observado quando a variância, largura da janela de parzen, é
+% maior que 2 na base da íris ou maior que 0.7 na base da coluna vertebral.
+% 
+% Os pontos máximos destas curvas nos indicam o valor ótimo da janela de parzen.
+% Desta forma temos na tabela \ref{tab:acuracia} o valor de acurácia e tamanho da
+% janela para as três bases.
+% 
+% 
+% 
+% \begin{figure}
+% 	\centering
+% 	\begin{tabular}{cc}
+% 	  \includegraphics[width=65mm]{matlab/figura/iris_BAYES_ParzenSearch.eps} &
+% 	  \includegraphics[width=65mm]{matlab/figura/derme_BAYES_ParzenSearch.eps}
+% 	  \\
+% 	(a) Íris & (b) Dermatologia \\[6pt] 
+% 	 \includegraphics[width=65mm]{matlab/figura/vertebra_BAYES_ParzenSearch.eps}  &
+% 	 \\
+% 	 %\includegraphics[width=70mm]{matlab/figura/iris_KNN_RegDec_K75_1_3.eps} \\
+% 	(c) Coluna Vertebral &  \\[6pt] 
+% 
+% 	\end{tabular}
+% 
+% 	\caption{Resultados da busca pela largura ótima da janela de parzen.}
+% 	\label{fig:parzenGraphResults}
+% \end{figure}
+% 
+% 
+% 
 
 
 \subsection{Análise da matriz de covariancia na definição da região de decisão}
-Abaixo são apresentadas as regiões de decisões 
+Abaixo são apresentadas as regiões de decisões obtidas para os 3 problemas,
+íris, vertebra e dermatologia. 
+
+Para o problema da íris as regiões de decisões foram calculadas utilizandos os
+atributos largura da pétala x comprimento da pétala e largura da sépala x
+comprimento da pétala.
 
 \subsubsection{ Matrizes de covariancia distintas. $\Sigma_i \neq \Sigma_j
-\forall i \neq j $ } Com matrizes de covariancias distintas temos uma região de decisão quadrática.
+\forall i \neq j $ } Com matrizes de covariancias distintas temos uma região de
+decisão quadrática desta forma podemos notar várias elipses ao longo das
+regiões, figura \ref{fig:regiaoGauss}. Podemos perceber na terceira coluna como
+os dados foram classificados sobre a região de decisão. Poucas amostras foram
+classificadas de forma errada, em especial para a base da íris. Já para a base
+da dermatologia o número de amostras erradas foi ligeiramente maior.
 
 \begin{figure}
 	\centering
@@ -478,82 +538,155 @@ Abaixo são apresentadas as regiões de decisões
 	 \multicolumn{1}{p{40mm}}{(c) Resultado
 	 da classificação dos dados sobre a regiao de decisão}
 	 
-	 
 	\end{tabular}
-	\caption{Resultados da busca pela largura ótima da janela de parzen.}
-
+	\caption{Resultados utilizando matrizes de covariancias distintas.}
+	\label{fig:regiaoGauss}
 \end{figure}
 
 
 
 
-\subsubsection{ Matrizes de covariancia iguais. $\Sigma_i \eq \Sigma \forall i$}
+\subsubsection{ Matrizes de covariancia iguais e diagonal. $\Sigma_i=\sigma^2_iI
+\forall i$}  Ao utilizarmos a mesma matriz de covariancia para todas as classes 
+temos uma região de decisão linear e portanto um maior erro na classificação dos dados.
+Isso pode ser verificado na terceira coluna da figura \ref{fig:regDecSame}.
+Devido a natureza não linear dos dados das três classes uma superfície de decisão linear não
+consegue separar as classes de forma satisfatória.
 
-\subsubsection{Janela de Parzen}
-
- 
 \begin{figure}
 	\centering
 	\begin{tabular}{ccc}
 	  \multicolumn{3}{c}{Íris}\\
 	  %Íris
-	  \includegraphics[width=40mm]{matlab/figura/parzen/iris/iris_BAYES_BayesDecP1_3_4.eps}
+	  \includegraphics[width=40mm]{matlab/figura/same/iris/iris_BAYES_BayesDecP1_3_4.eps}
 	  &
-	  \includegraphics[width=40mm]{matlab/figura/parzen/iris/iris_BAYES_BayesDecP2_3_4.eps}
+	  \includegraphics[width=40mm]{matlab/figura/same/iris/iris_BAYES_BayesDecP2_3_4.eps}
 	  &
-	  \includegraphics[width=40mm]{matlab/figura/parzen/iris/iris_BAYES_RegDec_3_4.eps}
+	  \includegraphics[width=40mm]{matlab/figura/same/iris/iris_BAYES_RegDec_3_4.eps}
 	  \\
-	  
-	  \includegraphics[width=40mm]{matlab/figura/parzen/iris/iris_BAYES_BayesDecP1_1_4.eps}
+
+	  \includegraphics[width=40mm]{matlab/figura/same/iris/iris_BAYES_BayesDecP1_1_4.eps}
 	  &
-	  \includegraphics[width=40mm]{matlab/figura/parzen/iris/iris_BAYES_BayesDecP2_1_4.eps}
+	  \includegraphics[width=40mm]{matlab/figura/same/iris/iris_BAYES_BayesDecP2_1_4.eps}
 	  &
-	  \includegraphics[width=40mm]{matlab/figura/parzen/iris/iris_BAYES_RegDec_1_4.eps}
+	  \includegraphics[width=40mm]{matlab/figura/same/iris/iris_BAYES_RegDec_1_4.eps}
 	  \\
 	  %%-----------------------------------------------------------------------------------
 	  % Dermatologia
 	  \multicolumn{3}{c}{Dermatologia}\\
-      \includegraphics[width=40mm]{matlab/figura/parzen/derme/derme_BAYES_BayesDecP1_1_16.eps}
+      \includegraphics[width=40mm]{matlab/figura/same/derme/derme_BAYES_BayesDecP1_1_16.eps}
       &
-	  \includegraphics[width=40mm]{matlab/figura/parzen/derme/derme_BAYES_BayesDecP2_1_16.eps}
+	  \includegraphics[width=40mm]{matlab/figura/same/derme/derme_BAYES_BayesDecP2_1_16.eps}
 	  &
-	  \includegraphics[width=40mm]{matlab/figura/parzen/derme/derme_BAYES_RegDec_1_16.eps}
-	  \\	  
-	  
-      \includegraphics[width=40mm]{matlab/figura/parzen/derme/derme_BAYES_BayesDecP1_1_17.eps}
+	  \includegraphics[width=40mm]{matlab/figura/same/derme/derme_BAYES_RegDec_1_16.eps}
+	  \\
+
+      \includegraphics[width=40mm]{matlab/figura/same/derme/derme_BAYES_BayesDecP1_1_17.eps}
       &
-	  \includegraphics[width=40mm]{matlab/figura/parzen/derme/derme_BAYES_BayesDecP2_1_17.eps}
+	  \includegraphics[width=40mm]{matlab/figura/same/derme/derme_BAYES_BayesDecP2_1_17.eps}
 	  &
-	  \includegraphics[width=40mm]{matlab/figura/parzen/derme/derme_BAYES_RegDec_1_17.eps}
-	  \\	
+	  \includegraphics[width=40mm]{matlab/figura/same/derme/derme_BAYES_RegDec_1_17.eps}
+	  \\
 	  %%-----------------------------------------------------------------------------------
 	  % Coluna
 	  \multicolumn{3}{c}{Coluna Vertebral}\\
-      \includegraphics[width=40mm]{matlab/figura/parzen/vertebra/vertebra_BAYES_BayesDecP1_1_2.eps}
+      \includegraphics[width=40mm]{matlab/figura/same/vertebra/vertebra_BAYES_BayesDecP1_1_2.eps}
       &
-	  \includegraphics[width=40mm]{matlab/figura/parzen/vertebra/vertebra_BAYES_BayesDecP2_1_2.eps}
+	  \includegraphics[width=40mm]{matlab/figura/same/vertebra/vertebra_BAYES_BayesDecP2_1_2.eps}
 	  &
-	  \includegraphics[width=40mm]{matlab/figura/parzen/vertebra/vertebra_BAYES_RegDec_1_2.eps}
-	  \\	  
-	  
-      \includegraphics[width=40mm]{matlab/figura/parzen/vertebra/vertebra_BAYES_BayesDecP1_1_5.eps}
+	  \includegraphics[width=40mm]{matlab/figura/same/vertebra/vertebra_BAYES_RegDec_1_2.eps}
+	  \\
+
+      \includegraphics[width=40mm]{matlab/figura/same/vertebra/vertebra_BAYES_BayesDecP1_1_5.eps}
       &
-	  \includegraphics[width=40mm]{matlab/figura/parzen/vertebra/vertebra_BAYES_BayesDecP2_1_5.eps}
+	  \includegraphics[width=40mm]{matlab/figura/same/vertebra/vertebra_BAYES_BayesDecP2_1_5.eps}
 	  &
-	  \includegraphics[width=40mm]{matlab/figura/parzen/vertebra/vertebra_BAYES_RegDec_1_5.eps}
-	  \\		  	  
+	  \includegraphics[width=40mm]{matlab/figura/same/vertebra/vertebra_BAYES_RegDec_1_5.eps}
+	  \\
 	 \multicolumn{1}{p{40mm}}{(a) $P(W_i|x)$}
 	 &
 	 \multicolumn{1}{p{40mm}}{(b) Regiao de decisão}
 	 &
 	 \multicolumn{1}{p{40mm}}{(c) Resultado
 	 da classificação dos dados sobre a regiao de decisão}
-	 
-	 
-	\end{tabular}
-	\caption{Região de decisão calculada utilizando janela de parzen com largura
-	$\sigma^2=0.05I$ .}
 
+
+	\end{tabular}
+	\caption{Região de decisão calculada utilizando a mesma matriz de covariancia
+	para todas as classes.}
+	\label{fig:regDecSame}
+\end{figure}
+
+\subsubsection{ Matrizes de covariancia distintas e diagonal.}
+Os valores da matriz de covariancia definem a forma do elipsóide utilizado na
+região de decisão. Desta forma uma matriz de covariancia diagonal define um
+elipsóide em que os pontos mais distantes encontram-se ortogonais aos eixos do
+espaço. Assim temos na figura \ref{fig:regDecDiag} várias elipses ortogonais aos
+eixos do plano carteziano. A região de decisão continua quadrática e apenas
+limitada quanto a rotação dos dados.
+
+\begin{figure}
+	\centering
+	\begin{tabular}{ccc}
+	  \multicolumn{3}{c}{Íris}\\
+	  %Íris
+	  \includegraphics[width=40mm]{matlab/figura/diag/iris/iris_BAYES_BayesDecP1_3_4.eps}
+	  &
+	  \includegraphics[width=40mm]{matlab/figura/diag/iris/iris_BAYES_BayesDecP2_3_4.eps}
+	  &
+	  \includegraphics[width=40mm]{matlab/figura/diag/iris/iris_BAYES_RegDec_3_4.eps}
+	  \\
+
+	  \includegraphics[width=40mm]{matlab/figura/diag/iris/iris_BAYES_BayesDecP1_1_4.eps}
+	  &
+	  \includegraphics[width=40mm]{matlab/figura/diag/iris/iris_BAYES_BayesDecP2_1_4.eps}
+	  &
+	  \includegraphics[width=40mm]{matlab/figura/diag/iris/iris_BAYES_RegDec_1_4.eps}
+	  \\
+	  %%-----------------------------------------------------------------------------------
+	  % Dermatologia
+	  \multicolumn{3}{c}{Dermatologia}\\
+      \includegraphics[width=40mm]{matlab/figura/diag/derme/derme_BAYES_BayesDecP1_1_16.eps}
+      &
+	  \includegraphics[width=40mm]{matlab/figura/diag/derme/derme_BAYES_BayesDecP2_1_16.eps}
+	  &
+	  \includegraphics[width=40mm]{matlab/figura/diag/derme/derme_BAYES_RegDec_1_16.eps}
+	  \\
+
+      \includegraphics[width=40mm]{matlab/figura/diag/derme/derme_BAYES_BayesDecP1_1_17.eps}
+      &
+	  \includegraphics[width=40mm]{matlab/figura/diag/derme/derme_BAYES_BayesDecP2_1_17.eps}
+	  &
+	  \includegraphics[width=40mm]{matlab/figura/diag/derme/derme_BAYES_RegDec_1_17.eps}
+	  \\
+	  %%-----------------------------------------------------------------------------------
+	  % Coluna
+	  \multicolumn{3}{c}{Coluna Vertebral}\\
+      \includegraphics[width=40mm]{matlab/figura/diag/vertebra/vertebra_BAYES_BayesDecP1_1_2.eps}
+      &
+	  \includegraphics[width=40mm]{matlab/figura/diag/vertebra/vertebra_BAYES_BayesDecP2_1_2.eps}
+	  &
+	  \includegraphics[width=40mm]{matlab/figura/diag/vertebra/vertebra_BAYES_RegDec_1_2.eps}
+	  \\
+
+      \includegraphics[width=40mm]{matlab/figura/diag/vertebra/vertebra_BAYES_BayesDecP1_1_5.eps}
+      &
+	  \includegraphics[width=40mm]{matlab/figura/diag/vertebra/vertebra_BAYES_BayesDecP2_1_5.eps}
+	  &
+	  \includegraphics[width=40mm]{matlab/figura/diag/vertebra/vertebra_BAYES_RegDec_1_5.eps}
+	  \\
+	 \multicolumn{1}{p{40mm}}{(a) $P(W_i|x)$}
+	 &
+	 \multicolumn{1}{p{40mm}}{(b) Regiao de decisão}
+	 &
+	 \multicolumn{1}{p{40mm}}{(c) Resultado
+	 da classificação dos dados sobre a regiao de decisão}
+
+
+	\end{tabular}
+	\caption{Região de decisão calculada utilizando matrizes distintas porém
+	diagonais.}
+	\label{fig:regDecDiag}
 \end{figure}
 
 \subsubsection{Região de decisão}
@@ -580,7 +713,7 @@ Assim temos:
 	P(w_i) =  \frac{A_i}{\sum_{i=1}^{k}{A_J}}
 \end{equation}
 
-\subsection{PDF Gaussiana}
+
 Nas figuras \ref{fig:resultBandSegParadise} e \ref{fig:resultGaussSegParadise}
 são apresentado o resultado da segmentação de duas imagens utilizando o
 classificador Bayessiano. Os parâmetros $\sigma^2$ e $\mu$ são estimados de
@@ -606,7 +739,7 @@ deste classificador sobre 2 imagens distintas.
 	\end{tabular}
 	\caption{Resultado da segmentação utilizando o classificador Bayessiano. Na
 	linha inferior são apresentados as amostras utilizadas para definir as
-	classes. As áreas utilizadas são:(c) céu, (d) areia e (e) coqueiro}
+	classes. As áreas utilizadas são:(c) Azul, (d) Amarelo e (e) Verde}
 	\label{fig:resultBandSegParadise}
 \end{figure}
 
@@ -633,35 +766,35 @@ deste classificador sobre 2 imagens distintas.
 	\label{fig:resultGaussSegParadise}
 \end{figure}
 
-
-
-\subsection{PDF Janela de Parzen}
-Abaixo é apresentado o resultado da segmentação de uma imagem utilizando o
-classificador Bayessiano, desta vez utilizando janela de parzen como função de
-densidade probabilidade. Foram realizados três testes com três variancias da
-janela, valor de h, distintas. Os valores testados foram, 0.05, 0.5 e 1. Com o
-aumento do valor de h houve uma maior suavização
-
-
-\begin{figure}
-	\centering
-	\begin{tabular}{cc}
-	  \includegraphics[width=45mm]{matlab/figura/gauss/segmentacao/paradise.jpg} & 
-	  \includegraphics[width=45mm]{matlab/figura/parzen/segmentacao/paradiseRes.png}
-	  \\ 
-	  (a) Original & (b) h=0.05\\
-	  \includegraphics[width=45mm]{matlab/figura/parzen/segmentacao/paradiseRes05.png} & 
-	  \includegraphics[width=45mm]{matlab/figura/parzen/segmentacao/paradiseRes1.png}
-	   \\
-	  (c) h=0.5 & (d) h=1\\
-	\end{tabular}
-	\caption{Resultado da segmentação utilizando o classificador Bayessiano com
-	janela de parzen.
-	Com o aumento do valor de h pode-se notar que a segmentação se torna mais
-	suave.}
-	\label{fig:resultGaussSegParadise}
-\end{figure}
-
+% 
+% 
+% \subsection{PDF Janela de Parzen}
+% Abaixo é apresentado o resultado da segmentação de uma imagem utilizando o
+% classificador Bayessiano, desta vez utilizando janela de parzen como função de
+% densidade probabilidade. Foram realizados três testes com três variancias da
+% janela, valor de h, distintas. Os valores testados foram, 0.05, 0.5 e 1. Com o
+% aumento do valor de h houve uma maior suavização
+% 
+% 
+% \begin{figure}
+% 	\centering
+% 	\begin{tabular}{cc}
+% 	  \includegraphics[width=45mm]{matlab/figura/gauss/segmentacao/paradise.jpg} & 
+% 	  \includegraphics[width=45mm]{matlab/figura/parzen/segmentacao/paradiseRes.png}
+% 	  \\ 
+% 	  (a) Original & (b) h=0.05\\
+% 	  \includegraphics[width=45mm]{matlab/figura/parzen/segmentacao/paradiseRes05.png} & 
+% 	  \includegraphics[width=45mm]{matlab/figura/parzen/segmentacao/paradiseRes1.png}
+% 	   \\
+% 	  (c) h=0.5 & (d) h=1\\
+% 	\end{tabular}
+% 	\caption{Resultado da segmentação utilizando o classificador Bayessiano com
+% 	janela de parzen.
+% 	Com o aumento do valor de h pode-se notar que a segmentação se torna mais
+% 	suave.}
+% 	\label{fig:resultGaussSegParadise}
+% \end{figure}
+% 
 
 
 \bookmarksetup{startatroot}% 
@@ -670,7 +803,7 @@ aumento do valor de h houve uma maior suavização
 % ---
 % Conclusão
 % ---
-\section*{Considerações finais}
+%\section*{Considerações finais}
 
 
 
