@@ -246,45 +246,57 @@ de maximização são estimados os parâmetros que maximizam cada função de
 distribuição, ponderadas com os valores calculados na fase de expectância.
 
 
+Na figura \ref{fig:gmmIris} é apresentado o resultado da aproximação da base da
+íris. São exibidas três das quatro combinações possíveis das características da
+base, essas combinações são utilizadas para realizar o treinamento do GMM.
 
-%  Lista de atributos.
-% Atributos clínicos: \newline 
-% 1: erythema \newline
-% 2: scaling \newline
-% 3: definite borders \newline
-% 4: itching \newline
-% 5: koebner phenomenon \newline
-% 6: polygonal papules \newline
-% 7: follicular papules \newline
-% 8: oral mucosal involvement \newline
-% 9: knee and elbow involvement \newline
-% 10: scalp involvement \newline
-% 11: family history, (0 or 1) \newline
-% 34: Age (linear) \newline
-% 
-% Atributos do tecido patológico: \newline
-% 12: melanin incontinence \newline
-% 13: eosinophils in the infiltrate \newline
-% 14: PNL infiltrate \newline
-% 15: fibrosis of the papillary dermis \newline
-% 16: exocytosis \newline
-% 17: acanthosis \newline
-% 18: hyperkeratosis \newline
-% 19: parakeratosis \newline
-% 20: clubbing of the rete ridges \newline
-% 21: elongation of the rete ridges \newline
-% 22: thinning of the suprapapillary epidermis \newline
-% 23: spongiform pustule \newline
-% 24: munro microabcess \newline
-% 25: focal hypergranulosis \newline
-% 26: disappearance of the granular layer \newline
-% 27: vacuolisation and damage of basal layer \newline
-% 28: spongiosis \newline
-% 29: saw-tooth appearance of retes \newline
-% 30: follicular horn plug \newline
-% 31: perifollicular parakeratosis \newline
-% 32: inflammatory monoluclear inflitrate \newline
-% 33: band-like infiltrate\newline
+
+
+\begin{figure}
+	\centering
+	\begin{tabular}{ccc}
+
+	  %Íris
+	  \includegraphics[width=40mm]{matlab/gmm/iris/1-4/Functions.eps}
+	  &
+	  \includegraphics[width=40mm]{matlab/gmm/iris/1-4/resultPDF.eps}
+	  &
+	  \includegraphics[width=40mm]{matlab/gmm/iris/1-4/resultPDF3D.eps}
+	  \\
+	  
+	  \includegraphics[width=40mm]{matlab/gmm/iris/2-4/Functions.eps}
+	  &
+	  \includegraphics[width=40mm]{matlab/gmm/iris/2-4/resultPDF.eps}
+	  &
+	  \includegraphics[width=40mm]{matlab/gmm/iris/2-4/resultPDF3D.eps}
+	  \\
+	  
+	  \includegraphics[width=40mm]{matlab/gmm/iris/2-3/Functions.eps}
+	  &
+	  \includegraphics[width=40mm]{matlab/gmm/iris/2-3/resultPDF.eps}
+	  &
+	  \includegraphics[width=40mm]{matlab/gmm/iris/2-3/resultPDF3D.eps}
+	  \\
+	  	  
+	  a) Conjunto de funções
+	  &
+	  b) f(x)
+	  &
+	  c) f(x) no $R^3$
+	  \\
+	\end{tabular}
+	\caption{Resultados obtidos ao utilizar a mistura de gaussianas para modelar
+	a base de dados da íris. Na primeira linha temos o resultado do treinamento
+	utilizando as informações comprimento da sepala e largura da pétala. Na linha
+	seguinte temos largura da sépala e da pétala e na terceira linha o comprimento
+	da sépala e largura da pétala }
+	\label{fig:gmmIris}
+\end{figure}
+
+
+
+
+
 
 \subsection{Base de dados da coluna vertebral}
 
@@ -697,369 +709,6 @@ da dermatologia o número de amostras erradas foi ligeiramente maior.
 
 
 
-
-\subsubsection{ Gaussiana como PDF e matrizes de covariância iguais e diagonal. $\Sigma_i=\sigma^2_iI
-\forall i$}
-\label{sss:RDcovIguaDiag}
-  Ao utilizarmos a mesma matriz de covariância para todas as classes 
-temos uma região de decisão linear e portanto um maior erro na classificação dos
-dados, verifique na segunda sub-tabela, Gaussiana como PDF com Matriz de
-covariacia iguais, da tabela \ref{tab:acuracia}.
-Isso pode ser verificado na terceira coluna da figura \ref{fig:regDecSame},
-onde muitos dados estão em uma região diferente da sua classe.
-Devido a natureza não linear dos dados das três classes uma superfície de decisão linear não
-consegue separar as classes de forma satisfatória.
-
-\begin{figure}
-	\centering
-	\begin{tabular}{ccc}
-	  \multicolumn{3}{c}{Íris}\\
-	  %Íris
-	  \includegraphics[width=40mm]{matlab/figura/same/iris/iris_BAYES_BayesDecP1_3_4.eps}
-	  &
-	  \includegraphics[width=40mm]{matlab/figura/same/iris/iris_BAYES_BayesDecP2_3_4.eps}
-	  &
-	  \includegraphics[width=40mm]{matlab/figura/same/iris/iris_BAYES_RegDec_3_4.eps}
-	  \\
-
-	  \includegraphics[width=40mm]{matlab/figura/same/iris/iris_BAYES_BayesDecP1_1_4.eps}
-	  &
-	  \includegraphics[width=40mm]{matlab/figura/same/iris/iris_BAYES_BayesDecP2_1_4.eps}
-	  &
-	  \includegraphics[width=40mm]{matlab/figura/same/iris/iris_BAYES_RegDec_1_4.eps}
-	  \\
-	  %%-----------------------------------------------------------------------------------
-	  % Dermatologia
-	  \multicolumn{3}{c}{Dermatologia}\\
-      \includegraphics[width=40mm]{matlab/figura/same/derme/derme_BAYES_BayesDecP1_1_16.eps}
-      &
-	  \includegraphics[width=40mm]{matlab/figura/same/derme/derme_BAYES_BayesDecP2_1_16.eps}
-	  &
-	  \includegraphics[width=40mm]{matlab/figura/same/derme/derme_BAYES_RegDec_1_16.eps}
-	  \\
-
-      \includegraphics[width=40mm]{matlab/figura/same/derme/derme_BAYES_BayesDecP1_1_17.eps}
-      &
-	  \includegraphics[width=40mm]{matlab/figura/same/derme/derme_BAYES_BayesDecP2_1_17.eps}
-	  &
-	  \includegraphics[width=40mm]{matlab/figura/same/derme/derme_BAYES_RegDec_1_17.eps}
-	  \\
-	  %%-----------------------------------------------------------------------------------
-	  % Coluna
-	  \multicolumn{3}{c}{Coluna Vertebral}\\
-      \includegraphics[width=40mm]{matlab/figura/same/vertebra/vertebra_BAYES_BayesDecP1_1_2.eps}
-      &
-	  \includegraphics[width=40mm]{matlab/figura/same/vertebra/vertebra_BAYES_BayesDecP2_1_2.eps}
-	  &
-	  \includegraphics[width=40mm]{matlab/figura/same/vertebra/vertebra_BAYES_RegDec_1_2.eps}
-	  \\
-
-      \includegraphics[width=40mm]{matlab/figura/same/vertebra/vertebra_BAYES_BayesDecP1_1_5.eps}
-      &
-	  \includegraphics[width=40mm]{matlab/figura/same/vertebra/vertebra_BAYES_BayesDecP2_1_5.eps}
-	  &
-	  \includegraphics[width=40mm]{matlab/figura/same/vertebra/vertebra_BAYES_RegDec_1_5.eps}
-	  \\
-	 \multicolumn{1}{p{40mm}}{(a) $P(W_i|x)$}
-	 &
-	 \multicolumn{1}{p{40mm}}{(b) Regiao de decisão}
-	 &
-	 \multicolumn{1}{p{40mm}}{(c) Resultado
-	 da classificação dos dados sobre a regiao de decisão}
-
-
-	\end{tabular}
-	\caption{Região de decisão calculada utilizando a mesma matriz de covariância
-	para todas as classes.}
-	\label{fig:regDecSame}
-\end{figure}
-
-\subsubsection{ Gaussiana como PDF e matrizes de covariância distintas e diagonal.}
-Os valores da matriz de covariância definem a forma do elipsóide utilizado na
-região de decisão. Desta forma uma matriz de covariância diagonal define um
-elipsóide em que os pontos mais distantes encontram-se ortogonais aos eixos do
-espaço. Assim temos na figura \ref{fig:regDecDiag} várias elipses ortogonais aos
-eixos do plano carteziano. A região de decisão continua quadrática e apenas
-limitada quanto a rotação dos dados.
-% 
-% \begin{figure}
-% 	\centering
-% 	\begin{tabular}{ccc}
-% 	  \multicolumn{3}{c}{Íris}\\
-% 	  %Íris
-% 	  \includegraphics[width=40mm]{matlab/figura/diag/iris/iris_BAYES_BayesDecP1_3_4.eps}
-% 	  &
-% 	  \includegraphics[width=40mm]{matlab/figura/diag/iris/iris_BAYES_BayesDecP2_3_4.eps}
-% 	  &
-% 	  \includegraphics[width=40mm]{matlab/figura/diag/iris/iris_BAYES_RegDec_3_4.eps}
-% 	  \\
-% 
-% 	  \includegraphics[width=40mm]{matlab/figura/diag/iris/iris_BAYES_BayesDecP1_1_4.eps}
-% 	  &
-% 	  \includegraphics[width=40mm]{matlab/figura/diag/iris/iris_BAYES_BayesDecP2_1_4.eps}
-% 	  &
-% 	  \includegraphics[width=40mm]{matlab/figura/diag/iris/iris_BAYES_RegDec_1_4.eps}
-% 	  \\
-% 	  %%-----------------------------------------------------------------------------------
-% 	  % Dermatologia
-% 	  \multicolumn{3}{c}{Dermatologia}\\
-%       \includegraphics[width=40mm]{matlab/figura/diag/derme/derme_BAYES_BayesDecP1_1_16.eps}
-%       &
-% 	  \includegraphics[width=40mm]{matlab/figura/diag/derme/derme_BAYES_BayesDecP2_1_16.eps}
-% 	  &
-% 	  \includegraphics[width=40mm]{matlab/figura/diag/derme/derme_BAYES_RegDec_1_16.eps}
-% 	  \\
-% 
-%       \includegraphics[width=40mm]{matlab/figura/diag/derme/derme_BAYES_BayesDecP1_1_17.eps}
-%       &
-% 	  \includegraphics[width=40mm]{matlab/figura/diag/derme/derme_BAYES_BayesDecP2_1_17.eps}
-% 	  &
-% 	  \includegraphics[width=40mm]{matlab/figura/diag/derme/derme_BAYES_RegDec_1_17.eps}
-% 	  \\
-% 	  %%-----------------------------------------------------------------------------------
-% 	  % Coluna
-% 	  \multicolumn{3}{c}{Coluna Vertebral}\\
-%       \includegraphics[width=40mm]{matlab/figura/diag/vertebra/vertebra_BAYES_BayesDecP1_1_2.eps}
-%       &
-% 	  \includegraphics[width=40mm]{matlab/figura/diag/vertebra/vertebra_BAYES_BayesDecP2_1_2.eps}
-% 	  &
-% 	  \includegraphics[width=40mm]{matlab/figura/diag/vertebra/vertebra_BAYES_RegDec_1_2.eps}
-% 	  \\
-% 
-%       \includegraphics[width=40mm]{matlab/figura/diag/vertebra/vertebra_BAYES_BayesDecP1_1_5.eps}
-%       &
-% 	  \includegraphics[width=40mm]{matlab/figura/diag/vertebra/vertebra_BAYES_BayesDecP2_1_5.eps}
-% 	  &
-% 	  \includegraphics[width=40mm]{matlab/figura/diag/vertebra/vertebra_BAYES_RegDec_1_5.eps}
-% 	  \\
-% 	 \multicolumn{1}{p{40mm}}{(a) $P(W_i|x)$}
-% 	 &
-% 	 \multicolumn{1}{p{40mm}}{(b) Regiao de decisão}
-% 	 &
-% 	 \multicolumn{1}{p{40mm}}{(c) Resultado
-% 	 da classificação dos dados sobre a regiao de decisão}
-% 
-% 
-% 	\end{tabular}
-% 	\caption{Região de decisão calculada utilizando matrizes distintas porém
-% 	diagonais.}
-% 	\label{fig:regDecDiag}
-% \end{figure}
-
-
-\subsubsection{ Distância Euclidiana como PDF.}
-Na figura \ref{fig:regDecdistEuclid} temos a região de decisão formada
-utilizando a distância Euclidiana como PDF. Como pode ser visto no resultado a
-região de decisão resultante é linear e assim como a região de decisão da
-subsessão \ref{sss:RDcovIguaDiag} possue uma acurácia menor.
-% 
-% \begin{figure}
-% 	\centering
-% 	\begin{tabular}{ccc}
-% 	  \multicolumn{3}{c}{Íris}\\
-% 	  %Íris
-% 	  \includegraphics[width=40mm]{matlab/figura/distEuclid/iris/iris_BAYES_BayesDecP1_3_4.eps}
-% 	  &
-% 	  \includegraphics[width=40mm]{matlab/figura/distEuclid/iris/iris_BAYES_BayesDecP2_3_4.eps}
-% 	  &
-% 	  \includegraphics[width=40mm]{matlab/figura/distEuclid/iris/iris_BAYES_RegDec_3_4.eps}
-% 	  \\
-% 
-% 	  \includegraphics[width=40mm]{matlab/figura/distEuclid/iris/iris_BAYES_BayesDecP1_1_4.eps}
-% 	  &
-% 	  \includegraphics[width=40mm]{matlab/figura/distEuclid/iris/iris_BAYES_BayesDecP2_1_4.eps}
-% 	  &
-% 	  \includegraphics[width=40mm]{matlab/figura/distEuclid/iris/iris_BAYES_RegDec_1_4.eps}
-% 	  \\
-% 	  %%-----------------------------------------------------------------------------------
-% 	  % Dermatologia
-% 	  \multicolumn{3}{c}{Dermatologia}\\
-%       \includegraphics[width=40mm]{matlab/figura/distEuclid/derme/derme_BAYES_BayesDecP1_1_16.eps}
-%       &
-% 	  \includegraphics[width=40mm]{matlab/figura/distEuclid/derme/derme_BAYES_BayesDecP2_1_16.eps}
-% 	  &
-% 	  \includegraphics[width=40mm]{matlab/figura/distEuclid/derme/derme_BAYES_RegDec_1_16.eps}
-% 	  \\
-% 
-%       \includegraphics[width=40mm]{matlab/figura/distEuclid/derme/derme_BAYES_BayesDecP1_1_17.eps}
-%       &
-% 	  \includegraphics[width=40mm]{matlab/figura/distEuclid/derme/derme_BAYES_BayesDecP2_1_17.eps}
-% 	  &
-% 	  \includegraphics[width=40mm]{matlab/figura/distEuclid/derme/derme_BAYES_RegDec_1_17.eps}
-% 	  \\
-% 	  %%-----------------------------------------------------------------------------------
-% 	  % Coluna
-% 	  \multicolumn{3}{c}{Coluna Vertebral}\\
-%       \includegraphics[width=40mm]{matlab/figura/distEuclid/vertebra/vertebra_BAYES_BayesDecP1_1_2.eps}
-%       &
-% 	  \includegraphics[width=40mm]{matlab/figura/distEuclid/vertebra/vertebra_BAYES_BayesDecP2_1_2.eps}
-% 	  &
-% 	  \includegraphics[width=40mm]{matlab/figura/distEuclid/vertebra/vertebra_BAYES_RegDec_1_2.eps}
-% 	  \\
-% 
-%       \includegraphics[width=40mm]{matlab/figura/distEuclid/vertebra/vertebra_BAYES_BayesDecP1_1_5.eps}
-%       &
-% 	  \includegraphics[width=40mm]{matlab/figura/distEuclid/vertebra/vertebra_BAYES_BayesDecP2_1_5.eps}
-% 	  &
-% 	  \includegraphics[width=40mm]{matlab/figura/distEuclid/vertebra/vertebra_BAYES_RegDec_1_5.eps}
-% 	  \\
-% 	 \multicolumn{1}{p{40mm}}{(a) $P(W_i|x)$}
-% 	 &
-% 	 \multicolumn{1}{p{40mm}}{(b) Regiao de decisão}
-% 	 &
-% 	 \multicolumn{1}{p{40mm}}{(c) Resultado
-% 	 da classificação dos dados sobre a regiao de decisão}
-% 
-% 
-% 	\end{tabular}
-% 	\caption{Região de decisão calculada utilizando a distância Euclidiana como
-% 	PDF.}
-% 	\label{fig:regDecdistEuclid}
-% \end{figure}
-
-
-\subsubsection{ Distância de Mahalanobis.}
-Na figura \ref{fig:regDecdistMaha} temos a região de decisão utilizando a
-distância de mahalanobis como PDF. Devido a normalização exponencial utilizada o
-resultado obtido é muito similar ao obtido com a Gaussiana com matrizes de
-covariância diferentes. A principal diferença é que para este problema é
-considerado que as classes são equiprováveis. Além disso tem uma pequena
-diferença em relação a escala. Os resultados obtidos pela distancia de
-mahalanobis normalizados exponencialmente tem um fator
-$\frac{1}{ \sqrt{ (2   \pi)^k   |\Sigma| }   }$ menor que a gaussiana. Essas
-duas diferenças modificam a região de decisão.
-% 
-% \begin{figure}
-% 	\centering
-% 	\begin{tabular}{ccc}
-% 	  \multicolumn{3}{c}{Íris}\\
-% 	  %Íris
-% 	  \includegraphics[width=40mm]{matlab/figura/distManha/iris/iris_BAYES_BayesDecP1_3_4.eps}
-% 	  &
-% 	  \includegraphics[width=40mm]{matlab/figura/distManha/iris/iris_BAYES_BayesDecP2_3_4.eps}
-% 	  &
-% 	  \includegraphics[width=40mm]{matlab/figura/distManha/iris/iris_BAYES_RegDec_3_4.eps}
-% 	  \\
-% 
-% 	  \includegraphics[width=40mm]{matlab/figura/distManha/iris/iris_BAYES_BayesDecP1_1_4.eps}
-% 	  &
-% 	  \includegraphics[width=40mm]{matlab/figura/distManha/iris/iris_BAYES_BayesDecP2_1_4.eps}
-% 	  &
-% 	  \includegraphics[width=40mm]{matlab/figura/distManha/iris/iris_BAYES_RegDec_1_4.eps}
-% 	  \\
-% 	  %%-----------------------------------------------------------------------------------
-% 	  % Dermatologia
-% 	  \multicolumn{3}{c}{Dermatologia}\\
-%       \includegraphics[width=40mm]{matlab/figura/distManha/derme/derme_BAYES_BayesDecP1_1_16.eps}
-%       &
-% 	  \includegraphics[width=40mm]{matlab/figura/distManha/derme/derme_BAYES_BayesDecP2_1_16.eps}
-% 	  &
-% 	  \includegraphics[width=40mm]{matlab/figura/distManha/derme/derme_BAYES_RegDec_1_16.eps}
-% 	  \\
-% 
-%       \includegraphics[width=40mm]{matlab/figura/distManha/derme/derme_BAYES_BayesDecP1_1_17.eps}
-%       &
-% 	  \includegraphics[width=40mm]{matlab/figura/distManha/derme/derme_BAYES_BayesDecP2_1_17.eps}
-% 	  &
-% 	  \includegraphics[width=40mm]{matlab/figura/distManha/derme/derme_BAYES_RegDec_1_17.eps}
-% 	  \\
-% 	  %%-----------------------------------------------------------------------------------
-% 	  % Coluna
-% 	  \multicolumn{3}{c}{Coluna Vertebral}\\
-%       \includegraphics[width=40mm]{matlab/figura/distManha/vertebra/vertebra_BAYES_BayesDecP1_1_2.eps}
-%       &
-% 	  \includegraphics[width=40mm]{matlab/figura/distManha/vertebra/vertebra_BAYES_BayesDecP2_1_2.eps}
-% 	  &
-% 	  \includegraphics[width=40mm]{matlab/figura/distManha/vertebra/vertebra_BAYES_RegDec_1_2.eps}
-% 	  \\
-% 
-%       \includegraphics[width=40mm]{matlab/figura/distManha/vertebra/vertebra_BAYES_BayesDecP1_1_5.eps}
-%       &
-% 	  \includegraphics[width=40mm]{matlab/figura/distManha/vertebra/vertebra_BAYES_BayesDecP2_1_5.eps}
-% 	  &
-% 	  \includegraphics[width=40mm]{matlab/figura/distManha/vertebra/vertebra_BAYES_RegDec_1_5.eps}
-% 	  \\
-% 	 \multicolumn{1}{p{40mm}}{(a) $P(W_i|x)$}
-% 	 &
-% 	 \multicolumn{1}{p{40mm}}{(b) Regiao de decisão}
-% 	 &
-% 	 \multicolumn{1}{p{40mm}}{(c) Resultado
-% 	 da classificação dos dados sobre a regiao de decisão}
-% 
-% 
-% 	\end{tabular}
-% 	\caption{Região de decisão calculada utilizando a distância Mahalanobis como
-% 	PDF.}
-% 	\label{fig:regDecdistMaha}
-% \end{figure}
-% 
-% 
-
-\section{Segmentação uitlizando Classificador de Bayes}
- A segmentação de uma imagem é realizada levando em
-consideração a intensidade dos pixels nas três componentes RGB.
-A definição dos dados de de uma classe é feita a partir da seleção de $k$
-regiões da imagem, não necessariamente de mesma área $A_i$. A área é utilizada
-para calcular a probabilidade a priore por isso classes com uma diferença de
-área muito grande podem impactar na classificação.
-Assim temos:
-
-\begin{equation}
-	P(w_i) =  \frac{A_i}{\sum_{i=1}^{k}{A_J}}
-\end{equation}
-
-
-Nas figuras \ref{fig:resultBandSegParadise} e \ref{fig:resultGaussSegParadise}
-são apresentado o resultado da segmentação de duas imagens utilizando o
-classificador Bayessiano. Os parâmetros $\sigma^2$ e $\mu$ são estimados de
-acordo com os dados de cada classe individualmente. Assim temos na figuras
-\ref{fig:resultBandSegParadise} e \ref{fig:resultGaussSegParadise} o resultado
-deste classificador sobre 2 imagens distintas.
-
-
-	\begin{figure}
-		\begin{tabular}{ccc}
-		\multicolumn{3}{c}{
-		  \includegraphics[width=45mm]{matlab/figura/gauss/segmentacao/brasil.jpg} 
-		  \includegraphics[width=45mm]{matlab/figura/gauss/segmentacao/brasilSeg.png}
-		  }\\ 
-		\multicolumn{3}{c}{
-		 \hspace{1cm} (a) Original \hspace{15mm} (b)Resultado da Segmentação
-		  }\\ 	  
-		 \includegraphics[width=30mm]{matlab/figura/gauss/segmentacao/bc1.png}&   
-		 \includegraphics[width=30mm]{matlab/figura/gauss/segmentacao/bc2.png}& 
-		 \includegraphics[width=30mm]{matlab/figura/gauss/segmentacao/bc3.png} \\
-		(c) $A_1$ & (d) $A_2$ & (e) $A_3$\\[6pt] 
-	
-		\end{tabular}
-		\caption{Resultado da segmentação utilizando o classificador Bayessiano. Na
-		linha inferior são apresentados as amostras utilizadas para definir as
-		classes. As áreas utilizadas são:(c) Azul, (d) Amarelo e (e) Verde}
-		\label{fig:resultBandSegParadise}
-	\end{figure}
-	
-
-
-	\begin{figure}
-		\begin{tabular}{ccc}
-		\multicolumn{3}{c}{
-		  \includegraphics[width=45mm]{matlab/figura/gauss/segmentacao/paradise.jpg} 
-		  \includegraphics[width=45mm]{matlab/figura/gauss/segmentacao/paradiseRes.png}
-		  }\\ 
-		\multicolumn{3}{c}{
-		 \hspace{1cm} (a) Original \hspace{15mm} (b)Resultado da Segmentação
-		  }\\ 	  
-		 \includegraphics[width=30mm]{matlab/figura/gauss/segmentacao/pc1.png}&   
-		 \includegraphics[width=30mm]{matlab/figura/gauss/segmentacao/pc2.png}& 
-		 \includegraphics[width=30mm]{matlab/figura/gauss/segmentacao/pc3.png} \\
-		(c) $A_1$ & (d) $A_2$ & (e) $A_3$\\[6pt] 
-	
-		\end{tabular}
-		\caption{Resultado da segmentação utilizando o classificador Bayessiano. Na
-		linha inferior são apresentados as amostras utilizadas para definir as
-		classes. As áreas utilizadas são:(c) céu, (d) areia e (e) coqueiro}
-		\label{fig:resultGaussSegParadise}
-	\end{figure}
 
 
 % 
