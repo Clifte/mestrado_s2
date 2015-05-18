@@ -1,0 +1,16 @@
+function [modelo]= GMMEM(x, K)
+[m nClasses] = size(y);
+[m p] = size(x);
+
+%Estimar Gaussianas
+W = ones(1,K);    %Pesos
+par1 = rand(K);  %Parametros Média e variancia
+par2 = rand(p,p,K)
+
+for i=1:K
+    priori(i)= W(i) * mvnpdf(x,par1(i),par2(i));
+end
+priori = sum(priori);
+
+
+end

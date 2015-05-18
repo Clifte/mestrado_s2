@@ -1,6 +1,6 @@
 %Configura√ß√µes
 opc = {'iris','vertebra','derme'};
-nomeBases = {'√çris','Vertebra','Dermatologia'};
+nomeBases = {'√?ris','Vertebra','Dermatologia'};
 [s,v] = listdlg('PromptString','Selecione uma base de dados:','SelectionMode','single','ListString',opc)
 if(~v) return;end;
 
@@ -12,7 +12,7 @@ baseSelecionada = cell2mat(nomeBases(s));
 
 %Selecionando caracteristicas
 opc = mat2cell(features, ones(1, length(features(:,1))));
-[p,v] = listdlg('PromptString','Selecione uma base de dados:','SelectionMode','multiple','ListString',opc)
+[p,v] = listdlg('PromptString','Selecione as CaracterÌsticas:','SelectionMode','multiple','ListString',opc)
 if(~v || length(p)<2) 
       return;
 end;

@@ -1,0 +1,49 @@
+addpath(genpath('../util/'))
+clear all; clear;clc;close all;
+warning('off','all')
+
+exportDir = '../../../../Latex/ReconhecimentoDePadroes/trabalho2/matlab/';
+
+%%
+%Carrega e prepara a base
+carregaPreparaBase;
+%%
+carregaParametrosGMM;
+
+x = x(:,[1 4]);
+
+model = GMMEM(x, 3);
+medias = model.medias;
+
+h1 = figure;
+h2 = figure;
+
+for i=1:100000
+    model = GMMEM(x, 3,model);
+    hold off;
+    figure(h1);
+    scatter(h1,x(:,1),x(:,2));
+    hold on;
+
+
+    nSamples = 100;
+    range = linspace(-0.5,1.5,nSamples);
+    xy = generatePairs(range,range);
+    [Px]= GMM(model,xy);
+
+    Px = reshape(Px,[nSamples nSamples]);
+    contour(range,range,Px,20)
+    drawnow;
+    
+    est = sum(abs(model.medias(:)-medias(:)));
+    sprintf('estabilizacao: %f\n',est )
+    if( est < 10E-10 )
+        break;
+    end
+        
+    medias = model.medias(:);
+    
+    figure(h2);
+    surf(Px);
+    
+end
