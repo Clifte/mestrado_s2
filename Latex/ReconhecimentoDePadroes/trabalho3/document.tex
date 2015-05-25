@@ -34,6 +34,7 @@
 \usepackage{csvsimple}
 \usepackage{epstopdf}
 \usepackage{multirow}
+\usepackage{pgffor}
 %\usepackage[nolists,tablesfirst]{endfloat}
 % ---
 		
@@ -52,6 +53,17 @@
 \usepackage[brazilian,hyperpageref]{backref}	 % Paginas com as citações na bibl
 \usepackage[alf]{abntex2cite}	% Citações padrão ABNT
 % ---
+
+
+
+\def\pathForTaxaErroRejeicaBase#1#2{matlab/#1/#2/RejOpt/TaxaErroRejeicao.eps}
+
+\def\pathForRejDec#1#2#3{{matlab/#1/#2/RejOpt/decReg/decRegion_#3_A}.eps}
+
+
+%
+
+
 
 % ---
 % Configurações do pacote backref
@@ -295,16 +307,6 @@ base, essas combinações são utilizadas para realizar o treinamento do GMM.
 
 
 
-
-
-
-\subsection{Base de dados da coluna vertebral}
-
-Nessa base de dados os atributos são pelvic incidence, pelvic tilt, lumbar
-lordosis angle, sacral slope, pelvic radius e grade of spondylolisthesis.
-São 310 amostras onde 19,3 \% são pacientes com hernia, 48,3\% pacientes com
-Spondylolisthesis e 32.2\% pacientes normais.
-
 \subsection{Normalização e codificação}
 \label{ss:normCodf} 
 Após o carregamento da base foi realizado apenas a normalização dos dados e a
@@ -320,57 +322,223 @@ onde todas as outras posições diferentes de $k$ possuem o valor zero e a
 posição $k$ possui o valor 1. Dessa forma as três classes possíveis da íris
 foram codificadas em um vetor de 3 posições, onde a posição 1, 2 e 3
 representam a classe setosa, versicolor e virgínica respectivamente. O mesmo foi
-repetido para as bases da dermatologia e da coluna vertebral.
-
-
-% %Gráfico em barra
-% \subsection{Análise das características}
-% \label{ss:analiCara}
-% 
-% \subsubsection{Base da íris}
-% Na figura \ref{fig:charMatrix} é apresentada a matriz de características. 
-% Essa matriz consiste de gráficos formados pelos pares de características
-% combinadas.
-% 
-% Na diagonal principal é apresentado o histograma do atributo.
-% Devido a natureza continua dos atributos do problema, pois o
-% comprimento e largura da sépala e pétala podem assumir qualquer valor real O
-% histograma foi obtido após a realização da quantização dos atributos.
-% Cada atributo foi quantizado em 15 possíveis valores com faixas de mesma largura. A
-% largura da faixa foi obtida da seguinte forma $(max_p - min_p)/15$, onde max e
-% min são os valores máximos e mínimos do atributo $p$.
-% 
-% \begin{figure}[!htb] \centering
-% \includegraphics[width=\textwidth]{figuras/analiseIris_hist_scatterMatrix.eps}
-% \caption{Matriz de características.}
-% \label{fig:charMatrix}
-% \end{figure}
-% 
-%  Podemos perceber que a classe setosa pode facilmente ser separada das outras
-%  utilizando a largura ou o comprimento da pétala como variável. Nos histogramas
-%  localizados na parte inferior isso pode ser verificado, pétalas com
-%  comprimentos menores que 0,25 ou sépalas com largura menor que 0,3 de
-%  comprimento são claramente da classe setosa.
-%  Já para as duas outras características essa separação não é tão simples,
-%  perceba a sobreposição dos histogramas em todos os atributos bem como a mistura
-%  das classes nos gráficos de dispersão.
-%  
-%  \subsubsection{Base da coluna vertebral}
-%  
-%  \subsubsection{Base da dermatologia}
+repetido para as bases da coluna vertebral, câncer de mama, diabetes e haberman.
 
 
 \section{Classificador de Bayes}
-
 \subsection{Introdução}
 Dada uma classificação entre M classes, o classificador de Bayes faz a seleção
-de um dado $x$ com base na probabilidade de $w_i$ dado um $x$ , $P(w_i|x)$.
+da classe de um dado $x$ com base na probabilidade de $w_i$ dado um $x$ ,
+$P(w_i|x)$.
 Assim temos:
 
 
 \begin{equation}
 	x \in w_i \iff P(w_i|x) \geq P(w_j|x) \forall i \neq j
 \end{equation}
+
+\subsection{Opção de Rejeição}
+Considerando o classificar de bayes um padrão é escolhido em detrimento a outro
+de acordo com sua probabilidade a posteriore, A opção de rejeição sugere que de
+acordo com este valor de probabilidade calculado a classificação pode ser
+rejeitada pois a mesma reflete também o grau de confiança na classificação.
+Desta forma podemos definir um limiar para este grau de confiança e assim caso a
+probabilidade a posteriore seja menor que este limiar a amostra pode ser
+classificada para a classe de rejeição. Temos a seguinte regra de
+decisão para um problema com duas classes:
+
+\begin{equation}
+x \in \begin{cases}
+		w_1,& \text{se }  P(w_1|x) > \beta \\
+		w_2,& \text{se }  P(w_2|x) > \beta \\
+		w_r,& \text{caso contrário }
+	  \end{cases}
+\end{equation}
+
+\subsection{Avaliação de um classificador com Opção de Rejeição}
+Algumas das métricas importantes ao utilizarmos um classificador com opção de
+rejeição são taxa de erro e taxa de acurácia em função do limiar de rejeição. A
+análise destas duas métricas permite identificar qual o grau de confiança ao
+realizar uma classificação, bem como evitar erros ao rejeitar amostras
+duvidosas. Na figura \ref{fig:TeTaVSLR}, são apresentadas as curvas obtidas
+ao variar o valor desse limiar para as quatro bases em análise neste trabalho.
+
+\begin{figure}
+\begin{tabular}{c c c}
+
+  
+  \multicolumn{3}{c}{Coluna Vertebral}\\ \hline
+  \includegraphics[width=\textwidth / 3]{\pathForTaxaErroRejeicaBase{gauss}{vertebra}} &
+  \includegraphics[width=\textwidth / 3]{\pathForTaxaErroRejeicaBase{gmm}{vertebra}} &
+  \includegraphics[width=\textwidth / 3]{\pathForTaxaErroRejeicaBase{parzenGauss}{vertebra}} \\
+  (a) Gaussian & (b) GMM & (c) Janela de Parzen \\
+  \\
+  \multicolumn{3}{c}{Câncer de mama}\\ \hline
+  \includegraphics[width=\textwidth / 3]{\pathForTaxaErroRejeicaBase{gauss}{breastC}} &
+  \includegraphics[width=\textwidth / 3]{\pathForTaxaErroRejeicaBase{gmm}{breastC}} &
+  \includegraphics[width=\textwidth / 3]{\pathForTaxaErroRejeicaBase{parzenGauss}{breastC}} \\
+  (d) Gaussian & (e) GMM & (f) Janela de Parzen \\
+  \\
+  \multicolumn{3}{c}{Diabetes}\\ \hline
+  \includegraphics[width=\textwidth / 3]{\pathForTaxaErroRejeicaBase{gauss}{diab}} &
+  \includegraphics[width=\textwidth / 3]{\pathForTaxaErroRejeicaBase{gmm}{diab}} &
+  \includegraphics[width=\textwidth / 3]{\pathForTaxaErroRejeicaBase{parzenGauss}{diab}} \\
+  (g) Gaussian & (h) GMM & (i) Janela de Parzen \\
+  \\  
+  \multicolumn{3}{c}{Haberman}\\ \hline
+  \includegraphics[width=\textwidth / 3]{\pathForTaxaErroRejeicaBase{gauss}{haber}} &
+  \includegraphics[width=\textwidth / 3]{\pathForTaxaErroRejeicaBase{gmm}{haber}} &
+  \includegraphics[width=\textwidth / 3]{\pathForTaxaErroRejeicaBase{parzenGauss}{haber}} \\
+  (j) Gaussian & (k) GMM & (l) Janela de Parzen \\
+  \\
+
+\end{tabular}
+\caption{Taxa de Erro e Taxa de Rejeição em função do limiar de rejeição
+utilizando a função gaussiana como PDF.
+Em verde a taxa de rejeição em vermelho a taxa de erro.}
+\label{fig:TeTaVSLR}
+\end{figure}
+
+Na figura \ref{fig:TeTaVSLR}, os limiares de rejeição $\beta$ variam de 0 a 1.
+Podemos perceber que a taxa de rejeição aumenta somente a partir de 0,5. Isso ocorre
+devido a tomada de decisão ser feita apenas para duas classes, dessa forma, para
+um limiar inferior a 50\% sempre haverá uma classe com uma probabilidade a
+porteriore maior.
+
+
+
+\subsubsection{Impacto na região de decisão}
+Ao optarmos por um classificador com opção de rejeição criamos uma nova classe
+que acolherá os dados que não puderam ser discriminados para alguma das outras
+duas classes, dessa forma, a classe de rejeição também define uma região de
+decisão. Essa região tem sua área controlada pelo valor do limiar de rejeição e
+sempre inicializa na região de interseção das outras duas classes. Nas figuras
+\ref{fig:regDecRejLmGauss},\ref{fig:regDecRejLmGMM} e
+\ref{fig:regDecRejLmParzen} são exibidas as regiões de decisões controladas com o limiar de rejeição utilizando 3 diferentes funções de densidade de probabilidade.
+
+ 
+
+
+
+
+\begin{figure}
+\begin{tabular}{c c c}
+
+\multicolumn{3}{c}{PDF Gaussiana com RejOption}\\ \hline \hline
+\multicolumn{3}{c}{Coluna vertebral}\\ \hline
+\includegraphics[width=\textwidth / 3]{\pathForRejDec{gauss}{vertebra}{0.556}} & 
+\includegraphics[width=\textwidth / 3]{\pathForRejDec{gauss}{vertebra}{0.833}} &
+\includegraphics[width=\textwidth / 3]{\pathForRejDec{gauss}{vertebra}{0.944}}\\
+(a) $\beta=0.556$ & (b) $\beta=0.833$ & (c) $\beta=0.944$ \\
+\\
+\multicolumn{3}{c}{Câncer de Mama}\\ \hline
+\includegraphics[width=\textwidth / 3]{\pathForRejDec{gauss}{breastC}{0.556}} & 
+\includegraphics[width=\textwidth / 3]{\pathForRejDec{gauss}{breastC}{0.833}} &
+\includegraphics[width=\textwidth / 3]{\pathForRejDec{gauss}{breastC}{0.944}} \\
+(a) $\beta=0.556$ & (b) $\beta=0.833$ & (c) $\beta=0.944$ \\
+\\
+\multicolumn{3}{c}{Diabetes}\\ \hline
+\includegraphics[width=\textwidth / 3]{\pathForRejDec{gauss}{diab}{0.556}} & 
+\includegraphics[width=\textwidth / 3]{\pathForRejDec{gauss}{diab}{0.833}} &
+\includegraphics[width=\textwidth / 3]{\pathForRejDec{gauss}{diab}{0.944}} \\
+(a) $\beta=0.556$ & (b) $\beta=0.833$ & (c) $\beta=0.944$ \\
+\\
+\multicolumn{3}{c}{Haberman}\\ \hline
+\includegraphics[width=\textwidth / 3]{\pathForRejDec{gauss}{haber}{0.556}} & 
+\includegraphics[width=\textwidth / 3]{\pathForRejDec{gauss}{haber}{0.833}} &
+\includegraphics[width=\textwidth / 3]{\pathForRejDec{gauss}{haber}{0.944}} \\
+(a) $\beta=0.556$ & (b) $\beta=0.833$ & (c) $\beta=0.944$ \\
+
+
+\end{tabular}
+\caption{Região de decisão formada utilizando a gaussiana como função de
+densidade de probabilidade. Foram testados três valores de limiar de rejeição
+$\beta$ para as três bases.}
+\label{fig:regDecRejLmGauss}
+\end{figure} 
+
+
+
+
+\begin{figure}
+\begin{tabular}{c c c}
+
+\multicolumn{3}{c}{PDF GMM com RejOption}\\ \hline \hline
+\multicolumn{3}{c}{Coluna vertebral}\\ \hline
+\includegraphics[width=\textwidth / 3]{\pathForRejDec{gmm}{vertebra}{0.556}} & 
+\includegraphics[width=\textwidth / 3]{\pathForRejDec{gmm}{vertebra}{0.833}} &
+\includegraphics[width=\textwidth / 3]{\pathForRejDec{gmm}{vertebra}{0.944}}\\
+(a) $\beta=0.556$ & (b) $\beta=0.833$ & (c) $\beta=0.944$ \\
+\\
+\multicolumn{3}{c}{Câncer de Mama}\\ \hline
+\includegraphics[width=\textwidth / 3]{\pathForRejDec{gmm}{breastC}{0.556}} & 
+\includegraphics[width=\textwidth / 3]{\pathForRejDec{gmm}{breastC}{0.833}} &
+\includegraphics[width=\textwidth / 3]{\pathForRejDec{gmm}{breastC}{0.944}} \\
+(a) $\beta=0.556$ & (b) $\beta=0.833$ & (c) $\beta=0.944$ \\
+\\
+\multicolumn{3}{c}{Diabetes}\\ \hline
+\includegraphics[width=\textwidth / 3]{\pathForRejDec{gmm}{diab}{0.556}} & 
+\includegraphics[width=\textwidth / 3]{\pathForRejDec{gmm}{diab}{0.833}} &
+\includegraphics[width=\textwidth / 3]{\pathForRejDec{gmm}{diab}{0.944}} \\
+(a) $\beta=0.556$ & (b) $\beta=0.833$ & (c) $\beta=0.944$ \\
+\\
+\multicolumn{3}{c}{Haberman}\\ \hline
+\includegraphics[width=\textwidth / 3]{\pathForRejDec{gmm}{haber}{0.556}} & 
+\includegraphics[width=\textwidth / 3]{\pathForRejDec{gmm}{haber}{0.833}} &
+\includegraphics[width=\textwidth / 3]{\pathForRejDec{gmm}{haber}{0.944}} \\
+(a) $\beta=0.556$ & (b) $\beta=0.833$ & (c) $\beta=0.944$ \\
+
+
+\end{tabular}
+\caption{Região de decisão formada utilizando mistura de gaussianas como função
+de densidade de probabilidade. Para todos os exemplos foram utilizadas 3
+gaussianas para modelar cada classe. Foram testados 3 valores de limiar de
+rejeição $\beta$ para as três bases.}
+\label{fig:regDecRejLmGMM}
+\end{figure} 
+
+
+
+
+
+\begin{figure}
+\begin{tabular}{c c c}
+
+\multicolumn{3}{c}{PDF Janela de Parzen com RejOption}\\ \hline \hline
+\multicolumn{3}{c}{Coluna vertebral}\\ \hline
+\includegraphics[width=\textwidth / 3]{\pathForRejDec{parzenGauss}{vertebra}{0.556}} &
+\includegraphics[width=\textwidth / 3]{\pathForRejDec{parzenGauss}{vertebra}{0.833}} & \includegraphics[width=\textwidth / 3]{\pathForRejDec{gauss}{vertebra}{0.944}}\\
+(a) $\beta=0.556$ & (b) $\beta=0.833$ & (c) $\beta=0.944$ \\
+\\
+\multicolumn{3}{c}{Câncer de Mama}\\ \hline
+\includegraphics[width=\textwidth / 3]{\pathForRejDec{parzenGauss}{breastC}{0.556}} & 
+\includegraphics[width=\textwidth / 3]{\pathForRejDec{parzenGauss}{breastC}{0.833}} &
+\includegraphics[width=\textwidth / 3]{\pathForRejDec{parzenGauss}{breastC}{0.944}} \\
+(a) $\beta=0.556$ & (b) $\beta=0.833$ & (c) $\beta=0.944$ \\
+\\
+\multicolumn{3}{c}{Diabetes}\\ \hline
+\includegraphics[width=\textwidth / 3]{\pathForRejDec{parzenGauss}{diab}{0.556}} & 
+\includegraphics[width=\textwidth / 3]{\pathForRejDec{parzenGauss}{diab}{0.833}} &
+\includegraphics[width=\textwidth / 3]{\pathForRejDec{parzenGauss}{diab}{0.944}} \\
+(a) $\beta=0.556$ & (b) $\beta=0.833$ & (c) $\beta=0.944$ \\
+\\
+\multicolumn{3}{c}{Haberman}\\ \hline
+\includegraphics[width=\textwidth / 3]{\pathForRejDec{parzenGauss}{haber}{0.556}} & 
+\includegraphics[width=\textwidth / 3]{\pathForRejDec{parzenGauss}{haber}{0.833}} &
+\includegraphics[width=\textwidth / 3]{\pathForRejDec{parzenGauss}{haber}{0.944}} \\
+(a) $\beta=0.556$ & (b) $\beta=0.833$ & (c) $\beta=0.944$ \\
+
+
+\end{tabular}
+\caption{Região de decisão formada utilizando janela de Parzen como função de
+densidade de probabilidade. Foram testados três valores de limiar de rejeição
+$\beta$ para as três bases.}
+\label{fig:regDecRejLmParzen}
+\end{figure} 
+
+
+
+
 
 \subsection{Metodologia}
 \label{ss:metAplbayes}

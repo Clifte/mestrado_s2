@@ -1,6 +1,9 @@
 function p = conditionalProbability(amostra,data,fnc)
-    global parzenh;
+    global parametro1;
 
+    addpath(genpath('../GMM/'))
+    
+    
     cv = cov(data);
     [m, n] = size(data);
    
@@ -40,7 +43,7 @@ function p = conditionalProbability(amostra,data,fnc)
     end
     
     if(strcmp(fnc, 'same'))
-        cv = eye(n,n) * parzenh;
+        cv = eye(n,n) * parametro1;
         mu = mean(data,1);
         p = mvnpdf(amostra,mu,cv);
 
@@ -86,7 +89,7 @@ function p = conditionalProbability(amostra,data,fnc)
 
     
     if(strcmp(fnc, 'parzenGauss'))
-        h = parzenh;
+        h = parametro1;
         [m n] = size(data);
         [mm nn] = size(amostra);
         
@@ -102,5 +105,14 @@ function p = conditionalProbability(amostra,data,fnc)
         
         return;
     end            
-    
+
+    if(strcmp(fnc, 'gmm'))
+        
+        h = parametro1;
+        model = GMM_train(data,h,0);
+        
+        P = GMM(model,amostra);
+        p = P(h+1,:);
+        return;
+    end        
 end

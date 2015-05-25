@@ -2,13 +2,13 @@ addpath(genpath('../util/'))
 clear all; clear;clc;close all;
 warning('off','all')
 
-exportDir = '../../../../Latex/ReconhecimentoDePadroes/trabalho2/matlab/';
+exportDir = '../../../../Latex/ReconhecimentoDePadroes/trabalho3/matlab/';
 %%
 global yl;
 global lbda;
 global fnc;
-global parzenh;
-parzenh = 0.05;
+global parametro1;
+parametro1 = 0.05;
 
 nWin = 50;
 rangeParzenSearch = linspace(0.001,3,nWin);
@@ -34,18 +34,23 @@ fprintf('Número de repetições %d:\n',nIt);
 
 
 %Teste para a matriz CV diferente
-fnc = 'gauss';
+fnc = 'gmm';
+parametro1 = 3;
 bayes_test_repete;
 
-%Teste para as mesmas matrizes
-fnc = 'same';
-bayes_test_repete;
-
-fnc = 'ndiag';
-bayes_test_repete;
-
-fnc = 'diag';
-bayes_test_repete;
+% %Teste para a matriz CV diferente
+% fnc = 'gauss';
+% bayes_test_repete;
+% 
+% %Teste para as mesmas matrizes
+% fnc = 'same';
+% bayes_test_repete;
+% 
+% fnc = 'ndiag';
+% bayes_test_repete;
+% 
+% fnc = 'diag';
+% bayes_test_repete;
 
 %fnc = 'parzenGauss';
 %executaParzen

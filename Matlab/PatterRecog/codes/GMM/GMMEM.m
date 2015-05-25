@@ -6,8 +6,8 @@ function [modelo]= GMMEM(x, K, modelo)
 if(~exist('modelo','var'))
     %Estimar Gaussianas
     W = ones(1,K);      %Pesos
-    par1 = rand(K,p);   %Parametros Média e variancia
-    par2 = repmat(0.05*eye(p,p),[ 1 1 K]);
+    par1 = rand(K,p);   %Parametros Mï¿½dia e variancia
+    par2 = repmat(0.05 * eye(p,p),[ 1 1 K]);
 else
     par1 = modelo.medias;
     par2 = modelo.covariancias;
@@ -37,6 +37,12 @@ for i=1:K
 
     W(i) = Nk(i)/m;
     par2(:,:,i) = par2(:,:,i) /Nk(i); 
+    
+    if(cond(par2(:,:,i))>0.001)
+        par2(:,:,i) = par2(:,:,i) + eye(p) * 0.001;
+    end
+    
+    
 end
 
 modelo = {};

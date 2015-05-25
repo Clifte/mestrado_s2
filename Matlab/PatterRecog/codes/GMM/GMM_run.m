@@ -2,7 +2,11 @@ addpath(genpath('../util/'))
 clear all; clear;clc;close all;
 warning('off','all')
 
-exportDir = '../../../../Latex/ReconhecimentoDePadroes/trabalho2/matlab/';
+global exportDir;
+exportDir = '../../../../Latex/ReconhecimentoDePadroes/trabalho3/matlab/';
+
+
+show_anim = 1;
 
 %%
 %Carrega e prepara a base
@@ -10,42 +14,12 @@ carregaPreparaBase;
 %%
 carregaParametrosGMM;
 
-x = x(:,[1 4]);
 
-model = GMMEM(x, 3);
-medias = model.medias;
+exportDir = ['../../../../Latex/ReconhecimentoDePadroes/trabalho3/matlab/gmm/'   baseSelecionada '/'];
 
-h1 = figure;
-h2 = figure;
-
-for i=1:100000
-    model = GMMEM(x, 3,model);
-    
-    figure(h1);
-    hold off;
-    scatter(x(:,1),x(:,2));
-    hold on;
+x = x(:,[2 3]);
 
 
-    nSamples = 100;
-    range = linspace(-0.5,1.5,nSamples);
-    xy = generatePairs(range,range);
-    [Px]= GMM(model,xy);
+GMM_train(x,K,1);
 
-    Px = reshape(Px,[nSamples nSamples]);
-    contour(range,range,Px,20)
-    drawnow;
-    
-    est = sum(abs(model.medias(:)-medias(:)));
-    sprintf('estabilizacao: %f\n',est )
-    if( est < 10E-10 )
-        break;
-    end
-        
-    medias = model.medias(:);
-    
-    figure(h2);
-    surf(Px);
-    view( [ mod(i,90) 30] );
-    
-end
+

@@ -1,7 +1,7 @@
-%% Parâmetros
+%% Parï¿½metros
 %1-setosa
 %2-versicolor
-%3-virgínica
+%3-virgï¿½nica
 
 %modo 
 %. 
@@ -16,17 +16,17 @@ function [ x , y ] = carregaDados(modo,path,N)
     [m n] = size(x);
 
 
-    %Ajustando saída desejada
+    %Ajustando saï¿½da desejada
     if(modo>=1 & modo<=(N))
         y = zeros(m,1);
         y(:,1) = x(:,end)==modo;
     else
         y = zeros(m,N);
-	for i=1:N
-	   y(:,i) = x(:,end)==i;
+        for i=1:N
+           y(:,i) = x(:,end)==i;
 	end
     end
 
-    %apagando última coluna com as labels
+    %apagando ï¿½ltima coluna com as labels
     x(:,end) = [];
 end

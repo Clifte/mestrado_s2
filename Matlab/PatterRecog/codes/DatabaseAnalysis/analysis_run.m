@@ -5,7 +5,7 @@ warning('off','all')
 
 %%
 %Configurações
-base = 'derme';
+base = 'diab';
 
 %Inicialização
 [ x , y ,labels, features ] = carregaDatabase(base);

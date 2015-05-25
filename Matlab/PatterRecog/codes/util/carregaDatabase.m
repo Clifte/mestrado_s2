@@ -33,6 +33,54 @@ function [x y labels features] = carregaDatabase(name,qtd)
                              'c. dermat'
                              'pit rubra'
                          ];
+                     
+                     
+         case 'breastC'          
+            [ x , y ] = carregaDados( 3 , '../database/breastCancer/bc.txt',2);
+            labels =      [ 'malignant'
+                            'benign   '
+                         ];
+                     
+             features =      [ 'Clump Thickness             '
+                               'Uniformity of Cell Size     '
+                               'Uniformity of Cell Shape    '
+                               'Marginal Adhesion           '
+                               'Single Epithelial Cell Size '
+                               'Bare Nuclei                 '
+                               'Bland Chromatin             '
+                               'Normal Nucleoli             '
+                               'Mitoses                     '
+                         ];                     
+
+        case 'haber'          
+            [ x , y ] = carregaDados( 3 , '../database/haberman/hab.txt',2);
+            labels =      [ 'Sobreviveu'
+                            'Faleceu   '
+                         ];
+                     
+             features =      [ 'Idade        '
+                               'Ano operacao '
+                               'n nodulos    '
+                         ];                        
+
+        
+        case 'diab'          
+            [ x , y ] = carregaDados( 3 , '../database/diabetes/dia.txt',2);
+            labels =      [ '1'
+                            '2'
+                         ];
+                     
+             features =      [ 'n gravidez   '
+                               'plasm concent'
+                               'pressao Dias '
+                               'tric tick    '
+                               'insulim 2h   '
+                               'IMC          '
+                               'ped func     '
+                               'idade        '
+                         ]; 
+                     
+                     
         case 'ocr'
             [ x , y ] = carregaDados( 11 , '../database/OCR/ocr.data',10);
         otherwise
@@ -61,7 +109,7 @@ function [x y labels features] = carregaDatabase(name,qtd)
     fprintf('Número de atributos da base %d \n',size(x,2));
     fprintf('Número de classes: %d \n',size(y,2));
     fprintf('Classes:\n');
-    disp(labels);
-    disp(features)
+%     disp(labels);
+%     disp(features);
     
 end

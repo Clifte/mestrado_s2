@@ -1,6 +1,11 @@
 function [ xd yd xt yt ] = preparaDados( X, Y, pTeste)
-    [m n] =size(X);
+    global randSeedPreparaDados;
+    [m n] = size(X);
 
+    if (randSeedPreparaDados~=0)
+        rng(randSeedPreparaDados)
+    end
+        
     %Embaralhando DataSet
     indicePermut = randperm(m);
     xp = X(indicePermut , :);
