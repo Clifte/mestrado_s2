@@ -12,7 +12,7 @@ randSeedPreparaDados = 0;
 global parametro1
 parametro1 = 0.002;
 
-fnc = 'parzenGauss';
+fnc = 'gmm';
 try
     load(fnc)
 catch
@@ -92,6 +92,12 @@ for i=1:length(bases)
         [v ReMinimo] = min(Re');
         
         
+%         
+         [ath awr ] = unique(ReMinimo);
+         Re = Re(awr,:);
+         ReMinimo=ath;
+         v = v(awr);
+        
         Eo = E(ReMinimo);
         Ro = R(ReMinimo);
         
@@ -117,7 +123,10 @@ for i=1:length(bases)
 
         h = subplot(2,2,3);
         plot(threshs,Re); hold on;
-        scatter(threshs(ReMinimo),v);
+        scatter(threshs(ath),v,'k','filled');
+        %scatter(threshs(ReMinimo),v);
+        
+        
         %legend(num2str(wrs','wr=%0.2f'))
         title('Erro empirico');
         path = sprintf('%sErroEmpirico.eps',pathBase);
@@ -126,11 +135,17 @@ for i=1:length(bases)
         
         
         h = subplot(2,2,4);
-        scatter(Ro,1-Eo);hold on;
+        scatter(Ro,1-Eo,'filled');hold on;
         plot(Ro,1-Eo)
         title('Taxa de rejeicao vc Acuracia');        
         path = sprintf('%sRejeicaoAcuracia.eps',pathBase);
         saveSubplot(h,path)
+        
+    
+        info = [wrs(awr)' threshs(ath)' 1-Eo Ro];
+        path = sprintf('%sWrsAccRej.csv',pathBase);
+        %csvwrite(path,info);
+        dlmwrite(path,info, 'precision', 3);
 end
 
 % 

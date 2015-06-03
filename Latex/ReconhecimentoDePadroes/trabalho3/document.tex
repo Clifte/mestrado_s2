@@ -60,6 +60,26 @@
 
 \def\pathForRejDec#1#2#3{{matlab/#1/#2/RejOpt/decReg/decRegion_#3_A}.eps}
 
+\def\pathForEmpError#1#2{matlab/#1/#2/RejOpt/ErroEmpirico.eps}
+
+\def\pathForAR#1#2{matlab/#1/#2/RejOpt/RejeicaoAcuracia.eps}
+
+
+\def \importWRTable#1#2{
+	\begin{tabular}[t]{c|c|c|c}%
+	    \bfseries $W_r$ & 
+	    \bfseries $\beta_o$ &
+	    \bfseries $A(\beta_o)$ & 
+	    \bfseries $R(\beta_o)$% specify table head 
+	    \csvreader[no head]{matlab/#1/#2/RejOpt/WrsAccRej.csv}{}% use head of
+	    % csv as column names
+	    {\\\hline\csvcoli&\csvcolii&\csvcoliii&\csvcoliv}% specify your coloumns
+	    % here
+	    \\\hline
+    \end{tabular}
+}
+
+ 
 
 %
 
@@ -201,26 +221,61 @@ A estimativa da distribuição de dados é importante pois permite utilizar uma
 representação compacta dos dados e ainda sim mater as informações mais
 relevantes da base. Existem basicamente três abordagens para estimar a função de
 densidade de probabilidade de um sinal: paramétrica, não- paramétrica e
-semiparamétrica. O sucesso destas representações dependem do modelo que tem sido definido.
+semiparamétrica. O sucesso destas representações dependem do modelo que tem sido
+definido \cite{Duda}.
 
 \subsubsection{Método não paramétrico}
-Os métodos não-paramétricos não fazem nenhuma consideração da distribuição de proba-
-bilidade dos dados. Em geral, estes métodos se caracterizam por conseguir uma estimativa ade-
-quada para qualquer conjunto de dados que recebem como entrada.
+Os métodos não-paramétricos não fazem nenhuma consideração da distribuição de
+proba- bilidade dos dados. Em geral, estes métodos se caracterizam por conseguir
+uma estimativa ade- quada para qualquer conjunto de dados que recebem como
+entrada. O uso de métodos não parametricos para a estimação das funções de
+densidade de probabilidade vem da falta de informações a priore sobre a a função
+de densidade de probabilidade dos dados. Como exemplo de método não paramétrico
+temos a janela de Parzen.
+
+
 
 
 \subsubsection{Método paramétrico}
-A abordagem paramétrica é geralmente usada quando a distribuição dos dados é conhe-
-cida antecipadamente ou quando os dados são simples de forma que permitam ser modelados
-usando uma distribuição conhecida, por exemplo gaussiana, Gamma, Laplace, etc
+A abordagem paramétrica é geralmente usada quando a distribuição dos dados é
+conhecida antecipadamente ou quando os dados são simples de forma que permitam
+ser modelados usando uma distribuição conhecida, por exemplo gaussiana, Gamma,
+Laplace, etc
 
 \subsubsection{Método semi-paramétrico}
-A abordagem semiparamétrica  combina a flexibilidade da abor- dagem
+A abordagem semiparamétrica  combina a flexibilidade da abordagem
 não-paramétrica e a eficiência na avaliação dos parâmetros da abordagem
 paramétrica. Estes modelos utilizam um número de funções base que são sempre
 menores que o conjunto de treinamento. O uso dos modelos semiparamétricos
 baseados em gaussianas,GMM, tem se apresentado como uma ferramenta amplamente
 usada na estimativa da PDF de qualquer sinal.
+
+\subsection{Janela de Parzen–Rosenblatt }
+A janela de Parzen, Parzen-Rosenblatt, é um método utilizado para estimar a
+função de densidade de probabilidade $p(x)$ com base nas amostras presentes na
+base de treinamento. A ideia basica da janela de parzen é contar quantas
+amostras influenciam em determinada região R (Janela). A influencia de cada
+amostra é definida a priori com a definição do Kernel. A utilização de kernels
+do tipo hipercubos ou Gaussianas multivariadas são as mais comuns e ao longo
+deste trabalho são utilizados apenas kernels de gaussianas multivariadas.
+
+Definimos a influencia de uma amostra $x$ como $p(x)$. Para o caso da gaussiana
+multivariada temos:
+\begin{equation}
+p(x)=\frac{1}{ (2 \pi)^{d/2}  |\Sigma|^{1/2}}  
+exp[-\frac{1}{2}(x-\mu)^t\Sigma^{-1}(x-\mu)]
+\end{equation}
+
+
+Portanto a influencia total $P(x)$ é computada como:
+\begin{equation}
+P(x)=\frac{1}{N} \sum_{i=1}^{N}p(x_n) 
+\end{equation}
+
+Apesar da gaussiana multivariada aceitar qualquer matriz de covariancia,
+contanto que esta seja regular e simetrica, neste trabalho são utilizadas
+apenas matriz que possuem uma configuração $\sigma^2 I$ ou seja, uma matriz
+diagonal de covariancia igual a $\sigma$.
 
 
 \subsection{Gaussian Misture Models}
@@ -306,26 +361,7 @@ base, essas combinações são utilizadas para realizar o treinamento do GMM.
 \end{figure}
 
 
-
-\subsection{Normalização e codificação}
-\label{ss:normCodf} 
-Após o carregamento da base foi realizado apenas a normalização dos dados e a
-codificação dos rótulos. A normalização foi realizada separadamente para cada
-atributo. Foi identificado o máximo e o mínimo do atributo $p$ e todos os
-valores foram normalizados na faixa [0,1].
-
-A codificação do rótulo foi feita no modelo 1-de-k(1-of-K ou one-hot encoding),
-nesse modelo o rótulo é codificado em um vetor onde cada posição do
-vetor representa uma classe. Nesse modelo para uma quantidade $m$ de classes
-temos um vetor com $m$ posições e a classe $k$ é representada por um vetor
-onde todas as outras posições diferentes de $k$ possuem o valor zero e a
-posição $k$ possui o valor 1. Dessa forma as três classes possíveis da íris
-foram codificadas em um vetor de 3 posições, onde a posição 1, 2 e 3
-representam a classe setosa, versicolor e virgínica respectivamente. O mesmo foi
-repetido para as bases da coluna vertebral, câncer de mama, diabetes e haberman.
-
-
-\section{Classificador de Bayes}
+\section{Classificador de Bayes com opção de rejeição}
 \subsection{Introdução}
 Dada uma classificação entre M classes, o classificador de Bayes faz a seleção
 da classe de um dado $x$ com base na probabilidade de $w_i$ dado um $x$ ,
@@ -405,6 +441,150 @@ devido a tomada de decisão ser feita apenas para duas classes, dessa forma, par
 um limiar inferior a 50\% sempre haverá uma classe com uma probabilidade a
 porteriore maior.
 
+O desempenho de um classificador com capacidade de rejeição pode ser descrito através de
+uma curva que leva em consideração a taxa de classificação (acurácia) em relação à sua taxa de
+rejeição. Esta representação é denominada curva A-R (Accuracy-Reject Curve), em que cada
+valor correspondente a uma taxa de erro e a uma taxa de rejeição que depende do custo de
+rejeição $W_r$ \cite{AJALMAR}. Esses valores são obtidos à partir da minimização
+do erro empírico que é calculado atravéz da soma ponderada do erro e da taxa de
+rejeição obtidos para um valor de limiar de rejeição. Temos o erro
+empírico definido a seguir.
+\begin{equation}
+	E_{empírico}(\beta) = E(\beta) + W_r R(\beta) 
+\end{equation}
+
+Dessa forma podemos obter o erro empírico para cada uma das bases, figura
+\ref{fig:empError} em função do valor de $\beta$ e de $W_r$. Na figura são
+exibidos apenas os $W_r$ que geram um par $(E(\beta),R(\beta))$ distintos. Esse
+par ordenado é utilizado para gerar os gráfico da curava A-R exibido na figura
+\ref{fig:ar}.
+
+
+\begin{figure}
+\begin{tabular}{c c c}
+
+\multicolumn{3}{c}{Erro Empírico}\\ \hline \hline
+\multicolumn{3}{c}{Coluna vertebral}\\ \hline
+\includegraphics[width=\textwidth / 3]{\pathForEmpError{gauss}{vertebra}} & 
+\includegraphics[width=\textwidth / 3]{\pathForEmpError{gmm}{vertebra}} &
+\includegraphics[width=\textwidth / 3]{\pathForEmpError{parzenGauss}{vertebra}}\\
+(a) Gaussiana & (b) GMM & (c) Janela de Parzen \\
+\\
+\multicolumn{3}{c}{Câncer de Mama}\\ \hline
+\includegraphics[width=\textwidth / 3]{\pathForEmpError{gauss}{breastC}} & 
+\includegraphics[width=\textwidth / 3]{\pathForEmpError{gmm}{breastC}} &
+\includegraphics[width=\textwidth / 3]{\pathForEmpError{parzenGauss}{breastC}} \\
+(d) Gaussiana & (e) GMM & (f) Janela de Parzen \\
+\\
+\multicolumn{3}{c}{Diabetes}\\ \hline
+\includegraphics[width=\textwidth / 3]{\pathForEmpError{gauss}{diab}} & 
+\includegraphics[width=\textwidth / 3]{\pathForEmpError{gmm}{diab}} &
+\includegraphics[width=\textwidth / 3]{\pathForEmpError{parzenGauss}{diab}} \\
+(g) Gaussiana & (h) GMM & (i) Janela de Parzen \\
+\\
+\multicolumn{3}{c}{Haberman}\\ \hline
+\includegraphics[width=\textwidth / 3]{\pathForEmpError{gauss}{haber}} & 
+\includegraphics[width=\textwidth / 3]{\pathForEmpError{gmm}{haber}} &
+\includegraphics[width=\textwidth / 3]{\pathForEmpError{parzenGauss}{haber}} \\
+(j) Gaussiana & (k) GMM & (l) Janela de Parzen \\
+
+ 
+\end{tabular}
+\caption{Cada curva em cada um dos gráficos reflete o erro empírico em função
+de algum $W_r$. O valor de cada $W_r$ utilizado para gerar as curvas podem ser
+visualizado com mais detalhes na tabela \ref{tab:wrBase}.}
+\label{fig:empError}
+\end{figure} 
+
+
+\begin{figure}
+\begin{tabular}{c c c}
+
+\multicolumn{3}{c}{Erro Empírico}\\ \hline \hline
+\multicolumn{3}{c}{Coluna vertebral}\\ \hline
+\includegraphics[width=\textwidth / 3]{\pathForAR{gauss}{vertebra}} & 
+\includegraphics[width=\textwidth / 3]{\pathForAR{gmm}{vertebra}} &
+\includegraphics[width=\textwidth / 3]{\pathForAR{parzenGauss}{vertebra}}\\
+(a) Gaussiana & (b) GMM & (c) Janela de Parzen \\
+\\
+\multicolumn{3}{c}{Câncer de Mama}\\ \hline
+\includegraphics[width=\textwidth / 3]{\pathForAR{gauss}{breastC}} & 
+\includegraphics[width=\textwidth / 3]{\pathForAR{gmm}{breastC}} &
+\includegraphics[width=\textwidth / 3]{\pathForAR{parzenGauss}{breastC}} \\
+(d) Gaussiana & (e) GMM & (f) Janela de Parzen \\
+\\
+\multicolumn{3}{c}{Diabetes}\\ \hline
+\includegraphics[width=\textwidth / 3]{\pathForAR{gauss}{diab}} & 
+\includegraphics[width=\textwidth / 3]{\pathForAR{gmm}{diab}} &
+\includegraphics[width=\textwidth / 3]{\pathForAR{parzenGauss}{diab}} \\
+(g) Gaussiana & (h) GMM & (i) Janela de Parzen \\
+\\
+\multicolumn{3}{c}{Haberman}\\ \hline
+\includegraphics[width=\textwidth / 3]{\pathForAR{gauss}{haber}} & 
+\includegraphics[width=\textwidth / 3]{\pathForAR{gmm}{haber}} &
+\includegraphics[width=\textwidth / 3]{\pathForAR{parzenGauss}{haber}} \\
+(j) Gaussiana & (k) GMM & (l) Janela de Parzen \\
+
+ 
+\end{tabular}
+\caption{Cada curva em cada um dos gráficos reflete o erro empírico em função
+de algum $W_r$. O valor de cada $W_r$ utilizado para gerar as curvas podem ser
+visualizado com mais detalhes na tabela \ref{tab:wrBase}.}
+\label{fig:ar}
+\end{figure} 
+
+Os mínimos de cada $W_r$ são exibidos na tabela \ref{tab:wrBase}
+
+
+\begin{table}
+    \tiny
+	\begin{tabular}{c c c}
+	
+	\multicolumn{3}{c}{Erro Empírico}\\ \hline \hline
+	 
+	
+	
+	\multicolumn{3}{c}{Coluna vertebral}\\ \hline
+	\importWRTable{gauss}{vertebra} & 
+ 	\importWRTable{gmm}{vertebra} &
+ 	\importWRTable{parzenGauss}{vertebra} \\
+ 	
+ 	(a) Gaussiana & (b) GMM & (c) Janela de Parzen \\ %\\
+
+	\\
+	\multicolumn{3}{c}{Câncer de Mama}\\ \hline
+	\importWRTable{gauss}{breastC} &
+	\importWRTable{gmm}{breastC} &
+	\importWRTable{parzenGauss}{breastC} \\
+	(d) Gaussiana & (e) GMM & (f) Janela de Parzen \\
+
+	\\
+	\multicolumn{3}{c}{Diabetes}\\ \hline
+	\importWRTable{gauss}{diab} &
+	\importWRTable{gmm}{diab} &
+	\importWRTable{parzenGauss}{diab} \\
+	(g) Gaussiana & (h) GMM & (i) Janela de Parzen \\
+
+	\\
+	\multicolumn{3}{c}{Haberman}\\ \hline
+	\importWRTable{gauss}{haber} &
+	\importWRTable{gmm}{haber} &
+	\importWRTable{parzenGauss}{haber} \\
+	(j) Gaussiana & (k) GMM & (l) Janela de Parzen \\
+
+
+	\end{tabular}
+	\caption{Cada tabela exibe a acurácia e a taxa de rejeição ótimos encontrado
+	para algum limiar $\beta_o$ em função de $W_r$ para cada uma das bases
+	utilizando três diferentes PDFs.}
+\label{tab:wrBase}
+\end{table} 
+
+
+
+
+
+
 
 
 \subsubsection{Impacto na região de decisão}
@@ -414,7 +594,9 @@ duas classes, dessa forma, a classe de rejeição também define uma região de
 decisão. Essa região tem sua área controlada pelo valor do limiar de rejeição e
 sempre inicializa na região de interseção das outras duas classes. Nas figuras
 \ref{fig:regDecRejLmGauss},\ref{fig:regDecRejLmGMM} e
-\ref{fig:regDecRejLmParzen} são exibidas as regiões de decisões controladas com o limiar de rejeição utilizando 3 diferentes funções de densidade de probabilidade.
+\ref{fig:regDecRejLmParzen} são exibidas as regiões de decisões controladas com
+o limiar de rejeição utilizando 3 diferentes funções de densidade de
+probabilidade.
 
  
 
@@ -451,7 +633,7 @@ sempre inicializa na região de interseção das outras duas classes. Nas figura
 
 
 \end{tabular}
-\caption{Região de decisão formada utilizando a gaussiana como função de
+\caption{Região de decisão formada utilizando três diferentes funções de
 densidade de probabilidade. Foram testados três valores de limiar de rejeição
 $\beta$ para as três bases.}
 \label{fig:regDecRejLmGauss}
@@ -497,7 +679,7 @@ rejeição $\beta$ para as três bases.}
 \label{fig:regDecRejLmGMM}
 \end{figure} 
 
-
+ 
 
 
 
@@ -537,247 +719,43 @@ $\beta$ para as três bases.}
 \end{figure} 
 
 
+\subsubsection{Busca por tamanho de janela ótima de Parzen}
+\label{sss:OptSizWindSearc}
+
+Abaixo, figura \ref{fig:parzenGraphResults} são exibidos os resultados obtidos
+ao realizar a busca pelo tamanho da janela ótima de parzen para cada base de dados.
+Foram considerados todos os atributos disponíveis em cada base, estes
+foram normalizados e codificados apropriadamente assim como dito na
+subsessão \ref{ss:normCodf}.
+
+
+A linha ao centro de cada gráfico é a acurácia as outras duas são os limites.
+Os limites são determinados a uma distância de um $\sigma^2$(desvio padrão)
+acima e abaixo da acurácia média. Pode-se perceber que indiferentemente da base
+de dados o aumento considerável da janela de parzen causa uma redução da
+acurácia do classificador. Isso é causado por uma maior interferência dos vizinhos no
+cálculo da probabilidade condicional o que faz com que seja levado em conta
+apenas as probabilidades a priore para a determinação da classe para um dado
+$x$. Isso pode ser observado quando a variância, largura da janela de parzen, é
+maior que 2 na base da íris ou maior que 0.7 na base da coluna vertebral.
+
+Os pontos máximos destas curvas nos indicam o valor ótimo da janela de parzen.
+Desta forma temos na tabela \ref{tab:acuracia} o valor de acurácia e tamanho da
+janela para as três bases.
 
 
 
-\subsection{Metodologia}
-\label{ss:metAplbayes}
-Na sessão \ref{ss:resultadosObtidos} são apresentados os resultados obtidos ao
-aplicar o classificador de bayes utilizando como função de densidade
-probabilidade a Gaussiana e as distâncias eclidiana e de mahanalanobis. Para
-todos os conjuntos de dados os testes foram realizados sobre uma partição de 25\% do total de dados, escolhida de forma
-aleatória para cada repetição dos algoritmos.
-
-Os três primeiros testes usam a função gaussiana como função de
-densidade de probabilidade. No primeiro teste foram realizados os testes
-utilizando médias e variancias diferentes para cada classe com esses valores
-calculados apenas com dados da mesma classe. Assim estimamos um $\mu_i$ e um
-$\sigma^2_i$ para uma classe $i$ utilizando apenas os valores de $x \in W_i$, onde $W_i$ são os padrões da classe $i$.
-
-O segundo teste realizado leva em consideração que todas as matrizes de
-covariância das classes possuem a seguinte forma: $\Sigma_i=\sigma^2I \forall i$
-portanto são matrizes diagonais com o mesmo valor de variancia, $\sigma^2$ e
-covariâncias nula.
-
-O terceiro teste considera que todas as matrizes de covariâncias são diferentes
-porem os elementos que não estão na diagonal principal tem seus valores
-atualizados para zero, assim temos a matriz de covariância da classe
-$i$ é $\Sigma_i : \Sigma_i(a,b)=0 \forall a \neq b$.
-
-O quarto e quinto teste leva em consideração que as classes são equiprováveis.
-Para o quarto a distinção entre as classes é feita através do cálculo da
-distância Euclidiana enquanto para o quinto é feito o cálculo da distância de
-Mahalanobis. Diferentemente das abordagens anteriores, onde a decisão por uma
-classe é feita a partir da maximização da probabilidade a posteriore, o uso da
-distância Euclidiana ou Mahalanobis age de forma diferente. Afim de manter a
-mesma ideia de maximização o resultado da distância é normalizado
-exponencialmente entre 0 e 1, onde 1 ocorre quando a distância entre uma amostra
-e a média da classe é zero.
-
-
-%  e a janela de parzen. Para a janela de parzen foi exibido o melhor resultado para um
-% determinada largura de janela do tipo gaussiana. O tamanho da janela foi
-% determinado após uma pesquisa linear entre valores na faixa de 0.001 e 3 para o
-% valor da variância.
- 
-\subsection{Resultados obtidos}
-\label{ss:resultadosObtidos}
-
-Na tabela \ref{tab:acuracia} são exibidos os resultados obtidos ao realizar a
-classificação utilizando a regra de Bayes com funções de densidade probabilidade
-(PDF) diferentes. Para cada base de dados tem-se o resultado utilizando a
-Gaussiana como PDF, além disso são exibidos os resultados obtidos para
-diferentes matrizes de covariância.
-
-Na primeira tabela temos o classificador utilizando matrizes de covariâncias
-diferentes para cada classe. Isso permite que a região de decisão possa modelar
-os dados de uma forma quadrática e portanto espera-se um resultado melhor que a
-tabela seguinte.
-
-Na tabela seguinte, ao fazer a escolha por apenas uma matriz de covariância para
-todas as classes o classificador se comporta de maneira linear, restringindo
-ainda mais a sua capacidade de discriminação dos dados, resultando portanto em
-uma acurácia média menor.
-
-No terceiro teste, ao optar por matrizes de covariâncias diferentes obtemos
-novamente uma região de decisão não linear, neste caso quadrática, por isso
-temos uma melhora nos resultados em comparação com a tabela anterior.
-
-No quarto teste, ao utilizarmos probabilidades a priori iguais e a distância
-Euclidiana como função de densidade de probabilidade temos novamente um
-classificador linear. Esse classificador também é conhecido como DMC(Distância
-mínima ao centróide).
-
-No quinto e último teste temos a distância de Mahalanobis como função de
-densidade de probabilidade. Este tipo de distância leva em consideração a forma
-como os pontos estão dispostos no espaço para calcular a distância. Como cada
-classe poussui uma matriz de covariancia diferente, este classificador também é
-não linear. Ao realizarmos a normalização exponencial, como dito na sessão
-anterior \ref{ss:metAplbayes}, temos um resultado semelhante ao da primeira
-tabela. Uma pequena diferença existe pois neste quinto teste as probabilidades a
-priori forão definidas com valores iguais.
-
-
-
-% 
-% \begin{table}
-% 	\centering
-%     \begin{tabular}{|c|c|c|c|c|c}%
-% 		  \multicolumn{5}{c}{Gaussiana como PDF com Matrizes de Covariância
-% 		  distintas}\\
-% 		  \hline \hline DataSet & média & desvio Padrão & máximo & mínimo \\ \hline
-%           \input{matlab/acuracias/iris_BAYES_gauss_1_2_3_4.tex} \\ \hline
-%           \input{matlab/acuracias/vertebra_BAYES_gauss_1_2_3_4_5_6.tex} \\ \hline
-%           \input{matlab/acuracias/derme_BAYES_gauss_1_2_3_4_5_6_7_8_9_10_11_12_13_14_15_16_17_18_19_20_21_22_23_24_25_26_27_28_29_30_31_32_33_34.tex} \\ \hline
-% 		  \multicolumn{5}{c}{}\\
-% 		  \multicolumn{5}{c}{Gaussiana como PDF com Matriz de covariacia iguas:
-% 		  $\Sigma_i=\sigma^2I \forall i$}\\
-% 		  \hline \hline DataSet & média & desvio Padrão & máximo & mínimo \\ \hline
-%           \input{matlab/acuracias/iris_BAYES_same_1_2_3_4.tex} \\ \hline
-%           \input{matlab/acuracias/vertebra_BAYES_same_1_2_3_4_5_6.tex} \\ \hline
-%           \input{matlab/acuracias/derme_BAYES_same_1_2_3_4_5_6_7_8_9_10_11_12_13_14_15_16_17_18_19_20_21_22_23_24_25_26_27_28_29_30_31_32_33_34.tex} \\ \hline 
-% 		  \multicolumn{5}{c}{}\\
-% 		  \multicolumn{5}{c}{Gaussiana como PDF com Matriz de covariacia diagonal diferentes}\\
-% 		  \hline \hline DataSet & média & desvio Padrão & máximo & mínimo \\ \hline
-%           \input{matlab/acuracias/iris_BAYES_diag_1_2_3_4.tex} \\ \hline
-%           \input{matlab/acuracias/vertebra_BAYES_diag_1_2_3_4_5_6.tex} \\ \hline
-%           \input{matlab/acuracias/derme_BAYES_diag_1_2_3_4_5_6_7_8_9_10_11_12_13_14_15_16_17_18_19_20_21_22_23_24_25_26_27_28_29_30_31_32_33_34.tex} \\ \hline     
-% 		  \multicolumn{5}{c}{}\\
-% 		  \multicolumn{5}{c}{Distância Euclidiana como PDF}\\ \hline
-%           \hline DataSet & média & desvio Padrão & máximo & mínimo \\ \hline
-%           \input{matlab/acuracias/iris_BAYES_distEuclid_1_2_3_4.tex} \\ \hline
-%           \input{matlab/acuracias/vertebra_BAYES_distEuclid_1_2_3_4_5_6.tex} \\ \hline
-%           \input{matlab/acuracias/derme_BAYES_distEuclid_1_2_3_4_5_6_7_8_9_10_11_12_13_14_15_16_17_18_19_20_21_22_23_24_25_26_27_28_29_30_31_32_33_34.tex} \\ \hline     
-% 		  \multicolumn{5}{c}{}\\
-% 		  \multicolumn{5}{c}{Distância Mahalanobis como PDF}\\ \hline
-%           \hline DataSet & média & desvio Padrão & máximo & mínimo \\ \hline
-%           \input{matlab/acuracias/iris_BAYES_distManha_1_2_3_4.tex} \\ \hline
-%           \input{matlab/acuracias/vertebra_BAYES_distManha_1_2_3_4_5_6.tex} \\ \hline
-%           \input{matlab/acuracias/derme_BAYES_distManha_1_2_3_4_5_6_7_8_9_10_11_12_13_14_15_16_17_18_19_20_21_22_23_24_25_26_27_28_29_30_31_32_33_34.tex} \\ \hline     
-% 		  
-% % 		  \multicolumn{5}{c}{Janela de Parzen}\\ \hline
-% %           \hline DataSet & média & desvio Padrão & máximo & mínimo \\ \hline
-% %           \input{matlab/acuracias/iris_BAYES_parzenGauss_1_2_3_4.tex} \\ \hline
-% %           \input{matlab/acuracias/vertebra_BAYES_parzenGauss_1_2_3_4_5_6.tex} \\ \hline
-% %           \input{matlab/acuracias/derme_BAYES_parzenGauss_1_2_3_4_5_6_7_8_9_10_11_12_13_14_15_16_17_18_19_20_21_22_23_24_25_26_27_28_29_30_31_32_33_34.tex}
-% %           \\ \hline
-%           
-%     \end{tabular}
-%     \caption{Resultado obtido nos diversos testes do classificador}
-%     \label{tab:acuracia}
-% \end{table}
-% 
-
-
-% 
-% 
-% \begin{table}
-% \centering
-%     \begin{tabular}{c}%
-%       Matrizes de covariâncias diferentes \\  
-%       \csvautotabular[separator=semicolon]{matlab/CM/iris/gauss_BAYES_cmNorm.csv} \\  
-%       \csvautotabular[separator=semicolon]{matlab/CM/vertebra/gauss_BAYES_cmNorm.csv} \\  
-%       {\footnotesize  \csvautotabular[separator=semicolon]{matlab/CM/derme/gauss_BAYES_cmNorm.csv}} \\  
-%       \\   
-%       \end{tabular}
-%       \caption{Matriz confusão obtida utilizando a gaussiana como PDF com 
-%       matrizes de covariâncias diferentes}
-%       \label{tab:CMMatrizesCovDiferentes}
-% \end{table}
-% 
-% 
-% \begin{table}
-% \centering
-%     \begin{tabular}{c}%
-%             Matrizes de covariâncias iguais \\  
-%       \csvautotabular[separator=semicolon]{matlab/CM/iris/same_BAYES_cmNorm.csv} \\
-%       \csvautotabular[separator=semicolon]{matlab/CM/vertebra/same_BAYES_cmNorm.csv} \\  
-%       {\footnotesize  \csvautotabular[separator=semicolon]{matlab/CM/derme/same_BAYES_cmNorm.csv}} \\ \ 
-%       \\  
-%       \end{tabular}
-%       \caption{Matriz confusão obtida utilizando a gaussiana como PDF com 
-%       matrizes de covariâncias iguais}
-%       \label{tab:CMMatrizesCovIguais}   
-% \end{table}
-% 
-% \begin{table}
-% \centering
-%     \begin{tabular}{c}%      
-%             Matrizes de covariâncias diferentes e diagonais\\  
-%       \csvautotabular[separator=semicolon]{matlab/CM/iris/diag_BAYES_cmNorm.csv}\\
-%       \csvautotabular[separator=semicolon]{matlab/CM/vertebra/diag_BAYES_cmNorm.csv} \\
-%       {\footnotesize  \csvautotabular[separator=semicolon]{matlab/CM/derme/diag_BAYES_cmNorm.csv}} \\  
-%       
-%       \end{tabular}
-%       \caption{Matriz confusão obtida utilizando a gaussiana como PDF com 
-%       matrizes de covariâncias diferentes e diagonais}
-%       \label{tab:CMMatrizesCovDiferentesDiagonais}        
-% \end{table}
-% 
-% \begin{table}
-% \centering
-%     \begin{tabular}{c}%      
-%              distância Euclidiana\\  
-%       \csvautotabular[separator=semicolon]{matlab/CM/iris/distEuclid_BAYES_cmNorm.csv}\\
-%       \csvautotabular[separator=semicolon]{matlab/CM/vertebra/distEuclid_BAYES_cmNorm.csv} \\
-%       {\footnotesize  \csvautotabular[separator=semicolon]{matlab/CM/derme/distEuclid_BAYES_cmNorm.csv}} \\  
-%        \end{tabular}
-%              \caption{Matriz confusão obtida utilizando a distância Euclidiana
-%              como PDF}
-%       \label{tab:CMDistEuclid}  
-% \end{table}
-% 
-% \begin{table}
-% \centering
-%     \begin{tabular}{c}%
-%              distância Mahalanobis\\  
-%       \csvautotabular[separator=semicolon]{matlab/CM/iris/distManha_BAYES_cmNorm.csv}\\
-%       \csvautotabular[separator=semicolon]{matlab/CM/vertebra/distManha_BAYES_cmNorm.csv} \\
-%       {\footnotesize  \csvautotabular[separator=semicolon]{matlab/CM/derme/distManha_BAYES_cmNorm.csv}} \\  
-%       \end{tabular}
-%             \caption{Matriz confusão obtida utilizando a distância Mahalanobis
-%              como PDF}
-%       \label{tab:CMDistMaha}  
-% \end{table}
-
-% 
-% \subsubsection{Busca por tamanho de janela ótima de Parzen}
-% \label{sss:OptSizWindSearc}
-% 
-% Abaixo, figura \ref{fig:parzenGraphResults} são exibidos os resultados obtidos
-% ao realizar a busca pelo tamanho da janela ótima de parzen para cada base de dados.
-% Foram considerados todos os atributos disponíveis em cada base, estes
-% foram normalizados e codificados apropriadamente assim como dito na
-% subsessão \ref{ss:normCodf}.
-% 
-% 
-% A linha ao centro de cada gráfico é a acurácia as outras duas são os limites.
-% Os limites são determinados a uma distância de um $\sigma^2$(desvio padrão)
-% acima e abaixo da acurácia média. Pode-se perceber que indiferentemente da base
-% de dados o aumento considerável da janela de parzen causa uma redução da
-% acurácia do classificador. Isso é causado por uma maior interferência dos vizinhos no
-% cálculo da probabilidade condicional o que faz com que seja levado em conta
-% apenas as probabilidades a priore para a determinação da classe para um dado
-% $x$. Isso pode ser observado quando a variância, largura da janela de parzen, é
-% maior que 2 na base da íris ou maior que 0.7 na base da coluna vertebral.
-% 
-% Os pontos máximos destas curvas nos indicam o valor ótimo da janela de parzen.
-% Desta forma temos na tabela \ref{tab:acuracia} o valor de acurácia e tamanho da
-% janela para as três bases.
-% 
-% 
-% 
 % \begin{figure}
 % 	\centering
 % 	\begin{tabular}{cc}
 % 	  \includegraphics[width=65mm]{matlab/figura/iris_BAYES_ParzenSearch.eps} &
 % 	  \includegraphics[width=65mm]{matlab/figura/derme_BAYES_ParzenSearch.eps}
 % 	  \\
-% 	(a) Íris & (b) Dermatologia \\[6pt] 
+% 	(a) Íris & (b) Dermatologia \\[6pt]
 % 	 \includegraphics[width=65mm]{matlab/figura/vertebra_BAYES_ParzenSearch.eps}  &
 % 	 \\
 % 	 %\includegraphics[width=70mm]{matlab/figura/iris_KNN_RegDec_K75_1_3.eps} \\
-% 	(c) Coluna Vertebral &  \\[6pt] 
+% 	(c) Coluna Vertebral &  \\[6pt]
 % 
 % 	\end{tabular}
 % 
@@ -785,129 +763,103 @@ priori forão definidas com valores iguais.
 % 	\label{fig:parzenGraphResults}
 % \end{figure}
 % 
-% 
-% 
 
 
-\subsection{Análise da região de decisão}
-Abaixo são apresentadas as regiões de decisões obtidas para os 3 problemas,
-íris, vertebra e dermatologia. 
 
-Para o problema da íris as regiões de decisões foram calculadas utilizandos os
-atributos largura da pétala x comprimento da pétala e largura da sépala x
-comprimento da pétala.
 
-Para o problema da coluna vertebral as regiões de decisões foram calculadas
-utilizandos os atributos pelvic incidence x pelvic tilt e pelvic incidence x
-sacral slope.
 
-Para o problema da dermatologia as regiões de decisões foram calculadas
-utilizandos os atributos erythema x exocytosis e erythema x
-acanthosis.
 
-\subsubsection{ Gaussiana como PDF e matrizes de covariância distintas.
-$\Sigma_i \neq \Sigma_j \forall i \neq j $ } Com matrizes de covariâncias distintas temos uma região de
-decisão quadrática desta forma podemos notar várias elipses ao longo das
-regiões, figura \ref{fig:regiaoGauss}. Podemos perceber na terceira coluna como
-os dados foram classificados sobre a região de decisão. Poucas amostras foram
-classificadas de forma errada, em especial para a base da íris. Já para a base
-da dermatologia o número de amostras erradas foi ligeiramente maior.
+\section{Segmentação de imagem utilizando o classificador de bayes} 
+Abaixo é apresentado o resultado da segmentação de uma imagem utilizando o
+classificador Bayessiano, desta vez utilizando janela de parzen como função de
+densidade probabilidade. Foram realizados três testes com três variancias da
+janela, valor de h, distintas. Os valores testados foram, 0.05, 0.5 e 1. Com o
+aumento do valor de h houve uma maior suavização.
+
+A segmentação de uma imagem é realizada levando em
+consideração a intensidade dos pixels nas três componentes RGB.
+A definição dos dados de de uma classe é feita a partir da seleção de $k$
+regiões da imagem, não necessariamente de mesma área $A_i$. A área é utilizada
+para calcular a probabilidade a priore por isso classes com uma diferença de
+área muito grande podem impactar na classificação.
+Assim temos:
+
+\begin{equation}
+	P(w_i) =  \frac{A_i}{\sum_{i=1}^{k}{A_J}}
+\end{equation}
+
+
 
 \begin{figure}
 	\centering
-	\begin{tabular}{ccc}
-	  \multicolumn{3}{c}{Íris}\\
-	  %Íris
-	  \includegraphics[width=40mm]{matlab/figura/gauss/iris/iris_BAYES_BayesDecP1_3_4.eps}
-	  &
-	  \includegraphics[width=40mm]{matlab/figura/gauss/iris/iris_BAYES_BayesDecP2_3_4.eps}
-	  &
-	  \includegraphics[width=40mm]{matlab/figura/gauss/iris/iris_BAYES_RegDec_3_4.eps}
+	\begin{tabular}{cc}
+	  \includegraphics[width=45mm]{matlab/parzenGauss/Seg/euaDif.png} &
+	  \includegraphics[width=45mm]{{matlab/parzenGauss/Seg/euaDif.png_parzenGauss_1.000_Result}.png}
 	  \\
+	  (a) Original & (b) h=1.00\\
+	  \includegraphics[width=45mm]{{matlab/parzenGauss/Seg/euaDif.png_parzenGauss_0.500_Result}.png}&
+	  \includegraphics[width=45mm]{{matlab/parzenGauss/Seg/euaDif.png_parzenGauss_0.050_Result}.png}
+	   \\
+	  (c) h=0.500 & (d) h=0.050\\
 	  
-	  \includegraphics[width=40mm]{matlab/figura/gauss/iris/iris_BAYES_BayesDecP1_1_4.eps}
-	  &
-	  \includegraphics[width=40mm]{matlab/figura/gauss/iris/iris_BAYES_BayesDecP2_1_4.eps}
-	  &
-	  \includegraphics[width=40mm]{matlab/figura/gauss/iris/iris_BAYES_RegDec_1_4.eps}
-	  \\
-	  %%-----------------------------------------------------------------------------------
-	  % Dermatologia
-	  \multicolumn{3}{c}{Dermatologia}\\
-      \includegraphics[width=40mm]{matlab/figura/gauss/derme/derme_BAYES_BayesDecP1_1_16.eps}
-      &
-	  \includegraphics[width=40mm]{matlab/figura/gauss/derme/derme_BAYES_BayesDecP2_1_16.eps}
-	  &
-	  \includegraphics[width=40mm]{matlab/figura/gauss/derme/derme_BAYES_RegDec_1_16.eps}
-	  \\	  
 	  
-      \includegraphics[width=40mm]{matlab/figura/gauss/derme/derme_BAYES_BayesDecP1_1_17.eps}
-      &
-	  \includegraphics[width=40mm]{matlab/figura/gauss/derme/derme_BAYES_BayesDecP2_1_17.eps}
-	  &
-	  \includegraphics[width=40mm]{matlab/figura/gauss/derme/derme_BAYES_RegDec_1_17.eps}
-	  \\	
-	  %%-----------------------------------------------------------------------------------
-	  % Coluna
-	  \multicolumn{3}{c}{Coluna Vertebral}\\
-      \includegraphics[width=40mm]{matlab/figura/gauss/vertebra/vertebra_BAYES_BayesDecP1_1_2.eps}
-      &
-	  \includegraphics[width=40mm]{matlab/figura/gauss/vertebra/vertebra_BAYES_BayesDecP2_1_2.eps}
-	  &
-	  \includegraphics[width=40mm]{matlab/figura/gauss/vertebra/vertebra_BAYES_RegDec_1_2.eps}
-	  \\	  
-	  
-      \includegraphics[width=40mm]{matlab/figura/gauss/vertebra/vertebra_BAYES_BayesDecP1_1_5.eps}
-      &
-	  \includegraphics[width=40mm]{matlab/figura/gauss/vertebra/vertebra_BAYES_BayesDecP2_1_5.eps}
-	  &
-	  \includegraphics[width=40mm]{matlab/figura/gauss/vertebra/vertebra_BAYES_RegDec_1_5.eps}
-	  \\		  	  
-	 \multicolumn{1}{p{40mm}}{(a) $P(W_i|x)$}
-	 &
-	 \multicolumn{1}{p{40mm}}{(b) Regiao de decisão}
-	 &
-	 \multicolumn{1}{p{40mm}}{(c) Resultado
-	 da classificação dos dados sobre a regiao de decisão}
-	 
+	  \multicolumn{2}{c}{
+		\begin{tabular}{c c c}
+			  \includegraphics[width=30mm]{{matlab/parzenGauss/Seg/euaDif.png_parzenGauss_1.000_classe_1}.png}.
+			  &
+			  \includegraphics[width=30mm]{{matlab/parzenGauss/Seg/euaDif.png_parzenGauss_1.000_classe_2}.png}
+			  &
+			  \includegraphics[width=30mm]{{matlab/parzenGauss/Seg/euaDif.png_parzenGauss_1.000_classe_3}.png}
+	  		\\
+	  		(e) Classe 1 & (f) Classe 2 & (g) Classe 3 
+	  	\end{tabular}
+	  }
+
 	\end{tabular}
-	\caption{Resultados utilizando matrizes de covariâncias distintas.}
-	\label{fig:regiaoGauss}
+	\caption{Resultado da segmentação utilizando o classificador Bayessiano com
+	janela de parzen.
+	Com o aumento do valor de h pode-se notar que a segmentação se torna mais
+	suave.}
+	\label{fig:resultGaussSegParadise}
 \end{figure}
 
 
 
 
+\begin{figure}
+	\centering
+	\begin{tabular}{cc}
+	  \includegraphics[width=45mm]{matlab/parzenGauss/Seg/japanFlag.png} &
+	  \includegraphics[width=45mm]{{matlab/parzenGauss/Seg/japanFlag.png_parzenGauss_1.000_Result}.png}
+	  \\
+	  (a) Original & (b) h=1.00\\
+	  \includegraphics[width=45mm]{{matlab/parzenGauss/Seg/japanFlag.png_parzenGauss_0.500_Result}.png}&
+	  \includegraphics[width=45mm]{{matlab/parzenGauss/Seg/japanFlag.png_parzenGauss_0.050_Result}.png}
+	   \\
+	  (c) h=0.500 & (d) h=0.050\\
+	  
+	  
+	  \multicolumn{2}{c}{
+		\begin{tabular}{c c }
+			  \includegraphics[width=30mm]{{matlab/parzenGauss/Seg/japanFlag.png_parzenGauss_0.050_classe_1}.png}.
+			  &
+			  \includegraphics[width=30mm]{{matlab/parzenGauss/Seg/japanFlag.png_parzenGauss_0.050_classe_2}.png}
+	  		\\
+	  		(e) Classe 1 & (f) Classe 2 
+	  	\end{tabular}
+	  }
 
-% 
-% 
-% \subsection{PDF Janela de Parzen}
-% Abaixo é apresentado o resultado da segmentação de uma imagem utilizando o
-% classificador Bayessiano, desta vez utilizando janela de parzen como função de
-% densidade probabilidade. Foram realizados três testes com três variancias da
-% janela, valor de h, distintas. Os valores testados foram, 0.05, 0.5 e 1. Com o
-% aumento do valor de h houve uma maior suavização
-% 
-% 
-% \begin{figure}
-% 	\centering
-% 	\begin{tabular}{cc}
-% 	  \includegraphics[width=45mm]{matlab/figura/gauss/segmentacao/paradise.jpg} & 
-% 	  \includegraphics[width=45mm]{matlab/figura/parzen/segmentacao/paradiseRes.png}
-% 	  \\ 
-% 	  (a) Original & (b) h=0.05\\
-% 	  \includegraphics[width=45mm]{matlab/figura/parzen/segmentacao/paradiseRes05.png} & 
-% 	  \includegraphics[width=45mm]{matlab/figura/parzen/segmentacao/paradiseRes1.png}
-% 	   \\
-% 	  (c) h=0.5 & (d) h=1\\
-% 	\end{tabular}
-% 	\caption{Resultado da segmentação utilizando o classificador Bayessiano com
-% 	janela de parzen.
-% 	Com o aumento do valor de h pode-se notar que a segmentação se torna mais
-% 	suave.}
-% 	\label{fig:resultGaussSegParadise}
-% \end{figure}
-% 
+	\end{tabular}
+	\caption{Resultado da segmentação utilizando o classificador Bayessiano com
+	janela de parzen.
+	Com o aumento do valor de h pode-se notar que a segmentação se torna mais
+	suave.}
+	\label{fig:resultGaussSegParadise}
+\end{figure}
+
+
+
+
 
 
 \bookmarksetup{startatroot}% 
@@ -939,7 +891,7 @@ utiliza matrizes de covariância diferentes para cada classe de problema.
 % ----------------------------------------------------------
 % Referências bibliográficas
 % ----------------------------------------------------------
-%\bibliography{bib,iris}
+\bibliography{bib}
 
 % ----------------------------------------------------------
 % Glossário

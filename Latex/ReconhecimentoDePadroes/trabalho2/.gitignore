@@ -1,3 +1,4 @@
 /tmp/
+*.eps
 /document.synctex.gz
-/document.pdf
+*converted-to.pdf
