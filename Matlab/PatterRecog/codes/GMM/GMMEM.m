@@ -6,8 +6,8 @@ function [modelo]= GMMEM(x, K, modelo)
 if(~exist('modelo','var'))
     %Estimar Gaussianas
     W = ones(1,K);      %Pesos
-    par1 = rand(K,p);   %Parametros M�dia e variancia
-    par2 = repmat(0.05 * eye(p,p),[ 1 1 K]);
+    [tmp par1] = kmeans(x,K);   %Parametros M�dia e variancia
+    par2 = repmat( eye(p,p),[ 1 1 K]);
 else
     par1 = modelo.medias;
     par2 = modelo.covariancias;

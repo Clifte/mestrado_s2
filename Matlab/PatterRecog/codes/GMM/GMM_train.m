@@ -44,7 +44,7 @@ for i=1:100000
     
     est = sum(abs(model.medias(:)-medias(:)));
     sprintf('estabilizacao: %f\n',est );
-    if( est < 10E-2 )
+    if( est < 10E-4 )
         break;
     end
         

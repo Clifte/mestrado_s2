@@ -1,11 +1,11 @@
 %Labels codificadas em 1ofk
 function [cls p post]= bayes(amostra,model)
     
-    data = model.data;
-    labels = model.labels;
-    lambda = model.lambda;
-    fnc = model.fnc;
-    thresh = model.rejOpc;
+    data      = model.data;
+    labels    = model.labels;
+    lambda    = model.lambda;
+    fnc       = model.fnc;
+    thresh    = model.rejOpc;
     
     
     %[m n] = size(data);
