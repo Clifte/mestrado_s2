@@ -20,7 +20,7 @@ catch
 end
 
 if(~exist('resultsACC'))
-    bases = {'vertebra','breastC','haber','diab'};
+    %bases = {'vertebra','breastC','haber','diab'};
     %bases = {'iris'};
 
 
@@ -102,7 +102,7 @@ for i=1:length(bases)
         Ro = R(ReMinimo);
         
         %-----------------------------------------------------------
-        figure;
+        figure('name',base);
         h = subplot(2,2,1);
         hold on;
         plot(threshs,E,'r');
@@ -148,12 +148,4 @@ for i=1:length(bases)
         dlmwrite(path,info, 'precision', 3);
 end
 
-% 
-% for i=1:length(bases)
-%     base = cell2mat (bases(i));
-%     tab = tabela(1,i,:,:);
-%     tab = permute(tab,[3 4 1 2]);
-%     tmp = tab(:,[2 3]);
-%     figure;
-%     scatter(tmp(:,1),tmp(:,2))
-% end
+

@@ -26,7 +26,7 @@ if(~v) return;end;
 imageFilename = cell2mat(images(s));
 imageMaskFilename = cell2mat(imagesMask(s));
 
-fnc ='parzenGauss';
+fnc ='gmm';
 global parametro1;
 parametro1 = 0.5;
 
